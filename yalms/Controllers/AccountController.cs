@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using yalms.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace yalms.Controllers
 {
@@ -383,6 +384,38 @@ namespace yalms.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+
+
+        public ActionResult SetUserRole()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult SetUserRole(UserRoleModel model)
+        {
+            var dbCtx = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(
+                                  new UserStore<ApplicationUser>(dbCtx));
+            var user = userManager.FindByName(model.Username);
+            if (user == null) 
+            {
+                ViewBag.message = "No such user!";
+                return View();
+            }
+            var ir = userManager.AddToRole(user.Id, model.Role);
+            if (ir.Succeeded) 
+            {
+                ViewBag.message = String.Format("Added role {0} to user {1}", 
+                                                 model.Role, model.Username);
+            }
+            else 
+            {
+                ViewBag.message = "Cannot add role";
+            }
+            return View();
         }
 
         //

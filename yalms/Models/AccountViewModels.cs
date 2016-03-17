@@ -109,4 +109,10 @@ namespace yalms.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class UserRoleModel
+    {
+        public string Username { get; set; }
+        public string Role { get; set; }
+    }
 }
