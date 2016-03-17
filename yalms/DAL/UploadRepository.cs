@@ -22,7 +22,7 @@ namespace yalms.DAL
     public class UploadRepository: IUploadRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext(ConfigurationManager.ConnectionStrings["EFContext"].ConnectionString);
+        private EFContext context = new EFContext();
 
 
 

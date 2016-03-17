@@ -17,14 +17,14 @@ namespace yalms.DAL
    /// </summary>
     public interface IUserTypeRepository : IDisposable 
     { 
-        IEnumerable<UserType> GetAllUserTypes(); 
-        UserType GetUserType_SimpleByID(int? userTypeID); 
-        UserType GetUserTypeByID(int? userTypeID); 
+        IEnumerable<Role> GetAllUserTypes(); 
+        Role GetUserType_SimpleByID(int? userTypeID); 
+        Role GetUserTypeByID(int? userTypeID); 
 
-        UserType GetNewestUserType(); 
-        void InsertUserType(UserType company, int userTypeID); 
+        Role GetNewestUserType(); 
+        void InsertUserType(Role company, int userTypeID); 
         void DeleteUserType(int userTypeID);  
-        void UpdateUserType(UserType company, int userTypeID); 
+        void UpdateUserType(Role company, int userTypeID); 
         void Save(); 
 
  

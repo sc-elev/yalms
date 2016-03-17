@@ -22,7 +22,7 @@ namespace yalms.DAL
     public class SchoolClassStudentRepository: ISchoolClassStudentRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext(ConfigurationManager.ConnectionStrings["EFContext"].ConnectionString);
+        private EFContext context = new EFContext();
 
 
         #region Get all SchoolClassStudents even those tagged as removed and not yet created.

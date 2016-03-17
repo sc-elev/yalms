@@ -8,23 +8,16 @@ using System.Web;
 
 namespace yalms.Models
 {
-  
-    [Table("User")]
-    public class User : IdentityUser
+
+    [Table("Role")]
+    public class Role : IdentityUserRole
     {
         [Key]
-        public int UserID { get; set; }
+        public int RoleID { get; set; }
 
         [Required(ErrorMessage = "Field can not be empty.")]
-        [Display(Name = "Lösenord")]
-        public string Password  { get; set; }
-
-        [Display(Name = "Användarnamn")]
-        public string Username { get; set; }
-        [Display(Name = "Roll")]
-        public string Role { get; set; }
-
-
+        [Display(Name = "Name")]
+        public string Name  { get; set; }
 
 
 
