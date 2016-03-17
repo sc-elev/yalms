@@ -6,11 +6,20 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using yalms.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace yalms
 {
     public partial class Startup
     {
+        public static Func<UserManager<DomainUser>> UserManagerFactory { get; set; }
+
+        static Startup()
+        {
+            UserManagerFactory = () => new UserManager<DomainUser>(new UserStore<DomainUser>(new EFContext()));
+        }
+
+
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {

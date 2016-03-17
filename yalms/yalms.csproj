@@ -220,9 +220,9 @@
     <Compile Include="Models\SchoolClassStudent.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\Upload.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserClaim.cs" />
-    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\DomainUser.cs" />
+    <None Include="Models\UserClaim.cs.old" />
+    <None Include="Models\UserLogin.cs.old" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

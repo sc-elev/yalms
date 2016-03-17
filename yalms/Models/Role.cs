@@ -10,14 +10,15 @@ namespace yalms.Models
 {
 
     [Table("Role")]
-    public class Role : IdentityUserRole
+    public class Role //: IdentityRole
     {
         [Key]
         public int RoleID { get; set; }
 
         [Required(ErrorMessage = "Field can not be empty.")]
-        [Display(Name = "Name")]
-        public string Name  { get; set; }
+        [Display(Name = "Rolename")]
+        public string Rolename  { get; set; }
+        
 
 
 

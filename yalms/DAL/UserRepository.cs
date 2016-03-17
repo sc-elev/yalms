@@ -26,7 +26,7 @@ namespace yalms.DAL
 
 
         #region Get all Users 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<DomainUser> GetAllUsers()
         {
             return context.Users;
         }
@@ -34,7 +34,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID without populating foregin key data
-        public User GetUser_SimpleByID(int? userID)
+        public DomainUser GetUser_SimpleByID(int? userID)
         {
             // Get single User by its unique ID
             return context.Users.SingleOrDefault(o => o.UserID == userID);
@@ -43,31 +43,25 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID
-        public User GetUserByID(int? userID)
+        public DomainUser GetUserByID(int? userID)
         {
             // Get single User by its unique ID
             var user = context.Users.SingleOrDefault(o => o.UserID == userID);
 
-            if (user != null)
-            {
-                // Get objects for Sub keys
-                user = PopulateUserWithForeignKeyDataObjects(user);
-
-            }
 
             return user;
         }
         #endregion
 
         #region Get newest User.
-        public User GetNewestUser()
+        public DomainUser GetNewestUser()
         {
            return context.Users.OrderByDescending(u => u.UserID).FirstOrDefault();
         }
         #endregion
 
         #region Insert new User object and register what user created it and when.
-        public void InsertUser(User user, int userID)
+        public void InsertUser(DomainUser user, int userID)
         {
 
             // Add User to context
@@ -83,13 +77,13 @@ namespace yalms.DAL
         public void DeleteUser (int userID)
         {
             // Get User by ID.
-            User user = context.Users.SingleOrDefault(o => o.UserID == userID);
+            DomainUser user = context.Users.SingleOrDefault(o => o.UserID == userID);
             context.Users.Remove(user);
         }
         #endregion
 
         #region Tag User as removed, and register what user removed it and when.
-        public void RemoveUser(User newUser, int userID)
+        public void RemoveUser(DomainUser newUser, int userID)
         {
             // Get User for update
             var oldUser = context.Users.Single(o => o.UserID == newUser.UserID);
@@ -102,13 +96,13 @@ namespace yalms.DAL
         #endregion
 
         #region Update existing User object and register what user modified it and when.
-        public void UpdateUser (User newUser,int userID)
+        public void UpdateUser(DomainUser newUser, int userID)
         {
             // Get existing User object by ID for update.
             var oldUser = context.Users.SingleOrDefault(o => o.UserID == newUser.UserID);
-            oldUser.FullName = newUser.FullName;
-            oldUser.PassWord = newUser.PassWord;
-            oldUser.Title = newUser.Title;
+            //oldUser.FullName = newUser.FullName;
+            //oldUser.PassWord = newUser.PassWord;
+            //oldUser.Title = newUser.Title;
             oldUser.UserName = newUser.UserName;
 
             // If present, only update foreignkey fields if valid selection has been made.
@@ -121,7 +115,7 @@ namespace yalms.DAL
         #endregion
 
         #region Update User with foreignkey names for presentation.
-        private User PopulateUserWithForeignKeyDataObjects(User user)
+        private DomainUser PopulateUserWithForeignKeyDataObjects(DomainUser user)
         {
             // Get objects for Sub keys
             return user;

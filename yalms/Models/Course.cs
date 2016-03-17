@@ -33,7 +33,7 @@ namespace yalms.Models
         [NotMapped]
         public SchoolClass SchoolClassID_SchoolClass { get; set; }
         [NotMapped]
-        public User Teacher_UserID_Teacher_User { get; set; }
+        public DomainUser Teacher_UserID_Teacher_User { get; set; }
 
 
     }

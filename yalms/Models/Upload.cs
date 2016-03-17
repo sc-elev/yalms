@@ -37,20 +37,7 @@ namespace yalms.Models
         [NotMapped]
         public Assignment AssignmentID_Assignment { get; set; }
 
-        // System Objects.
-        [NotMapped] 
-        public User CreatedBy_User { get; set; }
-
-        [NotMapped] 
-        public User ModifiedBy_User { get; set; }
-
-        [NotMapped] 
-        public User RemovedBy_User { get; set; }
-
-        #region DMZ - Custome Code placed in the DMZ will be protected from system overwrites.
-
-
-        #endregion DMZ End
+   
 
     }
 }

@@ -55,48 +55,57 @@ namespace yalms.Models
     //    }
     //}
 
-
-
-    public class EFContext : IdentityDbContext<User, Role, int, UserLogin, UserRole, UserClaim>
+    public class EFContext : IdentityDbContext<DomainUser>
     {
-        public EFContext()
-            : base("name=EFContext")
-            {
-                Database.SetInitializer<EFContext>(null);// Remove default initializer
-                Configuration.ProxyCreationEnabled = false;
-                Configuration.LazyLoadingEnabled = false;
-            }
+        public EFContext() : base() { }
 
-        public static EFContext Create()
-            {
-                return new EFContext();
-            }
+        public EFContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
 
-            //Identity and Authorization
-            public DbSet<UserLogin> UserLogins { get; set; }
-            public DbSet<UserClaim> UserClaims { get; set; }
-            public DbSet<UserRole> UserRoles { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
 
-            protected override void OnModelCreating(DbModelBuilder modelBuilder)
-            {
-                base.OnModelCreating(modelBuilder);
+    //public class EFContext : IdentityDbContext<IdentityUser, IdentityRole, int, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    //{
+    //    public EFContext()
+    //        : base("name=EFContext")
+    //        {
+    //            Database.SetInitializer<EFContext>(null);// Remove default initializer
+    //            Configuration.ProxyCreationEnabled = false;
+    //            Configuration.LazyLoadingEnabled = false;
+    //        }
 
-                modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-                modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+    //    public static EFContext Create()
+    //        {
+    //            return new EFContext();
+    //        }
 
-                // Configure Asp Net Identity Tables
-                modelBuilder.Entity<User>().ToTable("User");
-                modelBuilder.Entity<User>().Property(u => u.PasswordHash).HasMaxLength(500);
-                modelBuilder.Entity<User>().Property(u => u.Stamp).HasMaxLength(500);
-                modelBuilder.Entity<User>().Property(u => u.PhoneNumber).HasMaxLength(50);
+    //        //Identity and Authorization
+    //    public DbSet<IdentityUserLogin> UserLogins { get; set; }
+    //    public DbSet<IdentityUserClaim> UserClaims { get; set; }
+    //        public DbSet<IdentityUserRole> UserRoles { get; set; }
 
-                modelBuilder.Entity<Role>().ToTable("Role");
-                modelBuilder.Entity<UserRole>().ToTable("UserRole");
-                modelBuilder.Entity<UserLogin>().ToTable("UserLogin");
-                modelBuilder.Entity<UserClaim>().ToTable("UserClaim");
-                modelBuilder.Entity<UserClaim>().Property(u => u.ClaimType).HasMaxLength(150);
-                modelBuilder.Entity<UserClaim>().Property(u => u.ClaimValue).HasMaxLength(500);
-            }
+    //        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    //        {
+    //            base.OnModelCreating(modelBuilder);
+
+    //            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+    //            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+    //            // Configure Asp Net Identity Tables
+    //            modelBuilder.Entity<User>().ToTable("User");
+    //            modelBuilder.Entity<User>().Property(u => u.PasswordHash).HasMaxLength(500);
+    //            modelBuilder.Entity<User>().Property(u => u.Stamp).HasMaxLength(500);
+    //            modelBuilder.Entity<User>().Property(u => u.PhoneNumber).HasMaxLength(50);
+
+    //            modelBuilder.Entity<Role>().ToTable("Role");
+    //            modelBuilder.Entity<UserRole>().ToTable("UserRole");
+    //            modelBuilder.Entity<UserLogin>().ToTable("UserLogin");
+    //            modelBuilder.Entity<UserClaim>().ToTable("UserClaim");
+    //            modelBuilder.Entity<UserClaim>().Property(u => u.ClaimType).HasMaxLength(150);
+    //            modelBuilder.Entity<UserClaim>().Property(u => u.ClaimValue).HasMaxLength(500);
+    //        }
 
         public DbSet<Assignment> Assignments { get; set; }
 
@@ -116,7 +125,7 @@ namespace yalms.Models
 
         public DbSet<Upload> Uploads { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        //public DbSet<DomainUser> Users { get; set; }
 
         public DbSet<Role> UserTypes { get; set; }
 

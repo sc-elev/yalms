@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace yalms.DAL
 {
@@ -25,6 +26,11 @@ namespace yalms.DAL
         private EFContext context = new EFContext();
 
 
+        public List<IdentityUser> ListAllStudentsTakingCourse(int courseID)
+        {
+return null;
+           // return context.Courses.Where(o => o.CourseID == courseID)
+        }
 
         #region Get all Courses even those tagged as removed and not yet created.
         public IEnumerable<Course> GetAllCourses()

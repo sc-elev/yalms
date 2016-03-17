@@ -37,16 +37,16 @@ namespace yalms.DAL
         public Role GetUserType_SimpleByID(int? userTypeID)
         {
             // Get single UserType by its unique ID
-            return context.UserTypes.SingleOrDefault(o => o.UserTypeID == userTypeID);
+            return context.UserTypes.SingleOrDefault(o => o.RoleID == userTypeID);
 
         }
         #endregion
 
         #region Get UserType by its UserType ID
-        public Role GetUserTypeByID(int? userTypeID)
+        public Role GetUserTypeByID(int? roleID)
         {
             // Get single UserType by its unique ID
-            var userType = context.UserTypes.SingleOrDefault(o => o.UserTypeID == userTypeID);
+            var userType = context.UserTypes.SingleOrDefault(o => o.RoleID == roleID);
 
 
             return userType;
@@ -56,7 +56,7 @@ namespace yalms.DAL
         #region Get newest UserType.
         public Role GetNewestUserType()
         {
-           return context.UserTypes.OrderByDescending(u => u.UserTypeID).FirstOrDefault();
+           return context.UserTypes.OrderByDescending(u => u.RoleID).FirstOrDefault();
         }
         #endregion
 
@@ -77,7 +77,7 @@ namespace yalms.DAL
         public void DeleteUserType (int userTypeID)
         {
             // Get UserType by ID.
-            Role userType = context.UserTypes.SingleOrDefault(o => o.UserTypeID == userTypeID);
+            Role userType = context.UserTypes.SingleOrDefault(o => o.RoleID == userTypeID);
             context.UserTypes.Remove(userType);
         }
         #endregion
@@ -86,7 +86,7 @@ namespace yalms.DAL
         public void RemoveUserType(Role newUserType, int userID)
         {
             // Get UserType for update
-            var oldUserType = context.UserTypes.Single(o => o.UserTypeID == newUserType.UserTypeID);
+            var oldUserType = context.UserTypes.Single(o => o.RoleID == newUserType.RoleID);
 
 
             // Save context changes.
@@ -99,8 +99,8 @@ namespace yalms.DAL
         public void UpdateUserType (Role newUserType,int userID)
         {
             // Get existing UserType object by ID for update.
-            var oldUserType = context.UserTypes.SingleOrDefault(o => o.UserTypeID == newUserType.UserTypeID);
-            oldUserType.Name = newUserType.Name;
+            var oldUserType = context.UserTypes.SingleOrDefault(o => o.RoleID == newUserType.RoleID);
+           // oldUserType.Name = newUserType.Name;
 
 
             // Save context changes.

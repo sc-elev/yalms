@@ -2,7 +2,8 @@ using System;
 using System.Data; 
 using System.Data.Entity; 
 using System.Collections.Generic; 
-using yalms.Models; 
+using yalms.Models;
+using Microsoft.AspNet.Identity.EntityFramework; 
 
 namespace yalms.DAL 
 { 
@@ -22,7 +23,8 @@ namespace yalms.DAL
         Course GetCourse_SimpleByID(int? courseID); 
         Course GetCourseByID(int? courseID); 
 
-        Course GetNewestCourse(); 
+        Course GetNewestCourse();
+        List<IdentityUser> ListAllStudentsTakingCourse();
         void InsertCourse(Course company, int courseID); 
         void DeleteCourse(int courseID); 
         void UpdateCourse(Course company, int courseID); 

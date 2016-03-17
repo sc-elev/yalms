@@ -9,7 +9,7 @@ namespace yalms.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(yalms.Models.EFContext context)
