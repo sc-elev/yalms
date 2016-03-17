@@ -1,0 +1,20 @@
+﻿@model yalms.Models.UserRoleModel
+@{
+    ViewBag.Title = "SetUserRole";
+}
+
+<h2>Bestäm användarroll</h2>
+
+@using  (Html.BeginForm())
+{
+    <input type="text" name="Username" id="Username" />
+    <select name="Role" id="Role">
+        <option name="student" selected value="student"> Elev </option> 
+        <option name="teacher" value="teacher"> Lärare </option>
+    </select>
+    <input type="submit" id="SubmitUserRole" 
+           name="SubmitUserRole" value="Sätt roll" />
+}
+
+@ViewBag.message
+
