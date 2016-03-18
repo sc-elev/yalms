@@ -135,6 +135,61 @@ return null;
         #endregion
 
 
+
+        List<IdentityUser> ICourseRepository.ListAllStudentsTakingCourse(int courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IEnumerable<Course> ICourseRepository.GetAllCourses()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Course ICourseRepository.GetCourse_SimpleByID(int? courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Course ICourseRepository.GetCourseByID(int? courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Course ICourseRepository.GetNewestCourse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        List<IdentityUser> ICourseRepository.ListAllStudentsTakingCourse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ICourseRepository.InsertCourse(Course company, int courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ICourseRepository.DeleteCourse(int courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ICourseRepository.UpdateCourse(Course company, int courseID)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ICourseRepository.Save()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void System.IDisposable.Dispose()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 
