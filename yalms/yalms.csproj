@@ -182,26 +182,22 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\AssignmentRepository.cs" />
     <Compile Include="DAL\CourseRepository.cs" />
-    <Compile Include="DAL\Couser_StudentRepository.cs" />
+    <Compile Include="DAL\Course_StudentRepository.cs" />
     <Compile Include="DAL\IAssignmentRepository.cs" />
     <Compile Include="DAL\ICourseRepository.cs" />
-    <Compile Include="DAL\ICouser_StudentRepository.cs" />
+    <Compile Include="DAL\ICourse_StudentRepository.cs" />
     <Compile Include="DAL\IRoomRepository.cs" />
-    <Compile Include="DAL\IScheduleRepository.cs" />
     <Compile Include="DAL\ISchoolClassRepository.cs" />
     <Compile Include="DAL\ISchoolClassStudentRepository.cs" />
     <Compile Include="DAL\ISlotRepository.cs" />
     <Compile Include="DAL\IUploadRepository.cs" />
     <Compile Include="DAL\IUserRepository.cs" />
-    <Compile Include="DAL\IUserTypeRepository.cs" />
     <Compile Include="DAL\RoomRepository.cs" />
-    <Compile Include="DAL\ScheduleRepository.cs" />
     <Compile Include="DAL\SchoolClassRepository.cs" />
     <Compile Include="DAL\SchoolClassStudentRepository.cs" />
     <Compile Include="DAL\SlotRepository.cs" />
     <Compile Include="DAL\UploadRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
-    <Compile Include="DAL\UserTypeRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -210,21 +206,16 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Couser_Student.cs" />
+    <Compile Include="Models\Course_Student.cs" />
     <Compile Include="Models\EFContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\SchoolClass.cs" />
     <Compile Include="Models\SchoolClassStudent.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\Upload.cs" />
     <Compile Include="Models\DomainUser.cs" />
-    <None Include="Models\UserClaim.cs.old" />
-    <None Include="Models\UserLogin.cs.old" />
-    <Compile Include="Models\UserRole.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

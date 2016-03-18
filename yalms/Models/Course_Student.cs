@@ -8,11 +8,11 @@ using System.Web;
 namespace yalms.Models
 {
 
-    [Table("Couser_Student")]
-    public class Couser_Student
+    [Table("Course_Student")]
+    public class Course_Student
     {
         [Key]
-        public int Couser_StudentID { get; set; }
+        public int Course_StudentID { get; set; }
 
         [Required(ErrorMessage = "Field can not be empty.")]
         [Display(Name = "Course")]
