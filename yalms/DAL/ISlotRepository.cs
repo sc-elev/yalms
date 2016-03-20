@@ -20,7 +20,7 @@ namespace yalms.DAL
         Slot GetNewestSlot(); 
         void InsertSlot(Slot company, int slotID); 
         void DeleteSlot(int slotID);  
-        void UpdateSlot(Slot company, int slotID); 
+        void UpdateSlot(Slot slot, int slotID, DateTime when); 
         void Save(); 
 
 

@@ -5,7 +5,8 @@ using System.Web;
 using System.Data;
 using System.Data.Entity;
 using System.Configuration;
-using yalms.Models; 
+using yalms.Models;
+using System; 
 
 namespace yalms.DAL
 {
@@ -90,19 +91,21 @@ namespace yalms.DAL
 
 
         #region Update existing Slot object and register what user modified it and when.
-        public void UpdateSlot (Slot newSlot,int userID)
+        public void UpdateSlot (Slot newSlot,int userID, DateTime when)
         {
             // Get existing Slot object by ID for update.
             var oldSlot = context.Slots.SingleOrDefault(o => o.SlotID == newSlot.SlotID);
             oldSlot.SlotNR = newSlot.SlotNR;
-            oldSlot.WeekDay = newSlot.WeekDay;
-            oldSlot.WeekNR = newSlot.WeekNR;
-
-
+            oldSlot.When = when;
 
             // Save context changes.
             Save();
             Dispose();
+        }
+
+        public void UpdateSlot(Slot slot, int userID)
+        {
+            UpdateSlot(slot, userID, DateTime.Now);
         }
         #endregion
 

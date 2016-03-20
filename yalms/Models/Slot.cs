@@ -23,11 +23,8 @@ namespace yalms.Models
         [Display(Name = "SlotNR")]
         public int? SlotNR  { get; set; }
 
-        [Display(Name = "WeekDay")]
-        public int? WeekDay  { get; set; }
-
-        [Display(Name = "WeekNR")]
-        public int? WeekNR  { get; set; }
+        // Start time of this slot
+        public DateTime When { get; set;  }
 
 
         // objects for sub key data relationship
