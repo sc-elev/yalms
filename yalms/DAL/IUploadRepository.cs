@@ -1,7 +1,11 @@
 using System; 
 using System.Data; 
 using System.Data.Entity; 
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+
 using yalms.Models; 
 
 namespace yalms.DAL 

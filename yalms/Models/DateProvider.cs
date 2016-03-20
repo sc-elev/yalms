@@ -15,11 +15,16 @@ namespace yalms.Models
     {
         private DateTime dateTime;
 
-        public DateTime Today() { return dateTime; }
+        public DateTime Today() { return dateTime.Date; }
 
         public DummyDateProvider(string when)
         {
             dateTime = DateTime.Parse(when);
+        }
+
+        public DummyDateProvider(DateTime when)
+        {
+            dateTime = when;
         }
     }
 

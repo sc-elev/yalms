@@ -204,6 +204,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <None Include="Migrations\Configuration.cs.old" />
+    <Compile Include="Migrations\201603200955254_v1.cs" />
+    <Compile Include="Migrations\201603200955254_v1.Designer.cs">
+      <DependentUpon>201603200955254_v1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603201456224_v2.cs" />
+    <Compile Include="Migrations\201603201456224_v2.Designer.cs">
+      <DependentUpon>201603201456224_v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603201537519_v3.cs" />
+    <Compile Include="Migrations\201603201537519_v3.Designer.cs">
+      <DependentUpon>201603201537519_v3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -292,6 +304,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603200955254_v1.resx">
+      <DependentUpon>201603200955254_v1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603201456224_v2.resx">
+      <DependentUpon>201603201456224_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603201537519_v3.resx">
+      <DependentUpon>201603201537519_v3.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

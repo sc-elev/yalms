@@ -28,6 +28,8 @@ namespace yalms.Models
         IList<Slot> GetSlots();
 
         IList<Upload> GetUploads();
+
+        IList<DomainUser> GetUsers();
     }
 
 
@@ -109,6 +111,11 @@ namespace yalms.Models
         IList<Upload> YalmContext.GetUploads()
         {
             return Uploads.ToList();
+        }
+
+        IList<DomainUser> YalmContext.GetUsers()
+        {
+            return Users.ToList();
         }
     }
 }
