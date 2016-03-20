@@ -152,7 +152,7 @@ namespace yalms.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new DomainUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -368,7 +368,7 @@ namespace yalms.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new DomainUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -396,9 +396,9 @@ namespace yalms.Controllers
         [HttpPost]
         public ActionResult SetUserRole(UserRoleModel model)
         {
-            var dbCtx = new ApplicationDbContext();
-            var userManager = new UserManager<ApplicationUser>(
-                                  new UserStore<ApplicationUser>(dbCtx));
+            var dbCtx = new EFContext();
+            var userManager = new UserManager<DomainUser>(
+                                  new UserStore<DomainUser>(dbCtx));
             var user = userManager.FindByName(model.Username);
             if (user == null) 
             {

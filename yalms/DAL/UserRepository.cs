@@ -25,19 +25,19 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID without populating foregin key data
-        public DomainUser GetUser_SimpleByID(int? userID)
+        public DomainUser GetUser_SimpleByID(string id)
         {
             // Get single User by its unique ID
-            return context.Users.SingleOrDefault(o => o.UserID == userID);
+            return context.Users.SingleOrDefault(o => o.Id == id);
 
         }
         #endregion
 
         #region Get User by its User ID
-        public DomainUser GetUserByID(int? userID)
+        public DomainUser GetUserByID(string id)
         {
             // Get single User by its unique ID
-            var user = context.Users.SingleOrDefault(o => o.UserID == userID);
+            var user = context.Users.SingleOrDefault(o => o.Id == id);
 
 
             return user;
@@ -47,12 +47,12 @@ namespace yalms.DAL
         #region Get newest User.
         public DomainUser GetNewestUser()
         {
-           return context.Users.OrderByDescending(u => u.UserID).FirstOrDefault();
+           return context.Users.OrderByDescending(u => u.CreatedAt).FirstOrDefault();
         }
         #endregion
 
         #region Insert new User object and register what user created it and when.
-        public void InsertUser(DomainUser user, int userID)
+        public void InsertUser(DomainUser user, string id)
         {
 
             // Add User to context
@@ -65,19 +65,19 @@ namespace yalms.DAL
         #endregion
 
         #region Delete User  from database by User ID - Do not use unless sure it will not create data inconsistency and only if user is super Admin.
-        public void DeleteUser (int userID)
+        public void DeleteUser (string id)
         {
             // Get User by ID.
-            DomainUser user = context.Users.SingleOrDefault(o => o.UserID == userID);
+            DomainUser user = context.Users.SingleOrDefault(o => o.Id  == id);
             context.Users.Remove(user);
         }
         #endregion
 
         #region Tag User as removed, and register what user removed it and when.
-        public void RemoveUser(DomainUser newUser, int userID)
+        public void RemoveUser(DomainUser newUser, string id)
         {
             // Get User for update
-            var oldUser = context.Users.Single(o => o.UserID == newUser.UserID);
+            var oldUser = context.Users.Single(o => o.Id == newUser.Id);
 
 
             // Save context changes.
@@ -87,10 +87,10 @@ namespace yalms.DAL
         #endregion
 
         #region Update existing User object and register what user modified it and when.
-        public void UpdateUser(DomainUser newUser, int userID)
+        public void UpdateUser(DomainUser newUser, string id)
         {
             // Get existing User object by ID for update.
-            var oldUser = context.Users.SingleOrDefault(o => o.UserID == newUser.UserID);
+            var oldUser = context.Users.SingleOrDefault(o => o.Id == newUser.Id);
             //oldUser.FullName = newUser.FullName;
             //oldUser.PassWord = newUser.PassWord;
             //oldUser.Title = newUser.Title;

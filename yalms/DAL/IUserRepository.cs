@@ -10,13 +10,13 @@ namespace yalms.DAL
     public interface IUserRepository : IDisposable 
     {
         IEnumerable<DomainUser> GetAllUsers();
-        DomainUser GetUser_SimpleByID(int? userID);
-        DomainUser GetUserByID(int? userID);
+        DomainUser GetUser_SimpleByID(string userID);
+        DomainUser GetUserByID(string id);
 
         DomainUser GetNewestUser();
-        void InsertUser(DomainUser company, int userID); 
-        void DeleteUser(int userID);
-        void UpdateUser(DomainUser company, int userID); 
+        void InsertUser(DomainUser company, string id); 
+        void DeleteUser(string idD);
+        void UpdateUser(DomainUser company, string id); 
         void Save(); 
 
 
