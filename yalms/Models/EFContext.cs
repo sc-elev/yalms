@@ -13,31 +13,36 @@ namespace yalms.Models
     {
         void OnModelCreating(DbModelBuilder modelBuilder);
 
-        DbSet<Assignment> GetAssignments(); 
+        IList<Assignment> GetAssignments(); 
 
-        DbSet<Course> GetCourses();
+        IList<Course> GetCourses();
 
-        DbSet<Course_Student> GetCourse_Students();
+        IList<Course_Student> GetCourse_Students();
 
-        DbSet<Room> GetRooms();
+        IList<Room> GetRooms();
 
-        DbSet<SchoolClass> GetSchoolClasses();
+        IList<SchoolClass> GetSchoolClasses();
 
-        DbSet<SchoolClassStudent> GetSchoolClassStudents();
+        IList<SchoolClassStudent> GetSchoolClassStudents();
 
-        DbSet<Slot> GetSlots();
+        IList<Slot> GetSlots();
 
-        DbSet<Upload> GetUploads();
+        IList<Upload> GetUploads();
     }
 
 
-    public class EFContext : IdentityDbContext<DomainUser>, YalmContext
+    public class EFContext : 
+        IdentityDbContext<DomainUser, CustomRole,
+                          int, CustomUserLogin, CustomUserRole, 
+                          CustomUserClaim>, 
+        YalmContext
     {
-        public EFContext() : base() { }
+        public EFContext() : base("DefaultConnection") { }
 
         public static EFContext Create() { return new EFContext(); }
 
-        public EFContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
+        public EFContext(string nameOrConnectionString) : 
+            base(nameOrConnectionString) { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

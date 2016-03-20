@@ -25,7 +25,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID without populating foregin key data
-        public DomainUser GetUser_SimpleByID(string id)
+        public DomainUser GetUser_SimpleByID(int id)
         {
             // Get single User by its unique ID
             return context.Users.SingleOrDefault(o => o.Id == id);
@@ -34,7 +34,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID
-        public DomainUser GetUserByID(string id)
+        public DomainUser GetUserByID(int id)
         {
             // Get single User by its unique ID
             var user = context.Users.SingleOrDefault(o => o.Id == id);
@@ -65,7 +65,7 @@ namespace yalms.DAL
         #endregion
 
         #region Delete User  from database by User ID - Do not use unless sure it will not create data inconsistency and only if user is super Admin.
-        public void DeleteUser (string id)
+        public void DeleteUser (int id)
         {
             // Get User by ID.
             DomainUser user = context.Users.SingleOrDefault(o => o.Id  == id);

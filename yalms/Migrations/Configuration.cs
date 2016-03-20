@@ -2,6 +2,7 @@ namespace yalms.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -15,16 +16,19 @@ namespace yalms.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        private void seedRoles(DbContext ctx)
+        private void seedRoles(EFContext ctx)
         {
-            var roleManager =
-                new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(ctx));
+            var options = new IdentityFactoryOptions<ApplicationRoleManager>();
+            options.DataProtectionProvider = null;
+            options.Provider = null;
+            var roleManager = ApplicationRoleManager.CreateFromDb(options, ctx);
+           
             foreach (var role in new string[] { "teacher", "student" })
             {
-                var identityRole = new IdentityRole(role);
-                if (roleManager.RoleExists(identityRole.Name))
+                var customRole  = new CustomRole(role);
+                if (roleManager.RoleExists(customRole.Name))
                     continue;
-                roleManager.Create(identityRole);
+                roleManager.Create(customRole);
             }
         }
 
@@ -36,15 +40,18 @@ namespace yalms.Migrations
                 "student1", "student2", "student3", 
                 "user1", "user2" 
             };
-            var userManager = new Microsoft.AspNet.Identity.UserManager<DomainUser>(
-                                  new Microsoft.AspNet.Identity.EntityFramework.UserStore<DomainUser>(ctx));
+            var options = new IdentityFactoryOptions<ApplicationUserManager>();
+            options.DataProtectionProvider = null;
+            options.Provider = null;
+            var userManager = ApplicationUserManager.CreateFromDb(options, new EFContext());
+          
             foreach (var username in usernames)
             {
                 var email = username + "@edu.com";
                 if (userManager.FindByName(email) != null)
                     continue;
                 var user = new DomainUser { UserName = email, Email = email };
-                userManager.Create<DomainUser, string>(user, "1Hemlighet!");
+                userManager.Create<DomainUser, int>(user, "1Hemlighet!");
                 if (username.StartsWith("teacher"))
                     userManager.AddToRole(user.Id, "teacher");
                 else if (username.StartsWith("student"))

@@ -13,11 +13,13 @@ namespace yalms.Models
 {
   
     [Table("User")]
-    public class DomainUser : IdentityUser
+    public class DomainUser : 
+        IdentityUser<int, CustomUserLogin, CustomUserRole,  CustomUserClaim> 
     {
-        public DomainUser(string userName) : base(userName) 
+        public DomainUser(string userName) : base() 
         {
             CreatedAt = DateTime.Now;
+            UserName = userName;
         }
 
         public DomainUser() : base() 
@@ -28,7 +30,7 @@ namespace yalms.Models
         public DateTime CreatedAt { set; get; }
 
         public async Task<ClaimsIdentity> 
-            GenerateUserIdentityAsync(UserManager<DomainUser> manager)
+            GenerateUserIdentityAsync(UserManager<DomainUser , int> manager)
         {
             // Note the authenticationType must match the one defined in 
             // CookieAuthenticationOptions.AuthenticationType

@@ -33,18 +33,24 @@ namespace yalms
     }
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class ApplicationUserManager : UserManager<DomainUser>
+    public class ApplicationUserManager : UserManager<DomainUser, int>
     {
-        public ApplicationUserManager(IUserStore<DomainUser> store)
+        public ApplicationUserManager(IUserStore<DomainUser, int> store)
             : base(store)
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<DomainUser>(context.Get<EFContext>()));
+            return ApplicationUserManager.CreateFromDb(options, context.Get<EFContext>());
+        }
+
+
+        public static ApplicationUserManager CreateFromDb(IdentityFactoryOptions<ApplicationUserManager> options, EFContext context) 
+        {
+            var manager = new ApplicationUserManager(new CustomUserStore(context));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<DomainUser>(manager)
+            manager.UserValidator = new UserValidator<DomainUser, int>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -67,11 +73,11 @@ namespace yalms
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<DomainUser>
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<DomainUser, int>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<DomainUser>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<DomainUser, int>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -82,14 +88,14 @@ namespace yalms
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<DomainUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<DomainUser, int>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
     }
 
     // Configure the application sign-in manager which is used in this application.
-    public class ApplicationSignInManager : SignInManager<DomainUser, string>
+    public class ApplicationSignInManager : SignInManager<DomainUser, int>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
@@ -104,6 +110,25 @@ namespace yalms
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+    }
+
+
+    public class ApplicationRoleManager : RoleManager<CustomRole, int>
+    {
+        public ApplicationRoleManager(IRoleStore<CustomRole, int> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            return ApplicationRoleManager.CreateFromDb(options, context.Get<EFContext>());
+        }
+
+        public static ApplicationRoleManager CreateFromDb(IdentityFactoryOptions<ApplicationRoleManager> options, EFContext context)
+        {
+            return new ApplicationRoleManager(new RoleStore<CustomRole, int, CustomUserRole>(context));
         }
     }
 }

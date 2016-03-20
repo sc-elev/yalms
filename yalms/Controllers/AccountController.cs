@@ -176,9 +176,9 @@ namespace yalms.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(int userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId == default(int) || code == null)
             {
                 return View("Error");
             }
@@ -289,7 +289,7 @@ namespace yalms.Controllers
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
+            if (userId == default(int))
             {
                 return View("Error");
             }
@@ -397,15 +397,13 @@ namespace yalms.Controllers
         public ActionResult SetUserRole(UserRoleModel model)
         {
             var dbCtx = new EFContext();
-            var userManager = new UserManager<DomainUser>(
-                                  new UserStore<DomainUser>(dbCtx));
-            var user = userManager.FindByName(model.Username);
+            var user = UserManager.FindByName(model.Username);
             if (user == null) 
             {
                 ViewBag.message = "No such user!";
                 return View();
             }
-            var ir = userManager.AddToRole(user.Id, model.Role);
+            var ir = UserManager.AddToRole(user.Id, model.Role);
             if (ir.Succeeded) 
             {
                 ViewBag.message = String.Format("Added role {0} to user {1}", 
