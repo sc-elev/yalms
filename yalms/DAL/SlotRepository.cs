@@ -26,26 +26,26 @@ namespace yalms.DAL
 
         #endregion
 
-        #region Get students daily Schedule by Student_userID, week,day
-        public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, int week, int weekday)
-        {
-            return (from slot in context.Slots
-                    join cour in context.Courses on slot.CourseID equals cour.CourseID
-                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-                    where cost.Student_UserID == studentUserID && slot.WeekNR == week && slot.WeekDay == weekday
-                        select slot);
-        }
-        #endregion
+        //#region Get students daily Schedule by Student_userID, week,day
+        //public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, int week, int weekday)
+        //{
+        //    return (from slot in context.Slots
+        //            join cour in context.Courses on slot.CourseID equals cour.CourseID
+        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
+        //            where cost.Student_UserID == studentUserID && slot.WeekNR == week && slot.WeekDay == weekday
+        //                select slot);
+        //}
+        //#endregion
 
         #region Get students weekly Schedule by Student_userID, week,day
-        public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, int week)
-        {
-            return (from slot in context.Slots
-                    join cour in context.Courses on slot.CourseID equals cour.CourseID
-                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-                    where cost.Student_UserID == studentUserID && slot.WeekNR == week
-                    select slot);
-        }
+        //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, int week)
+        //{
+        //    return (from slot in context.Slots
+        //            join cour in context.Courses on slot.CourseID equals cour.CourseID
+        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
+        //            where cost.Student_UserID == studentUserID && slot.WeekNR == week
+        //            select slot);
+        //}
         #endregion
 
         #region Get Slot by its Slot ID

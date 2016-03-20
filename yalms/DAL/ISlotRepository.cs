@@ -12,8 +12,8 @@ namespace yalms.DAL
 
         IEnumerable<Slot> GetAllSlots(); 
 
-        IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, int week, int weekday);
-        IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, int week);
+        //IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, int week, int weekday);
+        //IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, int week);
 
         Slot GetSlotByID(int? slotID); 
 
