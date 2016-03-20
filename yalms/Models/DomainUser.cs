@@ -20,7 +20,10 @@ namespace yalms.Models
             CreatedAt = DateTime.Now;
         }
 
-        public DomainUser() { }
+        public DomainUser() : base() 
+        {
+            CreatedAt = DateTime.Now;
+        }
 
         public DateTime CreatedAt { set; get; }
 

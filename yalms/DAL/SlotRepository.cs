@@ -26,26 +26,29 @@ namespace yalms.DAL
 
         #endregion
 
-        //#region Get students daily Schedule by Student_userID, week,day
-        //public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, int week, int weekday)
-        //{
-        //    return (from slot in context.Slots
-        //            join cour in context.Courses on slot.CourseID equals cour.CourseID
-        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-        //            where cost.Student_UserID == studentUserID && slot.WeekNR == week && slot.WeekDay == weekday
-        //                select slot);
-        //}
-        //#endregion
+        #region Get students daily Schedule by date
+        public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when)
+        {
+            return (from slot in context.Slots
+                    join cour in context.Courses on slot.CourseID equals cour.CourseID
+                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
+                    where cost.Student_UserID == studentUserID && slot.When == when
+                    select slot);
+        }
+        #endregion
 
         #region Get students weekly Schedule by Student_userID, week,day
-        //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, int week)
+        //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when)
         //{
+        //    int week = StudentMainViewModel.WeekNrByDate(when);
         //    return (from slot in context.Slots
         //            join cour in context.Courses on slot.CourseID equals cour.CourseID
         //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-        //            where cost.Student_UserID == studentUserID && slot.WeekNR == week
+        //            where cost.Student_UserID == studentUserID 
+        //                  &&  StudentMainViewModel.WeekNrByDate(slot.When) == week
         //            select slot);
         //}
+        // FIXME: Move to model.
         #endregion
 
         #region Get Slot by its Slot ID

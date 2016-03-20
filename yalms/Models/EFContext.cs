@@ -9,8 +9,29 @@ using System.Web;
 
 namespace yalms.Models
 {
+    public interface YalmContext 
+    {
+        void OnModelCreating(DbModelBuilder modelBuilder);
 
-    public class EFContext : IdentityDbContext<DomainUser>
+        DbSet<Assignment> GetAssignments(); 
+
+        DbSet<Course> GetCourses();
+
+        DbSet<Course_Student> GetCourse_Students();
+
+        DbSet<Room> GetRooms();
+
+        DbSet<SchoolClass> GetSchoolClasses();
+
+        DbSet<SchoolClassStudent> GetSchoolClassStudents();
+
+        DbSet<Slot> GetSlots();
+
+        DbSet<Upload> GetUploads();
+    }
+
+
+    public class EFContext : IdentityDbContext<DomainUser>, YalmContext
     {
         public EFContext() : base() { }
 
@@ -40,7 +61,50 @@ namespace yalms.Models
         public DbSet<Upload> Uploads { get; set; }
 
 
+        void YalmContext.OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new NotImplementedException();
+        }
 
+        IList<Assignment> YalmContext.GetAssignments()
+        {
+            return Assignments.ToList();
+        }
+
+        IList<Course> YalmContext.GetCourses()
+        {
+            return Courses.ToList();
+        }
+
+        IList<Course_Student> YalmContext.GetCourse_Students()
+        {
+            return Course_Students.ToList();
+        }
+
+        IList<Room> YalmContext.GetRooms()
+        {
+            return Rooms.ToList();
+        }
+
+        IList<SchoolClass> YalmContext.GetSchoolClasses()
+        {
+            return SchoolClasses.ToList();
+        }
+
+        IList<SchoolClassStudent> YalmContext.GetSchoolClassStudents()
+        {
+            return SchoolClassStudents.ToList();
+        }
+
+        IList<Slot> YalmContext.GetSlots()
+        {
+            return Slots.ToList();
+        }
+
+        IList<Upload> YalmContext.GetUploads()
+        {
+            return Uploads.ToList();
+        }
     }
 }
 
