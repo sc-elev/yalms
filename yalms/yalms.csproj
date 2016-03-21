@@ -185,6 +185,7 @@
     <Compile Include="DAL\AssignmentRepository.cs" />
     <Compile Include="DAL\CourseRepository.cs" />
     <Compile Include="DAL\Course_StudentRepository.cs" />
+    <Compile Include="DAL\EFContext.cs" />
     <Compile Include="DAL\IAssignmentRepository.cs" />
     <Compile Include="DAL\ICourseRepository.cs" />
     <Compile Include="DAL\ICourse_StudentRepository.cs" />
@@ -222,7 +223,6 @@
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Course_Student.cs" />
     <Compile Include="Models\DateProvider.cs" />
-    <Compile Include="Models\EFContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Room.cs" />
