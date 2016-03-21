@@ -14,9 +14,9 @@ namespace yalms.DAL
         Course_Student GetCourse_StudentByID(int? couser_StudentID); 
 
         Course_Student GetNewestCourse_Student(); 
-        void InsertCourse_Student(Course_Student company, int couser_StudentID); 
+        void InsertCourse_Student(Course_Student company); 
         void DeleteCourse_Student(int couser_StudentID); 
-        void UpdateCourse_Student(Course_Student company, int couser_StudentID); 
+        void UpdateCourse_Student(Course_Student company); 
         void Save(); 
 
 

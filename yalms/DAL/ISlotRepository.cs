@@ -10,8 +10,8 @@ namespace yalms.DAL
     public interface ISlotRepository : IDisposable 
     { 
 
-        IEnumerable<Slot> GetAllSlots(); 
-
+        IEnumerable<Slot> GetAllSlots();
+        List<Slot> GetTeachersWeeklySheduleByCourseIDAndDate_Full(int courseID, DateTime date);
         //IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when);
         //IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when);
         // FIXME; MOve to ´model(s)
@@ -19,9 +19,9 @@ namespace yalms.DAL
         Slot GetSlotByID(int? slotID); 
 
         Slot GetNewestSlot(); 
-        void InsertSlot(Slot company, int slotID); 
+        void InsertSlot(Slot company); 
         void DeleteSlot(int slotID);  
-        void UpdateSlot(Slot slot, int slotID, DateTime when); 
+        void UpdateSlot(Slot slot); 
         void Save(); 
 
 

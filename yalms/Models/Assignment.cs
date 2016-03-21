@@ -30,7 +30,7 @@ namespace yalms.Models
 
         // objects for sub key data relationship
         [NotMapped]
-        public Course CourseID_Course { get; set; }
+        public Course Course { get; set; }
 
 
     }

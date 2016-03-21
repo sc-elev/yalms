@@ -14,9 +14,9 @@ namespace yalms.DAL
         Room GetRoomByID(int? roomID); 
 
         Room GetNewestRoom(); 
-        void InsertRoom(Room company, int roomID); 
+        void InsertRoom(Room company); 
         void DeleteRoom(int roomID); 
-        void UpdateRoom(Room company, int roomID); 
+        void UpdateRoom(Room company); 
         void Save(); 
 
 

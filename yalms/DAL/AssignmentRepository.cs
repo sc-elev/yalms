@@ -22,20 +22,22 @@ namespace yalms.DAL
         {
             return context.Assignments;
         }
-
         #endregion
 
-        #region Get Assignment by its Assignment ID without populating foregin key data
-        public Assignment GetAssignment_SimpleByID(int? assignmentID)
+        #region Get all Assignments by courseID
+        public List<Assignment> GetAllAssignmentsByCourseID(int courseID)
         {
-            // Get single Assignment by its unique ID
-            return context.Assignments.SingleOrDefault(o => o.AssignmentID == assignmentID);
-
+            return (from assi in context.Assignments
+                        where assi.CourseID == courseID
+                        select assi
+                        ).ToList();
         }
+
         #endregion
+
 
         #region Get Assignment by its Assignment ID
-        public Assignment GetAssignmentByID(int? assignmentID)
+        public Assignment GetAssignmentByAssignmentID(int? assignmentID)
         {
             // Get single Assignment by its unique ID
             var assignment = context.Assignments.SingleOrDefault(o => o.AssignmentID == assignmentID);
@@ -53,7 +55,7 @@ namespace yalms.DAL
         #endregion
 
         #region Insert new Assignment object and register what user created it and when.
-        public void InsertAssignment(Assignment assignment, int userID)
+        public void InsertAssignment(Assignment assignment)
         {
             // Add Assignment to context
             context.Assignments.Add(assignment);
@@ -75,8 +77,8 @@ namespace yalms.DAL
 
 
 
-        #region Update existing Assignment object and register what user modified it and when.
-        public void UpdateAssignment (Assignment newAssignment,int userID)
+        #region Update existing Assignment object.
+        public void UpdateAssignment (Assignment newAssignment)
         {
             // Get existing Assignment object by ID for update.
             var oldAssignment = context.Assignments.SingleOrDefault(o => o.AssignmentID == newAssignment.AssignmentID);

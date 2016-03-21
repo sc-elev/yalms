@@ -9,14 +9,14 @@ namespace yalms.DAL
 
     public interface ISchoolClassStudentRepository : IDisposable 
     { 
-        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudents(); 
-        SchoolClassStudent GetSchoolClassStudent_SimpleByID(int? schoolClassStudentID); 
+        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudents();
+        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID); 
         SchoolClassStudent GetSchoolClassStudentByID(int? schoolClassStudentID); 
 
         SchoolClassStudent GetNewestSchoolClassStudent(); 
-        void InsertSchoolClassStudent(SchoolClassStudent company, int schoolClassStudentID); 
+        void InsertSchoolClassStudent(SchoolClassStudent company); 
         void DeleteSchoolClassStudent(int schoolClassStudentID); 
-        void UpdateSchoolClassStudent(SchoolClassStudent company, int schoolClassStudentID); 
+        void UpdateSchoolClassStudent(SchoolClassStudent company); 
         void Save(); 
 
 

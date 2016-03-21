@@ -16,20 +16,31 @@ namespace yalms.DAL
         private EFContext context = new EFContext();
 
 
-        #region Get all SchoolClasses even those tagged as removed and not yet created.
+        #region Get all SchoolClasses.
         public IEnumerable<SchoolClass> GetAllSchoolClasses()
         {
             return context.SchoolClasses;
         }
-
         #endregion
 
-        #region Get SchoolClass by its SchoolClass ID without populating foregin key data
-        public SchoolClass GetSchoolClass_SimpleByID(int? schoolClassID)
+        
+        #region Get SchoolClass by its SchoolClassID
+        public SchoolClass GetSchoolClassBySchoolClassID(int? schoolClassID)
         {
             // Get single SchoolClass by its unique ID
             return context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
 
+        }
+        #endregion
+
+        #region Get SchoolClass by its SchoolClassID with list of all students
+        public SchoolClass GetSchoolClassBySchoolClassID_Full(int? schoolClassID)
+        {
+            var schoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
+
+            schoolClass.Students = new UserRepository().GetAllSchoolClassStudentsBySchoolClassID(schoolClass.SchoolClassID);
+
+            return schoolClass;
         }
         #endregion
 
@@ -52,10 +63,8 @@ namespace yalms.DAL
         #endregion
 
         #region Insert new SchoolClass object and register what user created it and when.
-        public void InsertSchoolClass(SchoolClass schoolClass, int userID)
+        public void InsertSchoolClass(SchoolClass schoolClass)
         {
-
-
             // Add SchoolClass to context
             context.SchoolClasses.Add(schoolClass);
 
@@ -71,24 +80,14 @@ namespace yalms.DAL
             // Get SchoolClass by ID.
             SchoolClass schoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
             context.SchoolClasses.Remove(schoolClass);
-        }
-        #endregion
-
-        #region Tag SchoolClass as removed, and register what user removed it and when.
-        public void RemoveSchoolClass(SchoolClass newSchoolClass, int userID)
-        {
-            // Get SchoolClass for update
-            var oldSchoolClass = context.SchoolClasses.Single(o => o.SchoolClassID == newSchoolClass.SchoolClassID);
-
-
-            // Save context changes.
             Save();
-            Dispose();
         }
         #endregion
+
+
 
         #region Update existing SchoolClass object and register what user modified it and when.
-        public void UpdateSchoolClass (SchoolClass newSchoolClass,int userID)
+        public void UpdateSchoolClass (SchoolClass newSchoolClass)
         {
             // Get existing SchoolClass object by ID for update.
             var oldSchoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == newSchoolClass.SchoolClassID);
@@ -104,13 +103,7 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Update SchoolClass with foreignkey names for presentation.
-        private SchoolClass PopulateSchoolClassWithForeignKeyDataObjects(SchoolClass schoolClass)
-        {
-            // Get objects for Sub keys
-            return schoolClass;
-        }
-        #endregion
+
 
 
 

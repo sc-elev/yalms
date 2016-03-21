@@ -31,10 +31,11 @@ namespace yalms.Models
 
         // objects for sub key data relationship
         [NotMapped]
-        public SchoolClass SchoolClassID_SchoolClass { get; set; }
+        public SchoolClass SchoolClass { get; set; }
         [NotMapped]
-        public ApplicationUser Teacher_UserID_Teacher_User { get; set; }
-
+        public ApplicationUser Teacher_User { get; set; }
+        [NotMapped]
+        public List<Assignment> Assignments { get; set; }
 
     }
 }

@@ -178,10 +178,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="CommonFunctions\CustomConversion.cs" />
+    <Compile Include="CommonFunctions\Enumerators.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\AssignmentRepository.cs" />
     <Compile Include="DAL\CourseRepository.cs" />
     <Compile Include="DAL\Course_StudentRepository.cs" />
@@ -204,19 +207,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <None Include="Migrations\Configuration.cs.old" />
-    <Compile Include="Migrations\201603200955254_v1.cs" />
-    <Compile Include="Migrations\201603200955254_v1.Designer.cs">
-      <DependentUpon>201603200955254_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603201456224_v2.cs" />
-    <Compile Include="Migrations\201603201456224_v2.Designer.cs">
-      <DependentUpon>201603201456224_v2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603201537519_v3.cs" />
-    <Compile Include="Migrations\201603201537519_v3.Designer.cs">
-      <DependentUpon>201603201537519_v3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -230,6 +220,10 @@
     <Compile Include="Models\SchoolClassStudent.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\StudentMainViewModel.cs" />
+    <Compile Include="Models\TeascherAdministrationViewModel.cs" />
+    <Compile Include="Models\TeascherAssignmentViewModel.cs" />
+    <Compile Include="Models\TeascherDocumentViewModel.cs" />
+    <Compile Include="Models\TeascherScheduleViewModel.cs" />
     <Compile Include="Models\Upload.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\UserProvider.cs" />
@@ -297,6 +291,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Student\" />
+    <Folder Include="Views\Teacher\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -304,17 +299,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603200955254_v1.resx">
-      <DependentUpon>201603200955254_v1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603201456224_v2.resx">
-      <DependentUpon>201603201456224_v2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603201537519_v3.resx">
-      <DependentUpon>201603201537519_v3.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

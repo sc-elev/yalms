@@ -19,14 +19,37 @@ namespace yalms.Models
                                     int studentID, 
                                     DateTime when)
         {
-            slots = (from slot in context.GetSlots()
-                     join cour in context.GetCourses()
-                         on slot.CourseID equals cour.CourseID
-                     join cost in context.GetCourse_Students()
-                         on cour.CourseID equals cost.CourseID
-                     where cost.Student_UserID == studentID
-                         && slot.When.DayOfYear == when.DayOfYear
-                     select slot).ToList();
+
+            ApplicationUser user = context.GetUsers()
+                .Where(u => u.UserName == studentName)
+                .SingleOrDefault();
+            SchoolClassStudent scs = context.GetSchoolClassStudents()
+                .Where(s => s.SchoolClassStudentID == user.Id)
+                .SingleOrDefault();
+            SchoolClass sc = context.GetSchoolClasses()
+                .Where(c => c.SchoolClassID == scs.SchoolClassID)
+                .SingleOrDefault();
+            SchoolClass = sc.Name;
+            slots = context.GetSlots()
+                            .Where(s => s.When.Date == dateProvider.Today())
+                            .ToList();
+            foreach (var slot in slots)
+            {
+                slot.Course = context.GetCourses()
+                    .Where(c => c.CourseID == slot.CourseID)
+                    .SingleOrDefault();
+                slot.Room = context.GetRooms()
+                    .Where(r => r.RoomID == slot.RoomID)
+                    .SingleOrDefault();
+                slot.Course.SchoolClass = context.GetSchoolClasses()
+                    .Where(s => s.SchoolClassID == slot.Course.SchoolClassID)
+                    .SingleOrDefault();
+            }
+            slots = slots
+                        .Where(s => s.Course.SchoolClassID == sc.SchoolClassID)
+                        .OrderBy(w => w.SlotNR)
+                        .ToList();
+            Date = dateProvider.Today().ToString("yyyy-MM-dd");
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
             WeekNr = cultureInfo.Calendar.GetWeekOfYear(
                 when, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);

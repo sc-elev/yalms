@@ -6,7 +6,8 @@ using System.Data;
 using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
-using System; 
+using System;
+using yalms.CommonFunctions; 
 
 namespace yalms.DAL
 {
@@ -24,6 +25,28 @@ namespace yalms.DAL
             return context.Slots;
         }
 
+        #endregion
+        #region Get Teachers weekly course Schedule by date
+        public List<Slot> GetTeachersWeeklySheduleByCourseIDAndDate_Full(int courseID, DateTime date)
+        {
+            var weekNr = CustomConversion.GetWeekFromDate(date);
+
+            var listOfSlots = (from slot in context.Slots
+                                where slot.CourseID == courseID &&
+                                      CustomConversion.GetWeekFromDate(slot.When.Date) == weekNr
+                                select slot).ToList();
+
+            var allCourses = new CourseRepository().GetAllCourses();
+            var allRooms = new RoomRepository().GetAllRooms();
+
+            foreach (var slot in listOfSlots)
+            {
+                slot.Course = allCourses.FirstOrDefault(o => o.CourseID == slot.CourseID);
+                slot.Room = allRooms.FirstOrDefault(o => o.RoomID == slot.RoomID);
+            }
+
+            return listOfSlots;
+        }
         #endregion
 
         #region Get students daily Schedule by date
@@ -69,8 +92,8 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Insert new Slot object and register what user created it and when.
-        public void InsertSlot(Slot slot, int userID)
+        #region Insert new Slot object.
+        public void InsertSlot(Slot slot)
         {
 
             // Add Slot to context
@@ -93,22 +116,17 @@ namespace yalms.DAL
 
 
 
-        #region Update existing Slot object and register what user modified it and when.
-        public void UpdateSlot (Slot newSlot,int userID, DateTime when)
+        #region Update existing Slot object.
+        public void UpdateSlot (Slot newSlot)
         {
             // Get existing Slot object by ID for update.
             var oldSlot = context.Slots.SingleOrDefault(o => o.SlotID == newSlot.SlotID);
             oldSlot.SlotNR = newSlot.SlotNR;
-            oldSlot.When = when;
+            oldSlot.When = newSlot.When;
 
             // Save context changes.
             Save();
             Dispose();
-        }
-
-        public void UpdateSlot(Slot slot, int userID)
-        {
-            UpdateSlot(slot, userID, DateTime.Now);
         }
         #endregion
 

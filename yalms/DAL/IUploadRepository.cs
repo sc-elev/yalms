@@ -23,9 +23,9 @@ namespace yalms.DAL
         Upload GetUploadByID(int? uploadID); 
 
         Upload GetNewestUpload(); 
-        void InsertUpload(Upload company, int uploadID); 
+        void InsertUpload(Upload company); 
         void DeleteUpload(int uploadID); 
-        void UpdateUpload(Upload company, int uploadID); 
+        void UpdateUpload(Upload company); 
         void Save(); 
 
 

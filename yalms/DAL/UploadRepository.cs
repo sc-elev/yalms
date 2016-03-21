@@ -91,11 +91,9 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Insert new Upload object and register what user created it and when.
-        public void InsertUpload(Upload upload, int userID)
+        #region Insert new Upload object.
+        public void InsertUpload(Upload upload)
         {
-
-
             // Add Upload to context
             context.Uploads.Add(upload);
 
@@ -114,21 +112,9 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Tag Upload as removed, and register what user removed it and when.
-        public void RemoveUpload(Upload newUpload, int userID)
-        {
-            // Get Upload for update
-            var oldUpload = context.Uploads.Single(o => o.UploadID == newUpload.UploadID);
-
-
-            // Save context changes.
-            Save();
-            Dispose();
-        }
-        #endregion
-
+      
         #region Update existing Upload object and register what user modified it and when.
-        public void UpdateUpload (Upload newUpload,int userID)
+        public void UpdateUpload (Upload newUpload)
         {
             // Get existing Upload object by ID for update.
             var oldUpload = context.Uploads.SingleOrDefault(o => o.UploadID == newUpload.UploadID);
@@ -137,8 +123,6 @@ namespace yalms.DAL
             oldUpload.GradeDescription = newUpload.GradeDescription;
             oldUpload.Uploaded = newUpload.Uploaded;
             oldUpload.UploadedBy = newUpload.UploadedBy;
-
-
 
             // Save context changes.
             Save();
@@ -150,7 +134,7 @@ namespace yalms.DAL
         private Upload PopulateUploadWithForeignKeyDataObjects(Upload upload)
         {
             // Get objects for Sub keys
-            upload.AssignmentID_Assignment = new AssignmentRepository().GetAssignment_SimpleByID(upload.AssignmentID);
+            upload.Assignment = new AssignmentRepository().GetAssignmentByAssignmentID(upload.AssignmentID);
             return upload;
         }
         #endregion

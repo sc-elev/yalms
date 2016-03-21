@@ -11,6 +11,7 @@ namespace yalms.Migrations
 
     using yalms.Models;
     using System.Collections.Generic;
+    using yalms.DAL;
 
     internal sealed class Configuration : DbMigrationsConfiguration<yalms.Models.EFContext>
     {
@@ -39,7 +40,7 @@ namespace yalms.Migrations
             };
             ctx.SchoolClasses.AddOrUpdate(sc);
             ctx.SchoolClassStudents.AddOrUpdate(scs);
-            ctx.SaveChanges();;
+            ctx.SaveChanges();
         }
 
         private void seedCourseAndSchema(EFContext ctx)
@@ -92,6 +93,12 @@ namespace yalms.Migrations
             seedRoles(ctx);
             seedUsers(ctx);
             seedClasses(ctx);
+
+            // Temp function
+            // Create room
+            new RoomRepository().InsertRoom(new Room { Description = "Aula 1" });
+            ctx.Rooms.Add(new Room { Description = "Aula 2" });
+            ctx.SaveChanges();
         }
     }
 }

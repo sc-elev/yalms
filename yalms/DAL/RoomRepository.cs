@@ -52,8 +52,8 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Insert new Room object and register what user created it and when.
-        public void InsertRoom(Room room, int userID)
+        #region Insert new Room object.
+        public void InsertRoom(Room room)
         {
 
             // Add Room to context
@@ -76,14 +76,12 @@ namespace yalms.DAL
 
 
 
-        #region Update existing Room object and register what user modified it and when.
-        public void UpdateRoom (Room newRoom,int userID)
+        #region Update existing Room object.
+        public void UpdateRoom (Room newRoom)
         {
             // Get existing Room object by ID for update.
             var oldRoom = context.Rooms.SingleOrDefault(o => o.RoomID == newRoom.RoomID);
             oldRoom.Description = newRoom.Description;
-
-
 
             // Save context changes.
             Save();
@@ -91,13 +89,7 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Update Room with foreignkey names for presentation.
-        private Room PopulateRoomWithForeignKeyDataObjects(Room room)
-        {
-            // Get objects for Sub keys
-            return room;
-        }
-        #endregion
+
 
 
 

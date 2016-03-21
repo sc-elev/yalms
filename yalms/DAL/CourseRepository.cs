@@ -21,6 +21,26 @@ namespace yalms.DAL
         {
             return context.Courses;
         }
+        #endregion
+
+        #region Get all Courses.
+        public IEnumerable<Course> GetAllCoursesByTeacherID_Full(int teacher_UserID)
+        {
+
+            var courses = (from cour in context.Courses
+                           where cour.Teacher_UserID == teacher_UserID   
+                           select cour
+                           );
+
+            foreach (var course in courses)
+            {
+                course.SchoolClass = new SchoolClassRepository().GetSchoolClassBySchoolClassID_Full(course.SchoolClassID);
+                course.Assignments = new AssignmentRepository().GetAllAssignmentsByCourseID(course.CourseID);
+            }
+
+
+            return courses;
+        }
 
         #endregion
 
@@ -45,7 +65,7 @@ namespace yalms.DAL
         #endregion
 
         #region Insert new Course object and register what user created it and when.
-        public void InsertCourse(Course course, int userID)
+        public void InsertCourse(Course course)
         {
             // Add Course to context
             context.Courses.Add(course);
@@ -67,7 +87,7 @@ namespace yalms.DAL
 
 
         #region Update existing Course object and register what user modified it and when.
-        public void UpdateCourse (Course newCourse,int userID)
+        public void UpdateCourse (Course newCourse)
         {
             // Get existing Course object by ID for update.
             var oldCourse = context.Courses.SingleOrDefault(o => o.CourseID == newCourse.CourseID);

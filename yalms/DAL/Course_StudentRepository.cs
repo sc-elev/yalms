@@ -43,7 +43,7 @@ namespace yalms.DAL
         #endregion
 
         #region Insert new Course_Student object and register what user created it and when.
-        public void InsertCourse_Student(Course_Student course_Student, int userID)
+        public void InsertCourse_Student(Course_Student course_Student)
         {
             // Add Couser_Student to context
             context.Course_Students.Add(course_Student);
@@ -66,7 +66,7 @@ namespace yalms.DAL
 
 
         #region Update existing Couser_Student object and register what user modified it and when.
-        public void UpdateCourse_Student (Course_Student newCouser_Student,int userID)
+        public void UpdateCourse_Student (Course_Student newCouser_Student)
         {
             // Get existing Course_Student object by ID for update.
             var oldCouser_Student = context.Course_Students.SingleOrDefault(o => o.Course_StudentID == newCouser_Student.Course_StudentID);

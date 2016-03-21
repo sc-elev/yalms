@@ -9,14 +9,16 @@ namespace yalms.DAL
 
     public interface IUserRepository : IDisposable 
     {
+        List<ApplicationUser> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID);
+
         IEnumerable<ApplicationUser> GetAllUsers();
         ApplicationUser GetUser_SimpleByID(int userID);
         ApplicationUser GetUserByID(int id);
 
         ApplicationUser GetNewestUser();
-        void InsertUser(ApplicationUser company, string id); 
+        void InsertUser(ApplicationUser company); 
         void DeleteUser(int idD);
-        void UpdateUser(ApplicationUser company, string id); 
+        void UpdateUser(ApplicationUser company); 
         void Save(); 
 
 

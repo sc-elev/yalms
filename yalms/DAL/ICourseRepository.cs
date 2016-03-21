@@ -17,9 +17,9 @@ namespace yalms.DAL
         Course GetCourseByID(int? courseID); 
 
         Course GetNewestCourse();
-        void InsertCourse(Course company, int courseID); 
+        void InsertCourse(Course company); 
         void DeleteCourse(int courseID); 
-        void UpdateCourse(Course company, int courseID); 
+        void UpdateCourse(Course company); 
         void Save(); 
 
      } 

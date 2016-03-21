@@ -25,9 +25,9 @@ namespace yalms.Models
 
         // objects for sub key data relationship
         [NotMapped]
-        public Course CourseID_Course { get; set; }
+        public Course Course { get; set; }
         [NotMapped]
-        public ApplicationUser Student_UserID_Student_User { get; set; }
+        public ApplicationUser Student_User { get; set; }
 
 
 

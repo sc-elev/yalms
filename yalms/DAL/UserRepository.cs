@@ -15,6 +15,19 @@ namespace yalms.DAL
         // Get context for specific connectionstring.
         private EFContext context = new EFContext();
 
+        public List<ApplicationUser> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID)
+        {
+
+            return (from apus in context.Users
+                           join cost in context.Course_Students on apus.Id equals cost.Student_UserID
+                           join cour in context.Courses on cost.CourseID equals cour.CourseID
+                           where cour.SchoolClassID == schoolClassID
+                           select apus
+                
+                ).ToList();
+
+        }
+
 
         #region Get all Users 
         public IEnumerable<ApplicationUser> GetAllUsers()
@@ -51,8 +64,8 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Insert new User object and register what user created it and when.
-        public void InsertUser(ApplicationUser user, string id)
+        #region Insert new User object.
+        public void InsertUser(ApplicationUser user)
         {
 
             // Add User to context
@@ -73,21 +86,9 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Tag User as removed, and register what user removed it and when.
-        public void RemoveUser(ApplicationUser newUser, string id)
-        {
-            // Get User for update
-            var oldUser = context.Users.Single(o => o.Id == newUser.Id);
 
-
-            // Save context changes.
-            Save();
-            Dispose();
-        }
-        #endregion
-
-        #region Update existing User object and register what user modified it and when.
-        public void UpdateUser(ApplicationUser newUser, string id)
+        #region Update existing User object.
+        public void UpdateUser(ApplicationUser newUser)
         {
             // Get existing User object by ID for update.
             var oldUser = context.Users.SingleOrDefault(o => o.Id == newUser.Id);

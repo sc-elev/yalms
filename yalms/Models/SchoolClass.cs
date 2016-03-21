@@ -26,8 +26,8 @@ namespace yalms.Models
         [Display(Name = "Year")]
         public int Year  { get; set; }
 
-
-
+        [NotMapped]
+        public List<ApplicationUser> Students { get; set; }
     }
 }
 
