@@ -16,8 +16,8 @@ namespace yalms.Models
         public IList<Slot> SlotTimings { get; set;  }
 
         public StudentMainViewModel(YalmContext context,
-                                    int studentID, 
-                                    DateTime when)
+                                    string studentName, 
+                                    IDateProvider dateProvider)
         {
 
             ApplicationUser user = context.GetUsers()
@@ -29,7 +29,6 @@ namespace yalms.Models
             SchoolClass sc = context.GetSchoolClasses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)
                 .SingleOrDefault();
-            SchoolClass = sc.Name;
             slots = context.GetSlots()
                             .Where(s => s.When.Date == dateProvider.Today())
                             .ToList();
@@ -51,10 +50,11 @@ namespace yalms.Models
                         .ToList();
             Date = dateProvider.Today().ToString("yyyy-MM-dd");
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
+            var today = dateProvider.Today();
             WeekNr = cultureInfo.Calendar.GetWeekOfYear(
-                when, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            WeekDay = cultureInfo.DateTimeFormat.GetDayName(when.DayOfWeek);
-        }
+                today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            WeekDay = cultureInfo.DateTimeFormat.GetDayName(today.DayOfWeek);
+       }
         
         public StudentMainViewModel() { }
 

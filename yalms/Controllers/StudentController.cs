@@ -20,7 +20,6 @@ namespace yalms.Controllers
         {
             StudentMainViewModel model = new StudentMainViewModel();
             model.Date = dateProvider.Today().ToString("yyyy-MM-dd");
-            var today = DateTime.Now.Date;
             model.slots = context.GetSlots()
                             .Where(s => s.When.Date == dateProvider.Today())
                             .OrderBy(w => w.When)
