@@ -30,6 +30,8 @@ namespace yalms.Models
         IList<Upload> GetUploads();
 
         IList<ApplicationUser> GetUsers();
+
+        void Dispose();
     }
 
 

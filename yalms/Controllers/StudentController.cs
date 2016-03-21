@@ -8,8 +8,11 @@ using yalms.Models;
 
 namespace yalms.Controllers
 {
+
+    [Authorize(Roles = "student")]
     public class StudentController : Controller
     {
+       
         protected IDateProvider dateProvider;
 
         protected IUserProvider userProvider;
@@ -56,10 +59,17 @@ namespace yalms.Controllers
             return RedirectToAction("MainView");
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) context.Dispose();
+            base.Dispose(disposing);
+        }
+
         public StudentController()
         {
             dateProvider = new DateProvider();
             userProvider = new UserProvider(this);
+            context = new EFContext();
         }
 
         public StudentController(IUserProvider u, IDateProvider d, YalmContext c)

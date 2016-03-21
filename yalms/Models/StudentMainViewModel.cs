@@ -53,6 +53,7 @@ namespace yalms.Models
             slots = slots
                         .Where(s => s.Course.SchoolClassID == sc.SchoolClassID)
                         .OrderBy(w => w.SlotNR)
+                        .DefaultIfEmpty()
                         .ToList();
             Date = dateProvider.Today().ToString("yyyy-MM-dd");
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
