@@ -45,7 +45,6 @@ namespace yalms.Models
                 slot.Room = context.GetRooms()
                     .Where(r => r.RoomID == slot.RoomID)
                     .SingleOrDefault();
-
                 slot.Course.SchoolClass = context.GetSchoolClasses()
                     .Where(s => s.SchoolClassID == slot.Course.SchoolClassID)
                     .SingleOrDefault();
