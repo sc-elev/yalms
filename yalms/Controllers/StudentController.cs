@@ -16,31 +16,50 @@ namespace yalms.Controllers
 
         protected YalmContext context;
      
-        public ActionResult MainView()
+        public ViewResult MainView()
         {
-            StudentMainViewModel model = new StudentMainViewModel();
-            model.Date = dateProvider.Today().ToString("yyyy-MM-dd");
-            model.slots = context.GetSlots()
-                            .Where(s => s.When.Date == dateProvider.Today())
-                            .OrderBy(w => w.When)
-                            .ToList();
-            foreach (var slot in model.slots)
+            StudentMainViewModel model = 
+                TempData["StudentViewModel"] as StudentMainViewModel;
+            if (model == null)
             {
-                slot.Course = context.GetCourses()
-                    .Where(c => c.CourseID == slot.CourseID)
-                    .SingleOrDefault();
-                slot.Room = context.GetRooms()
-                    .Where(r => r.RoomID == slot.RoomID)
-                    .SingleOrDefault();
+                model = new StudentMainViewModel(context,
+                                                 userProvider.Who(),
+                                                 dateProvider);
             }
+            TempData["StudentViewModel"] = model;
             return View(model);
+        }
+
+        public ActionResult MainViewNextDay( )
+        {
+            StudentMainViewModel model =
+                 TempData["StudentViewModel"] as StudentMainViewModel;
+            var tomorrow =
+                new DummyDateProvider(model.Today.AddDays(1));
+            var  dateProvider = new DummyDateProvider(tomorrow.Today());
+            model = 
+                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
+            TempData["StudentViewModel"] = model;
+            return RedirectToAction("MainView");
+        }
+
+        public ActionResult MainViewPrevDay()
+        {
+            StudentMainViewModel model =
+                 TempData["StudentViewModel"] as StudentMainViewModel;
+            var yesterday =
+                new DummyDateProvider(model.Today.AddDays(-1));
+            var dateProvider = new DummyDateProvider(yesterday.Today());
+            model =
+                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
+            TempData["StudentViewModel"] = model;
+            return RedirectToAction("MainView");
         }
 
         public StudentController()
         {
             dateProvider = new DateProvider();
             userProvider = new UserProvider(this);
-
         }
 
         public StudentController(IUserProvider u, IDateProvider d, YalmContext c)

@@ -200,8 +200,24 @@ namespace yalms.Tests.Controllers
             var slots = new List<Slot> {
                 new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(8) },
             };
+            var users = new List<ApplicationUser> { 
+                new ApplicationUser("student1"),
+                new ApplicationUser("J Edgar Hoover"),
+            };
+            var classMembers = new List<SchoolClassStudent> {
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 4},
+            };
+            var classes = new List<SchoolClass> {
+                new SchoolClass {Name = "7b", SchoolClassID = 1},
+                new SchoolClass {Name = "7c", SchoolClassID = 2},
+             };
             var context = new Mock<YalmContext>();
             context.Setup(x => x.GetSlots()).Returns(slots);
+            context.Setup(x => x.GetUsers()).Returns(users);
+            context.Setup(x => x.GetSchoolClassStudents()).Returns(classMembers);
+            context.Setup(x => x.GetSchoolClasses()).Returns(classes);
             var controller = new StudentController(who, today, context.Object);
 
             var action = (ViewResult)controller.MainView();
@@ -216,7 +232,7 @@ namespace yalms.Tests.Controllers
             var userManager = new UserManager<MemoryUser>(new MemoryUserStore());
             var users = new List<ApplicationUser> { 
                 new ApplicationUser("student1"),
-                new ApplicationUser("student2"),
+                new ApplicationUser("J Edgar Hoover"),
                 new ApplicationUser("student3"),
                 new ApplicationUser("teacher1"),
                 new ApplicationUser("teacher2"),
@@ -236,9 +252,9 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 3},
-                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 4},
-                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 5},
             };
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {
@@ -276,7 +292,7 @@ namespace yalms.Tests.Controllers
             var action = (ViewResult)controller.MainView();
             StudentMainViewModel model = (StudentMainViewModel)action.Model;
 
-            Assert.AreEqual(6, model.slots.Count());             
+            Assert.AreEqual(5, model.slots.Count());             
         }
 
         [Test]
@@ -285,7 +301,7 @@ namespace yalms.Tests.Controllers
             var userManager = new UserManager<MemoryUser>(new MemoryUserStore());
             var users = new List<ApplicationUser> { 
                 new ApplicationUser("student1"),
-                new ApplicationUser("student2"),
+                new ApplicationUser("J Edgar Hoover"),
                 new ApplicationUser("student3"),
                 new ApplicationUser("teacher1"),
                 new ApplicationUser("teacher2"),
@@ -305,9 +321,9 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 3},
-                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 4},
-                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 5},
             };
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {

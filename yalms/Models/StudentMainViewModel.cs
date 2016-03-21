@@ -12,8 +12,10 @@ namespace yalms.Models
         public string WeekDay { set; get; }
         public int WeekNr  { set; get; }
         public string Date { set; get; }
-        public IList<Slot> slots { get; set;  }
+        public DateTime Today { set; get; }
+        public IList<Slot> slots { get; set; }
         public IList<Slot> SlotTimings { get; set;  }
+        public string SchoolClass { get; set; }
 
         public StudentMainViewModel(YalmContext context,
                                     string studentName, 
@@ -29,6 +31,8 @@ namespace yalms.Models
             SchoolClass sc = context.GetSchoolClasses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)
                 .SingleOrDefault();
+
+            SchoolClass = sc.Name;
             slots = context.GetSlots()
                             .Where(s => s.When.Date == dateProvider.Today())
                             .ToList();
@@ -40,6 +44,7 @@ namespace yalms.Models
                 slot.Room = context.GetRooms()
                     .Where(r => r.RoomID == slot.RoomID)
                     .SingleOrDefault();
+
                 slot.Course.SchoolClass = context.GetSchoolClasses()
                     .Where(s => s.SchoolClassID == slot.Course.SchoolClassID)
                     .SingleOrDefault();
@@ -50,10 +55,10 @@ namespace yalms.Models
                         .ToList();
             Date = dateProvider.Today().ToString("yyyy-MM-dd");
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
-            var today = dateProvider.Today();
+            Today = dateProvider.Today();
             WeekNr = cultureInfo.Calendar.GetWeekOfYear(
-                today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            WeekDay = cultureInfo.DateTimeFormat.GetDayName(today.DayOfWeek);
+                Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            WeekDay = cultureInfo.DateTimeFormat.GetDayName(Today.DayOfWeek);
        }
         
         public StudentMainViewModel() { }
