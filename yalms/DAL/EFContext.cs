@@ -29,12 +29,12 @@ namespace yalms.Models
 
         IList<Upload> GetUploads();
 
-        IList<DomainUser> GetUsers();
+        IList<ApplicationUser> GetUsers();
     }
 
 
     public class EFContext : 
-        IdentityDbContext<DomainUser, CustomRole,
+        IdentityDbContext<ApplicationUser, CustomRole,
                           int, CustomUserLogin, CustomUserRole, 
                           CustomUserClaim>, 
         YalmContext
@@ -113,7 +113,7 @@ namespace yalms.Models
             return Uploads.ToList();
         }
 
-        IList<DomainUser> YalmContext.GetUsers()
+        IList<ApplicationUser> YalmContext.GetUsers()
         {
             return Users.ToList();
         }

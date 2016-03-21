@@ -215,13 +215,13 @@ namespace yalms.Tests.Controllers
         public void StudentCtrlReturnsValidSlots()
         {
             var userManager = new UserManager<MemoryUser>(new MemoryUserStore());
-            var users = new List<DomainUser> { 
-                new DomainUser("student1"),
-                new DomainUser("student2"),
-                new DomainUser("student3"),
-                new DomainUser("teacher1"),
-                new DomainUser("teacher2"),
-                new DomainUser("user1"),
+            var users = new List<ApplicationUser> { 
+                new ApplicationUser("student1"),
+                new ApplicationUser("student2"),
+                new ApplicationUser("student3"),
+                new ApplicationUser("teacher1"),
+                new ApplicationUser("teacher2"),
+                new ApplicationUser("user1"),
             };
             var courses = new List<Course> {
                 new Course { Name = "kurs1", SchoolClassID = 1, 

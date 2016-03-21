@@ -27,7 +27,7 @@ namespace yalms.Models
         [NotMapped]
         public Course CourseID_Course { get; set; }
         [NotMapped]
-        public DomainUser Student_UserID_Student_User { get; set; }
+        public ApplicationUser Student_UserID_Student_User { get; set; }
 
 
 

@@ -73,8 +73,8 @@ namespace yalms.Migrations
                 var email = username + "@edu.com";
                 if (userManager.FindByName(email) != null)
                     continue;
-                var user = new DomainUser { UserName = email, Email = email };
-                userManager.Create<DomainUser, int>(user, "1Hemlighet!");
+                var user = new ApplicationUser { UserName = email, Email = email };
+                userManager.Create<ApplicationUser, int>(user, "1Hemlighet!");
                 if (username.StartsWith("teacher"))
                     userManager.AddToRole(user.Id, "teacher");
                 else if (username.StartsWith("student"))

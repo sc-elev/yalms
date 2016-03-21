@@ -16,7 +16,7 @@ namespace yalms.Models
         public CustomRole(string name) { Name = name; }
     }
 
-    public class CustomUserStore : UserStore<DomainUser, CustomRole, int,
+    public class CustomUserStore : UserStore<ApplicationUser, CustomRole, int,
         CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public CustomUserStore(EFContext context)

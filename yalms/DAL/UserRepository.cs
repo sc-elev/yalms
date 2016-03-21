@@ -17,7 +17,7 @@ namespace yalms.DAL
 
 
         #region Get all Users 
-        public IEnumerable<DomainUser> GetAllUsers()
+        public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return context.Users;
         }
@@ -25,7 +25,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID without populating foregin key data
-        public DomainUser GetUser_SimpleByID(int id)
+        public ApplicationUser GetUser_SimpleByID(int id)
         {
             // Get single User by its unique ID
             return context.Users.SingleOrDefault(o => o.Id == id);
@@ -34,7 +34,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get User by its User ID
-        public DomainUser GetUserByID(int id)
+        public ApplicationUser GetUserByID(int id)
         {
             // Get single User by its unique ID
             var user = context.Users.SingleOrDefault(o => o.Id == id);
@@ -45,14 +45,14 @@ namespace yalms.DAL
         #endregion
 
         #region Get newest User.
-        public DomainUser GetNewestUser()
+        public ApplicationUser GetNewestUser()
         {
            return context.Users.OrderByDescending(u => u.CreatedAt).FirstOrDefault();
         }
         #endregion
 
         #region Insert new User object and register what user created it and when.
-        public void InsertUser(DomainUser user, string id)
+        public void InsertUser(ApplicationUser user, string id)
         {
 
             // Add User to context
@@ -68,13 +68,13 @@ namespace yalms.DAL
         public void DeleteUser (int id)
         {
             // Get User by ID.
-            DomainUser user = context.Users.SingleOrDefault(o => o.Id  == id);
+            ApplicationUser user = context.Users.SingleOrDefault(o => o.Id  == id);
             context.Users.Remove(user);
         }
         #endregion
 
         #region Tag User as removed, and register what user removed it and when.
-        public void RemoveUser(DomainUser newUser, string id)
+        public void RemoveUser(ApplicationUser newUser, string id)
         {
             // Get User for update
             var oldUser = context.Users.Single(o => o.Id == newUser.Id);
@@ -87,7 +87,7 @@ namespace yalms.DAL
         #endregion
 
         #region Update existing User object and register what user modified it and when.
-        public void UpdateUser(DomainUser newUser, string id)
+        public void UpdateUser(ApplicationUser newUser, string id)
         {
             // Get existing User object by ID for update.
             var oldUser = context.Users.SingleOrDefault(o => o.Id == newUser.Id);

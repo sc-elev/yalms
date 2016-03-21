@@ -12,11 +12,11 @@ namespace yalms
 {
     public partial class Startup
     {
-        public static Func<UserManager<DomainUser, int>> UserManagerFactory { get; set; }
+        public static Func<UserManager<ApplicationUser, int>> UserManagerFactory { get; set; }
 
         static Startup()
         {
-            UserManagerFactory = () => new UserManager<DomainUser, int>(new CustomUserStore(new EFContext()));
+            UserManagerFactory = () => new UserManager<ApplicationUser, int>(new CustomUserStore(new EFContext()));
         }
 
 
@@ -39,7 +39,7 @@ namespace yalms
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, DomainUser, int>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser, int>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager),
                         getUserIdCallback: (id) => (id.GetUserId<int>()))
