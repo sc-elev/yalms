@@ -202,6 +202,7 @@
     <Compile Include="DAL\SchoolClassRepository.cs" />
     <Compile Include="DAL\SchoolClassStudentRepository.cs" />
     <Compile Include="DAL\SlotRepository.cs" />
+    <Compile Include="DAL\SlotTimingInfo.cs" />
     <Compile Include="DAL\UploadRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Global.asax.cs">

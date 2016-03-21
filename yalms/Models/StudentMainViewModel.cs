@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using yalms.DAL;
 
 namespace yalms.Models
 {
@@ -14,7 +15,7 @@ namespace yalms.Models
         public string Date { set; get; }
         public DateTime Today { set; get; }
         public IList<Slot> slots { get; set; }
-        public IList<Slot> SlotTimings { get; set;  }
+        public IList<TimingInfo> SlotTimings { get; set;  }
         public string SchoolClass { get; set; }
 
         public StudentMainViewModel(YalmContext context,
@@ -59,7 +60,9 @@ namespace yalms.Models
             WeekNr = cultureInfo.Calendar.GetWeekOfYear(
                 Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
             WeekDay = cultureInfo.DateTimeFormat.GetDayName(Today.DayOfWeek);
+            SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
        }
+
         
         public StudentMainViewModel() { }
 
