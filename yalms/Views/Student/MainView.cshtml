@@ -1,0 +1,26 @@
+﻿@model yalms.Models.StudentMainViewModel
+@{
+    ViewBag.Title = "MainView";
+}
+
+<h2>Elev: Idag </h2>
+
+<div>
+    v @Model.WeekNr @Model.Today.Year @Model.WeekDay @Model.Date @Model.SchoolClass
+</div>
+
+<table>
+    @foreach (var slot in Model.slots)
+    {
+        <tr>
+            <td>@Model.SlotTimings[(int)slot.SlotNR].FormatFrom()</td>
+            <td>@Model.SlotTimings[(int)slot.SlotNR].FormatTo()</td>
+            <td>@slot.Course.Name </td>
+            <td>@slot.Room.Description </td>
+        </tr>
+    }
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
