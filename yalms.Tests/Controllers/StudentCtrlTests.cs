@@ -207,8 +207,7 @@ namespace yalms.Tests.Controllers
             var action = (ViewResult)controller.MainView();
 
             Assert.AreEqual("2016-03-26", 
-                            ((StudentMainViewModel)action.Model).Date);
-                             
+                            ((StudentMainViewModel)action.Model).Date);    
         }
 
         [Test]
@@ -253,12 +252,18 @@ namespace yalms.Tests.Controllers
                 new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(33) },
                 new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(34) },
             };
+            var rooms = new List<Room> {
+                new Room { RoomID = 1, Description = "E265" }
+            };
             var context = new Mock<YalmContext>();
             context.Setup(x => x.GetCourses()).Returns(courses);
             context.Setup(x => x.GetSlots()).Returns(slots);
             context.Setup(x => x.GetUsers()).Returns(users);
             context.Setup(x => x.GetSchoolClassStudents()).Returns(classMembers);
             context.Setup(x => x.GetSchoolClasses()).Returns(classes);
+            context.Setup(x => x.GetRooms()).Returns(rooms);
+
+
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
@@ -272,6 +277,69 @@ namespace yalms.Tests.Controllers
             StudentMainViewModel model = (StudentMainViewModel)action.Model;
 
             Assert.AreEqual(6, model.slots.Count());             
+        }
+
+        [Test]
+        public void StudentCtrlReturnsJoinedAttributes()
+        {
+            var userManager = new UserManager<MemoryUser>(new MemoryUserStore());
+            var users = new List<ApplicationUser> { 
+                new ApplicationUser("student1"),
+                new ApplicationUser("student2"),
+                new ApplicationUser("student3"),
+                new ApplicationUser("teacher1"),
+                new ApplicationUser("teacher2"),
+                new ApplicationUser("user1"),
+            };
+            var courses = new List<Course> {
+                new Course { Name = "kurs1", SchoolClassID = 1, 
+                             Teacher_UserID = 1, CourseID = 1},
+                new Course { Name = "kurs2", SchoolClassID = 1, 
+                             Teacher_UserID = 2, CourseID = 2},
+                new Course { Name = "kurs3", SchoolClassID = 2, 
+                             Teacher_UserID = 2, CourseID = 3}
+                // FIXME: Student_UserID => string
+            };
+            var classes = new List<SchoolClass> {
+                new SchoolClass {Name = "7b", SchoolClassID = 1},
+                new SchoolClass {Name = "7c", SchoolClassID = 2},
+             };
+            var classMembers = new List<SchoolClassStudent> {
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 3},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 4},
+                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
+            };
+            var _today = DateTime.Now.Date;
+            var slots = new List<Slot> {
+                new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(8) },
+                new Slot {CourseID = 2, RoomID = 1, SlotID = 1, When = _today.AddHours(9) },
+                new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(10) },
+                new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(12) },
+           
+            };
+            var rooms = new List<Room> {
+                new Room { RoomID = 1, Description = "E265" }
+            };
+            var context = new Mock<YalmContext>();
+            context.Setup(x => x.GetCourses()).Returns(courses);
+            context.Setup(x => x.GetSlots()).Returns(slots);
+            context.Setup(x => x.GetUsers()).Returns(users);
+            context.Setup(x => x.GetSchoolClassStudents()).Returns(classMembers);
+            context.Setup(x => x.GetSchoolClasses()).Returns(classes);
+            context.Setup(x => x.GetRooms()).Returns(rooms);
+
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
+            IUserProvider who =
+                new DummyUserProvider("J Edgar Hoover", "student");
+            var mockAuthenticationManager = new Mock<IAuthenticationManager>();
+            mockAuthenticationManager.Setup(am => am.SignOut());
+            mockAuthenticationManager.Setup(am => am.SignIn());
+            var controller = new StudentController(who, today, context.Object);
+
+            var action = (ViewResult)controller.MainView();
+            StudentMainViewModel model = (StudentMainViewModel)action.Model;
+
+            Assert.AreEqual("kurs1", model.slots[0].Course.Name);
         }
     }
 }

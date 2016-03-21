@@ -25,6 +25,15 @@ namespace yalms.Controllers
                             .Where(s => s.When.Date == dateProvider.Today())
                             .OrderBy(w => w.When)
                             .ToList();
+            foreach (var slot in model.slots)
+            {
+                slot.Course = context.GetCourses()
+                    .Where(c => c.CourseID == slot.CourseID)
+                    .SingleOrDefault();
+                slot.Room = context.GetRooms()
+                    .Where(r => r.RoomID == slot.RoomID)
+                    .SingleOrDefault();
+            }
             return View(model);
         }
 
