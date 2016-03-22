@@ -8,6 +8,10 @@
 <div>
     v @Model.WeekNr @Model.Today.Year @Model.WeekDay @Model.Date @Model.SchoolClass
 </div>
+<div>
+        @Html.ActionLink("Igår", "MainViewPrevDay")
+        @Html.ActionLink("Imorgon", "MainViewNextDay")
+</div>
 
 <table>
     @foreach (var slot in Model.slots)

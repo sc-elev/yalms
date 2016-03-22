@@ -16,17 +16,17 @@ namespace yalms.DAL
         {
             CultureInfo provider = CultureInfo.InvariantCulture;
             start = DateTime.ParseExact(from, "HH:mm", provider);
-            end = DateTime.ParseExact(to, "hh:mm", provider);
+            end = DateTime.ParseExact(to, "HH:mm", provider);
         }
 
         public string FormatFrom(string format = "hh:mm")
         {
-            return start.Date.ToString(format);
+            return start.ToString(format);
         }
 
         public string FormatTo(string format = "hh:mm")
         {
-            return end.Date.ToString(format);
+            return end.ToString(format);
         }
     }
 
@@ -40,10 +40,10 @@ namespace yalms.DAL
             new TimingInfo("10:00", "10:50"),
             new TimingInfo("11:00", "11:50"),
             new TimingInfo("12:00", "12:50"),
-            //new TimingInfo("13:00", "13:50"),
-            //new TimingInfo("14:00", "14:50"),
-            //new TimingInfo("15:00", "16:50"),
-            //new TimingInfo("17:00", "17:50"),
+            new TimingInfo("13:00", "13:50"),
+            new TimingInfo("14:00", "14:50"),
+            new TimingInfo("15:00", "16:50"),
+            new TimingInfo("17:00", "17:50"),
         };
 
         public int LastSlot() 

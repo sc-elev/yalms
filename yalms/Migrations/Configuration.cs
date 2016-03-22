@@ -16,6 +16,14 @@ namespace yalms.Migrations
     internal sealed class Configuration : DbMigrationsConfiguration<yalms.Models.EFContext>
     {
 
+        private ApplicationUser student1;
+        private  ApplicationUser student2;
+        private  ApplicationUser student3;
+
+        private  ApplicationUser teacher1;
+        private  ApplicationUser teacher2;
+        
+
         private void seedRoles(EFContext ctx)
         {
             var options = new IdentityFactoryOptions<ApplicationRoleManager>();
@@ -30,30 +38,6 @@ namespace yalms.Migrations
                     continue;
                 roleManager.Create(customRole);
             }
-        }
-
-        private void seedClasses(EFContext ctx)
-        {
-            SchoolClass sc = new SchoolClass() { SchoolClassID = 1, Name = "7a" };
-            SchoolClassStudent scs = new SchoolClassStudent() { 
-                SchoolClassID = 1, SchoolClassStudentID = 3
-            };
-            ctx.SchoolClasses.AddOrUpdate(sc);
-            ctx.SchoolClassStudents.AddOrUpdate(scs);
-            ctx.SaveChanges();
-        }
-
-        private void seedCourseAndSchema(EFContext ctx)
-        {
-            Course c = new Course() { 
-                Name = "Matematik A", Teacher_UserID = 1, SchoolClassID = 1 };
-            ctx.Courses.AddOrUpdate(c);
-            Slot s = new Slot()  {
-                CourseID = 1,
-                When = DateTime.Now.Date.AddHours(9)
-            };
-            ctx.Slots.AddOrUpdate(s);
-            ctx.SaveChanges();
         }
 
 
@@ -81,7 +65,64 @@ namespace yalms.Migrations
                 else if (username.StartsWith("student"))
                     userManager.AddToRole(user.Id, "student");
             }
+            student1 = userManager.FindByEmail("student3@edu.com");
+            student2 = userManager.FindByEmail("student4@edu.com");
+            student3 = userManager.FindByEmail("student5@edu.com");
+
+            teacher1 = userManager.FindByEmail("teacher1@edu.com");
+            teacher2 = userManager.FindByEmail("teacher2@edu.com");
         }
+
+
+        private void seedCourses(EFContext ctx)
+        {
+            var courses = new List<Course> {
+                new Course { Name = "Matematik A", SchoolClassID = 1, 
+                             Teacher_UserID = teacher1.Id },
+                new Course { Name = "Svenska A", SchoolClassID = 1, 
+                             Teacher_UserID = teacher2.Id },
+                new Course { Name = "SO 3", SchoolClassID = 2, 
+                             Teacher_UserID = teacher2.Id }
+            };
+            foreach (var course in courses) ctx.Courses.AddOrUpdate(course);
+            ctx.SaveChanges();
+        }
+
+
+        public void seedClasses(EFContext ctx)
+        {
+            var classes = new List<SchoolClass> {
+                    new SchoolClass {Name = "7b", SchoolClassID = 1},
+                    new SchoolClass {Name = "7c", SchoolClassID = 2},
+                 };
+            foreach (var class_ in classes) ctx.SchoolClasses.AddOrUpdate(class_);
+            var classMembers = new List<SchoolClassStudent> {
+                    new SchoolClassStudent { SchoolClassID = 1, Student_UserID = student1.Id},
+                    new SchoolClassStudent { SchoolClassID = 1, Student_UserID = student2.Id},
+                    new SchoolClassStudent { SchoolClassID = 2, Student_UserID = student3.Id},
+                };
+            foreach (var member in classMembers) ctx.SchoolClassStudents.AddOrUpdate(member);
+        }
+
+        public void seedSlots(EFContext ctx)
+        {
+            var rooms = new List<Room> {
+                    new Room { RoomID = 1, Description = "E265" },
+                    new Room { RoomID = 2, Description = "F200" }
+            };
+            foreach (var room in rooms) ctx.Rooms.AddOrUpdate(room);
+            
+            var today = DateTime.Now.Date;
+
+            var slots = new List<Slot> {
+                    new Slot {CourseID = 1, RoomID = 1, When = today, SlotNR = 1 },
+                    new Slot {CourseID = 2, RoomID = 2, When = today, SlotNR = 2 },
+                    new Slot {CourseID = 3, RoomID = 1, When = today.AddDays(1), SlotNR = 1},
+                    new Slot {CourseID = 1, RoomID = 1, When =today, SlotNR = 3 },
+            };
+            foreach (var slot in slots) ctx.Slots.AddOrUpdate(slot);
+        }
+
 
         public Configuration()
         {
@@ -92,13 +133,9 @@ namespace yalms.Migrations
         {
             seedRoles(ctx);
             seedUsers(ctx);
+            seedCourses(ctx);
             seedClasses(ctx);
-
-            // Temp function
-            // Create room
-            new RoomRepository().InsertRoom(new Room { Description = "Aula 1" });
-            ctx.Rooms.Add(new Room { Description = "Aula 2" });
-            ctx.SaveChanges();
+            seedSlots(ctx);
         }
     }
 }
