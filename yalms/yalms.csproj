@@ -289,11 +289,15 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SetUserRole.cshtml" />
     <Content Include="Views\Student\MainView.cshtml" />
+    <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
+    <Content Include="Views\Teacher\Administration.cshtml" />
+    <Content Include="Views\Teacher\Assignment.cshtml" />
+    <Content Include="Views\Teacher\Document.cshtml" />
+    <Content Include="Views\Teacher\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Student\" />
-    <Folder Include="Views\Teacher\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

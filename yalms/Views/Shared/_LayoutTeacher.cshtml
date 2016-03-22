@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    <div class="TopLayout">
+        <div>
+            @Html.ActionLink("yalms", "Index", "Home");
+        </div>
+
+    </div>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <style>
+        .TopLayout {
+            height: 35px;
+            color: #AFAFAF;
+            background-color: #4646Af;
+            font-size: 25px;
+            font-family: 'Segoe UI', 'verdana', 'Arial';
+            padding: 3px 3px 6px 20px;
+        }
+    </style>
+</body>
+</html>
