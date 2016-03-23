@@ -1,41 +1,47 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Yalms", "Index", "Home")</li>
 
-    <div class="TopLayout">
-        <div class="MenuItem">
-            @Html.ActionLink("yalms", "Index", "Home")
-        </div>
-        <div class="MenuItem">
-            @Html.ActionLink("yalms", "Schedule", "Teacher")
-        </div>
-        <div class="MenuItem">
-            @Html.Partial("_LoginPartial")
+                    <li>@Html.ActionLink("Uppgifter", "Assignment", "Teacher")</li>
+                    <li>@Html.ActionLink("Dokument", "Document", "Teacher")</li>
+                    <li>@Html.ActionLink("Shema", "Schedule", "Teacher")</li>
+                    <li>@Html.ActionLink("Administration", "Administration", "Teacher")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
     </div>
-    <div>
+    <div class="container">
         @RenderBody()
+        <!--<hr /> FIXME -->
+        <footer>
+            <!--<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>-->
+        </footer>
+    </div>
 
-    <style>
-        .TopLayout {
-            display: inline-block;
-            height: 35px;
-            width: 100%; 
-
-            color: #FFFFFF;
-            background-color: #86869f;
-            font-size: 23px;
-            font-family: 'Segoe UI', 'verdana', 'Arial';
-            padding: 3px 3px 6px 20px;
-        }
-     .MenuItem {
-         padding-bottom: 50px;
-     }
-    </style>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

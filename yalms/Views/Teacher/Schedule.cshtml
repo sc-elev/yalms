@@ -2,7 +2,6 @@
 @{
     Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
 }
-Schedule - SelectedCourse: @Model.SelectedCourse
 
 <div>
     <div class="FirstsCol">
@@ -80,6 +79,9 @@ Schedule - SelectedCourse: @Model.SelectedCourse
             @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData)
             <br />
             <input type="submit" value="Spara vald slot" />
+            <br />
+            @Html.ActionLink("Tabort","DeleteSelectedSlot")
+            
         }
     </div>
 </div>

@@ -64,8 +64,17 @@ namespace yalms.Controllers
                 var slot = (Slot)Session["selectedSlot"];
                 if (slot.SlotID != -1)
                 {
-                    model.FormSelectedCourse = (int)slot.CourseID;
-                    model.FormSelectedRoom = (int)slot.RoomID;
+                    try
+                    {
+                        model.FormSelectedCourse = (int)slot.CourseID;
+                    }
+                    catch { }
+
+                    try
+                    {
+                        model.FormSelectedRoom = (int)slot.RoomID;
+                    }
+                    catch { }
 
                 }
             }
@@ -99,6 +108,22 @@ namespace yalms.Controllers
 
                 Session["selectedSlot"] = null;
             }
+
+            return RedirectToAction("Schedule");
+        }
+
+        public ActionResult DeleteSelectedSlot()
+        {
+            if (Session["selectedSlot"] != null)
+            {
+                var slot = (Slot)Session["selectedSlot"];
+                if (slot.SlotID != -1)
+                {
+                    new SlotRepository().DeleteSlot(slot.SlotID);
+                }
+            }
+   
+
 
             return RedirectToAction("Schedule");
         }

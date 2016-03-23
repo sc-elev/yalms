@@ -48,7 +48,7 @@ namespace yalms.Models
                 CourseSelectionData = new List<SelectListItem>();
                 foreach (var course in Courses)
                 {
-                    CourseSelectionData.Add(new SelectListItem { Text = course.Name, Value = course.CourseID.ToString() });
+                    CourseSelectionData.Add(new SelectListItem { Text = course.Name + " "+ course.SchoolClass.Name, Value = course.CourseID.ToString() });
                 }
             }
             else
