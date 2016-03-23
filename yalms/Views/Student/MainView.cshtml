@@ -1,6 +1,6 @@
 ﻿@model yalms.Models.StudentMainViewModel
 @{
-    ViewBag.Title = "Huvudvy";
+    ViewBag.Title = "Uppgifter";
 }
 <div class="row">
     <div class="col-md-4">
@@ -12,8 +12,8 @@
         <div>
             v @Model.WeekNr, @Model.Today.Year &bull; 
              @Model.WeekDay @Model.Date &bull;  @Model.SchoolClass
-            @Html.ActionLink("<", "MainViewPrevDay")
-            @if (DateTime.Now.Date != Model.Today)
+            @Html.ActionLink("<< ", "MainViewPrevDay")
+            @if (DateTime.Now.Date == Model.Today)
             { 
                 @Html.ActionLink("Idag", "MainViewToday")
             }
@@ -21,7 +21,7 @@
             {
                 <text>Idag</text>
             }
-            @Html.ActionLink(">", "MainViewNextDay")
+            @Html.ActionLink(" >>", "MainViewNextDay")
         </div>
         <div>
            

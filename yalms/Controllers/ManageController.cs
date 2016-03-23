@@ -55,12 +55,12 @@ namespace yalms.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Ditt lösenord har ändrats."
+                : message == ManageMessageId.SetPasswordSuccess ? "Ditt lösenord är sparat."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Din leverantör för tvåfaktorautentisering är sparad."
+                : message == ManageMessageId.Error ? "Ett fel har inträffat."
+                : message == ManageMessageId.AddPhoneSuccess ? "Ditt telefonnummer har lagts till."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Ditt telefonnummer har tagits bort."
                 : "";
 
             var userId = User.Identity.GetUserId<int>();
@@ -123,7 +123,7 @@ namespace yalms.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Din säkerhetskod är: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -190,7 +190,7 @@ namespace yalms.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "Misslyckades med verifiering av telefon");
             return View(model);
         }
 
@@ -279,8 +279,8 @@ namespace yalms.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Det externa inlogget är borttaget."
+                : message == ManageMessageId.Error ? "Ett fel har inträffat."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
             if (user == null)
