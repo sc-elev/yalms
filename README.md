@@ -1,3 +1,24 @@
+## Scrummöte 23/3
+
+Alexander
+  - Gjort klar datadel av lärarvyn
+  - Behöver hjälp med UI-delen av lärarvyn
+  - Jobbar vidare med ostylat utkast till lärarens schemavy
+
+Micke
+  - Ostylad studentvy klar.
+  - Testdata för "idag" på plats, men inte för veckan.
+  - Tittat på bootstrap-filmen.
+  - Jobbar vidare med styling tillsammans med Pekka.
+
+Pekka:
+  - Tar tag i övergripande styling, hjälper micke.
+
+Utestående
+  - Problem med databasen, åtkomsten görs med olika strategier.
+  - Problem med enhetstester, behöver städas upp (ej DRY).
+
+
 ## Minnesanteckningar sprint avslutningsmöte 18/3.
 
 #### Problem (osorterade & oprioriterade)
