@@ -20,7 +20,7 @@ namespace yalms.Controllers
         protected YalmContext context;
 
 
-        public ActionResult Index()
+        public ViewResult Index()
         {
             // debugkod
             IDateProvider today = new DummyDateProvider(DateTime.Now);
@@ -28,13 +28,13 @@ namespace yalms.Controllers
             // Alle added code to redirect depending un succesfull
             if (userProvider.Role() == "teacher")
             {
-                return RedirectToAction("Schedule", "Teacher");
+                return View("Schedule", "Teacher");
             }
             if (userProvider.Role() == "student")
             {
-                return RedirectToAction("MainView", "Student");
+                return View("MainView", "Student");
             }
-            return View();
+            return View("Index");
         }
 
         public ActionResult About()
