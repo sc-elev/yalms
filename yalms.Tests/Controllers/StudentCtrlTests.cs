@@ -205,9 +205,9 @@ namespace yalms.Tests.Controllers
                 new ApplicationUser("J Edgar Hoover"),
             };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
-                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 4},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 4},
             };
             var classes = new List<SchoolClass> {
                 new SchoolClass {Name = "7b", SchoolClassID = 1},
@@ -252,9 +252,9 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
-                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 5},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
             };
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {
@@ -322,9 +322,9 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
-                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 5},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
             };
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {
@@ -389,9 +389,9 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
             var classMembers = new List<SchoolClassStudent> {
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 0},
-                new SchoolClassStudent { SchoolClassID = 1, SchoolClassStudentID = 1},
-                new SchoolClassStudent { SchoolClassID = 2, SchoolClassStudentID = 5},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 0},
+                new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 1},
+                new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
             };
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {

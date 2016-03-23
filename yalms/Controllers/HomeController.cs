@@ -18,7 +18,7 @@ namespace yalms.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "yalms. Yet Another Learning Management System.";
+            ViewBag.Message = "yalms: Yet Another Learning Management System.";
 
             return View();
         }
