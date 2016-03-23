@@ -54,9 +54,14 @@ namespace yalms.Models
                         .Where(s => s.Course.SchoolClassID == sc.SchoolClassID)
                         .OrderBy(w => w.SlotNR)
                         .ToList();
-            Date = dateProvider.Today().ToString("yyyy-MM-dd");
-            var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
             Today = dateProvider.Today();
+            var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
+
+            var month = CultureInfo
+                            .CurrentCulture
+                            .DateTimeFormat
+                            .GetAbbreviatedMonthName(Today.Month);
+            Date = Today.Day + " " + month;
             WeekNr = cultureInfo.Calendar.GetWeekOfYear(
                 Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
             WeekDay = cultureInfo.DateTimeFormat.GetDayName(Today.DayOfWeek);

@@ -222,7 +222,7 @@ namespace yalms.Tests.Controllers
 
             var action = (ViewResult)controller.MainView();
 
-            Assert.AreEqual("2016-03-26", 
+            Assert.AreEqual("26 mar", 
                             ((StudentMainViewModel)action.Model).Date);    
         }
 

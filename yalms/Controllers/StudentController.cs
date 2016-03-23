@@ -59,6 +59,16 @@ namespace yalms.Controllers
             return RedirectToAction("MainView");
         }
 
+
+        public ActionResult MainViewToday()
+        {
+            var model =
+                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
+            TempData["StudentViewModel"] = model;
+            return RedirectToAction("MainView");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing) context.Dispose();
