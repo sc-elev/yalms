@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Registrera";
 }
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 <h3>Associate your @ViewBag.LoginProvider account.</h3>
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -13,7 +13,7 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <p class="text-info">
-        Du har med framgång autentiserat dig med <strong>@ViewBag.LoginProvider</strong>.
+        Du har framgångsrikt autentiserat dig med <strong>@ViewBag.LoginProvider</strong>.
         Vänligen ange ett användarnamn nedan och klicka OK för att avsluta inloggning.
     </p>
     <div class="form-group">

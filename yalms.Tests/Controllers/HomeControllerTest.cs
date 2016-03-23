@@ -35,7 +35,7 @@ namespace yalms.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual("yalms: Yet Another Learning Management System.", 
+            Assert.AreEqual("yalms | Yet Another Learning Management System", 
                             result.ViewBag.Message);
         }
 
