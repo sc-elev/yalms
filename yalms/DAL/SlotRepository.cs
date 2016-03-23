@@ -31,10 +31,12 @@ namespace yalms.DAL
         {
             var weekNr = CustomConversion.GetWeekFromDate(date);
 
+            //Varning Halvful kod.
             var listOfSlots = (from slot in context.Slots
-                                where slot.CourseID == courseID &&
-                                      CustomConversion.GetWeekFromDate(slot.When.Date) == weekNr
-                                select slot).ToList();
+                                where slot.CourseID == courseID
+                               select slot).ToList().Where(o => CustomConversion.GetWeekFromDate(o.When) == weekNr).ToList();
+
+            // remove all thats the wrong week. -- CustomConversion.GetWeekFromDate(slot.When.Date) == weekNr
 
             var allCourses = new CourseRepository().GetAllCourses();
             var allRooms = new RoomRepository().GetAllRooms();

@@ -7,6 +7,7 @@ using yalms.Models;
 
 // must be present for 
 using Microsoft.AspNet.Identity;
+using yalms.DAL;
 
 namespace yalms.Controllers
 {
@@ -58,8 +59,59 @@ namespace yalms.Controllers
 
             TeacherScheduleViewModel model = new TeacherScheduleViewModel((DateTime)Session["selectedDate"], teacher_UserID);
 
+            if (Session["selectedSlot"] != null)
+            {
+                var slot = (Slot)Session["selectedSlot"];
+                if (slot.SlotID != -1)
+                {
+                    model.FormSelectedCourse = (int)slot.CourseID;
+                    model.FormSelectedRoom = (int)slot.RoomID;
+
+                }
+            }
+
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult SlotForm(TeacherScheduleViewModel pageviewmodel)
+        {
+            if (Session["selectedSlot"] != null)
+            {
+                var slot = (Slot)Session["selectedSlot"];
+                // update from form
+                slot.CourseID = pageviewmodel.FormSelectedCourse;
+                slot.RoomID = pageviewmodel.FormSelectedRoom;
+
+                if (slot.SlotID == -1)
+                {
+                    // Creat new slot
+                    new SlotRepository().InsertSlot(slot);
+                }
+                else
+                {
+                    // Update Existing Slot
+                    new SlotRepository().UpdateSlot(slot);
+                }
+
+
+                //var b = model.FormSelectedCourse;
+
+                Session["selectedSlot"] = null;
+            }
+
+            return RedirectToAction("Schedule");
+        }
+
+        public ActionResult SlotClick(Slot clickedSlot, TeacherScheduleViewModel model)
+        {
+
+            Session["selectedSlot"] = clickedSlot;
+
+
+            return RedirectToAction("Schedule");
+        }
+
 
         public TeacherController()
         {

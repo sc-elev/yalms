@@ -14,7 +14,10 @@ namespace yalms.Models
         [Key]
         public int RoomID { get; set; }
 
-        [Display(Name = "Description")]
+        [Display(Name = "Namn")]
+        public string Name { get; set; }
+
+        [Display(Name = "Beskrivning")]
         public string Description  { get; set; }
 
 

@@ -289,7 +289,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SetUserRole.cshtml" />
     <Content Include="Views\Student\MainView.cshtml" />
-
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
     <Content Include="Views\Teacher\Administration.cshtml" />
     <Content Include="Views\Teacher\Assignment.cshtml" />

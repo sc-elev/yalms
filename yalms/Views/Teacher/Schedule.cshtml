@@ -20,21 +20,67 @@ Schedule - SelectedCourse: @Model.SelectedCourse
     </div>
     <div class="SecondCol">
 
-        <div class="DayColumn">&nbsp;</div>
+        <div class="DayColumn">
+            @for (var s = 1; s < Model.SlotTimings.Count; s++)
+            {
+                <div class="TimeSlot">
+                    @Model.SlotTimings[s].FormatFrom() - @Model.SlotTimings[s].FormatTo()
+                </div>
+            }
+        </div>
 
-        @for(var i = 1; i < 6; i++)
+
+
+        @for(var i = 0; i < 5; i++)
         {
-            @: <div class="DayColumn">&nbsp;</div>
+            var course = Model.Courses.FirstOrDefault(o => o.CourseID == Model.SelectedCourse);
+            var dailyDate = Model.FirstDayOfWeek.AddDays(i);
+            var dailySlots = course.Slots.Where(o => o.When.Date == dailyDate.Date);
+            
+            <div class="DayColumn">
+            @for (var s = 1; s < Model.SlotTimings.Count; s++)
+            {
+                var slot = dailySlots.FirstOrDefault(o => o.SlotNR == s);
+
+                if (slot != null)
+                {
+                    //if slot is full
+                    <a href="@Url.Action("SlotClick","Teacher", new yalms.Models.Slot { SlotID= slot.SlotID, SlotNR = slot.SlotNR, When = slot.When })">
+                        <div class="Slot">
+                            @slot.Room.Name -
+                            @slot.Course.Name
+                        </div>
+                    </a>
+                }
+                else
+                {
+                //if slot is empty
+                <a href="@Url.Action("SlotClick","Teacher", new yalms.Models.Slot { SlotID= -1, SlotNR = s, When = Model.FirstDayOfWeek.AddDays(i) })">
+                    <div class="EmptySlot">
+                        &nbsp; 
+                    </div>
+                </a>
+                }
+            }
+            </div>
         }
 
-        
 
-  
+
+
 
     </div>
     <div class="ThirdCol">
-
-
+        @using (Html.BeginForm("SlotForm", "Teacher", FormMethod.Post, new { pageviewmodel = Model }))
+        {
+            @Html.Label("Välj kurs")
+            @Html.DropDownListFor(m => m.FormSelectedCourse, Model.CourseSelectionData)
+            <br />
+            @Html.Label("Välj sal")
+            @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData)
+            <br />
+            <input type="submit" value="Spara vald slot" />
+        }
     </div>
 </div>
 
@@ -50,7 +96,7 @@ Schedule - SelectedCourse: @Model.SelectedCourse
     .SecondCol {
                 float: left;
         display: inline-block;
-        width: 600px;
+        width: 700px;
         border: 1px solid green;
                 height: 800px;
     }
@@ -64,14 +110,44 @@ Schedule - SelectedCourse: @Model.SelectedCourse
     }
 
     .DayColumn {
-
+        padding: 1px;
         display: inline-block;
-        width: 75px;
-        border: 1px solid black;
+        width: 85px;
+        border: 0px solid black;
         height: 400px;
     }
 
+    .TimeSlot {
+        color: #DDDDDD;
+        background-color: #2c9f00;
+        border: 1px solid #4cff00;
+                width: 80px;
+                display: inline-block;
+                font-size: 10px;
+                height: 45px;
+                text-align: center;
+    }
 
+        .Slot {
+        color: #DDDDDD;
+        background-color: #2c009f;
+        border: 1px solid #4c00ff;
+                width: 80px;
+                display: inline-block;
+                font-size: 10px;
+                height: 45px;
+                text-align: center;
+    }
 
+                .EmptySlot {
+        color: #DDDDDD;
+        background-color: #FFFFFF;
+        border: 1px solid #4c00ff;
+                width: 80px;
+                display: inline-block;
+                font-size: 10px;
+                height: 45px;
+                text-align: center;
+    }
 
 </style>

@@ -414,7 +414,7 @@ namespace yalms.Tests.Controllers
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student");
+                new DummyUserProvider("J Edgar Hoover", "student",1);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());

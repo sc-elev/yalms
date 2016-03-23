@@ -10,16 +10,34 @@ namespace yalms.Models
     public class TeacherScheduleViewModel
     {
         public List<Course> Courses { get; set; }
-        public int SelectedCourse { get; set; }
-        public SlotTimingInfo Timings { get; set; }
         public List<SelectListItem> CourseSelectionData { get; set; }
+        public int SelectedCourse { get; set; }
+        public int FormSelectedCourse { get; set; }
+
+        public List<SelectListItem> RoomSelectionData { get; set; }
+        public int FormSelectedRoom { get; set; }
+
+        public List<TimingInfo> SlotTimings { get; set; }
+
+        public Slot SelectedSlot { get; set; }
+
+        public DateTime FirstDayOfWeek { get; set; }
 
         public TeacherScheduleViewModel() {}
 
         public TeacherScheduleViewModel(DateTime date, int teacher_UserID)
         {
-            Timings = new SlotTimingInfo();
-          
+            SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
+
+            FirstDayOfWeek = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(date);
+
+            // populate rooms
+            var Rooms = new RoomRepository().GetAllRooms();
+            RoomSelectionData = new List<SelectListItem>();
+            foreach (var room in Rooms) {
+                RoomSelectionData.Add(new SelectListItem { Text = room.Name, Value = room.RoomID.ToString() });
+            }
+
             // populate full courses data.
             Courses = new CourseRepository().GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
 
