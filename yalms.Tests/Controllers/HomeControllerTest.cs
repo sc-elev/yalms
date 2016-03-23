@@ -15,9 +15,8 @@ namespace yalms.Tests.Controllers
     public class HomeControllerTest
     {
         [Test]
-        public void Index()
+        public void IndexAsStudent()
         {
-            // Arrange
             IUserProvider who =
                 new DummyUserProvider("J Edgar Hoover", "student", 1);
             var context = new Mock<YalmContext>();
@@ -26,11 +25,49 @@ namespace yalms.Tests.Controllers
             HomeController controller = 
                 new HomeController(today,  who, context.Object);
 
-            // Act
-            ActionResult result = controller.Index() as ActionResult;
+            ViewResult result = controller.Index();
 
-            // Assert
             Assert.IsNotNull(result);
+            Assert.AreEqual("Student", result.MasterName);
+            Assert.AreEqual("MainView", result.ViewName);
+        }
+
+
+        [Test]
+        public void IndexAsTeacher()
+        {
+            IUserProvider who =
+                new DummyUserProvider("J Edgar Hoover", "teacher", 1);
+            var context = new Mock<YalmContext>();
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
+
+            HomeController controller =
+                new HomeController(today, who, context.Object);
+
+            ViewResult result = controller.Index();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Teacher", result.MasterName);
+            Assert.AreEqual("Schedule", result.ViewName);
+        }
+
+
+        [Test]
+        public void IndexAsNotRgistered()
+        {
+            IUserProvider who =
+                new DummyUserProvider("J Edgar Hoover", "", 1);
+            var context = new Mock<YalmContext>();
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
+
+            HomeController controller =
+                new HomeController(today, who, context.Object);
+
+            ViewResult result = controller.Index();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("", result.MasterName);
+            Assert.AreEqual("Index", result.ViewName);
         }
 
         [Test]
