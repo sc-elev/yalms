@@ -1,6 +1,6 @@
 ﻿@model yalms.Models.ExternalLoginConfirmationViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Registrera";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>Associate your @ViewBag.LoginProvider account.</h3>
@@ -9,13 +9,12 @@
 {
     @Html.AntiForgeryToken()
 
-    <h4>Association Form</h4>
+    <h4>Associeringsformulär</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <p class="text-info">
-        You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
-        Please enter a user name for this site below and click the Register button to finish
-        logging in.
+        Du har med framgång autentiserat dig med <strong>@ViewBag.LoginProvider</strong>.
+        Vänligen ange ett användarnamn nedan och klicka OK för att avsluta inloggning.
     </p>
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -26,7 +25,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="OK" />
         </div>
     </div>
 }
