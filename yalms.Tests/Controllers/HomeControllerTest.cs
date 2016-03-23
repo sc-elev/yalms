@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using yalms;
 using yalms.Controllers;
 using NUnit.Framework;
+using yalms.Models;
+using Moq;
 
 namespace yalms.Tests.Controllers
 {
@@ -16,10 +18,16 @@ namespace yalms.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            IUserProvider who =
+                new DummyUserProvider("J Edgar Hoover", "student", 1);
+            var context = new Mock<YalmContext>();
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
+
+            HomeController controller = 
+                new HomeController(today,  who, context.Object);
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ActionResult result = controller.Index() as ActionResult;
 
             // Assert
             Assert.IsNotNull(result);

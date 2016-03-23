@@ -17,12 +17,13 @@ namespace yalms.Controllers
     {
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
+        protected YalmContext context;
 
 
         public ActionResult Index()
         {
             // debugkod
-            userProvider = new UserProvider(this);
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
 
             // Alle added code to redirect depending un succesfull
             if (userProvider.Role() == "teacher")
@@ -48,6 +49,22 @@ namespace yalms.Controllers
             ViewBag.Message = "StudentConsulting";
 
             return View();
+        }
+
+        public HomeController() 
+        {
+            dateProvider = new DateProvider();
+            userProvider = new UserProvider(this);
+            context = new EFContext();
+        }
+
+        public HomeController(IDateProvider when, 
+                              IUserProvider who, 
+                              YalmContext ctx)
+        {
+            dateProvider = when;
+            userProvider = who;
+            context = ctx;
         }
     }
 }
