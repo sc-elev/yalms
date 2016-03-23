@@ -22,6 +22,17 @@ namespace yalms.Migrations
 
         private  ApplicationUser teacher1;
         private  ApplicationUser teacher2;
+
+
+        public DateTime FirstDayOfWeek(DateTime date)
+        {
+            var candidateDate = date;
+            while (candidateDate.DayOfWeek != DayOfWeek.Monday)
+            {
+                candidateDate = candidateDate.AddDays(-1);
+            }
+            return candidateDate;
+        }
         
 
         private void seedRoles(EFContext ctx)
@@ -82,7 +93,11 @@ namespace yalms.Migrations
                 new Course { Name = "Svenska A", SchoolClassID = 1, 
                              Teacher_UserID = teacher2.Id },
                 new Course { Name = "SO 3", SchoolClassID = 2, 
-                             Teacher_UserID = teacher2.Id }
+                             Teacher_UserID = teacher2.Id },
+                new Course { Name = "Engelska A", SchoolClassID = 1, 
+                             Teacher_UserID = teacher2.Id },
+                new Course { Name = "Idrott & hälsa", SchoolClassID = 1, 
+                             Teacher_UserID = teacher2.Id },
             };
             foreach (var course in courses) ctx.Courses.AddOrUpdate(course);
             ctx.SaveChanges();
@@ -104,6 +119,7 @@ namespace yalms.Migrations
             foreach (var member in classMembers) ctx.SchoolClassStudents.AddOrUpdate(member);
         }
 
+
         public void seedSlots(EFContext ctx)
         {
             var rooms = new List<Room> {
@@ -111,14 +127,37 @@ namespace yalms.Migrations
                     new Room { RoomID = 2, Description = "F200" }
             };
             foreach (var room in rooms) ctx.Rooms.AddOrUpdate(room);
-            
-            var today = DateTime.Now.Date;
 
+            var monday = FirstDayOfWeek(DateTime.Today);
             var slots = new List<Slot> {
-                    new Slot {CourseID = 1, RoomID = 1, When = today, SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = today, SlotNR = 2 },
-                    new Slot {CourseID = 3, RoomID = 1, When = today.AddDays(1), SlotNR = 1},
-                    new Slot {CourseID = 1, RoomID = 1, When =today, SlotNR = 3 },
+                    new Slot {CourseID = 1, RoomID = 1, When = monday, SlotNR = 1 },
+                    new Slot {CourseID = 2, RoomID = 2, When = monday, SlotNR = 2 },
+                    new Slot {CourseID = 3, RoomID = 1, When = monday, SlotNR = 3},
+                    new Slot {CourseID = 1, RoomID = 1, When = monday, SlotNR = 4 },
+                    new Slot {CourseID = 4, RoomID = 1, When = monday, SlotNR = 5 },
+                    new Slot {CourseID = 4, RoomID = 1, When = monday, SlotNR = 6 },
+                    new Slot {CourseID = 5, RoomID = 1, When = monday, SlotNR = 7 },
+                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(1), SlotNR = 1 },
+                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(1), SlotNR = 2 },
+                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(1), SlotNR = 3},
+                    new Slot {CourseID = 5, RoomID = 1, When = monday.AddDays(1), SlotNR = 4 },
+                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(1), SlotNR = 5 },
+                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(2), SlotNR = 1 },
+                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(2), SlotNR = 2 },
+                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(2), SlotNR = 3},
+                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(2), SlotNR = 5},
+                    new Slot {CourseID = 3, RoomID = 1, When = monday.AddDays(2), SlotNR = 6 },
+                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(3), SlotNR = 1 },
+                    new Slot {CourseID = 3, RoomID = 2, When = monday.AddDays(3), SlotNR = 4 },
+                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(3), SlotNR = 3},
+                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(3), SlotNR = 5},
+                    new Slot {CourseID = 5, RoomID = 1, When = monday.AddDays(3), SlotNR = 7 },
+                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(4), SlotNR = 1 },
+                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(4), SlotNR = 2 },
+                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(4), SlotNR = 3},
+                    new Slot {CourseID = 4, RoomID = 2, When = monday.AddDays(4), SlotNR = 5},
+                    new Slot {CourseID = 3, RoomID = 1, When = monday.AddDays(4), SlotNR = 6 },
+                    new Slot {CourseID = 5, RoomID = 1, When = monday, SlotNR = 7 },
             };
             foreach (var slot in slots) ctx.Slots.AddOrUpdate(slot);
         }
@@ -128,7 +167,8 @@ namespace yalms.Migrations
         {
             AutomaticMigrationsEnabled = true;
         }
-
+        
+        
         protected override void Seed(yalms.Models.EFContext ctx)
         {
             seedRoles(ctx);
