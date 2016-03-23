@@ -1,3 +1,16 @@
+##  Sprintavslutning  23/3
+
+Problem:
+  - Git-hantering.
+  - Dålig kommunination micke-alex, db access har blivit rörig.
+  - För lite rebase.
+  - Fokusera på det egentliga målet, låt arbetspaketen styra.
+
+Bra saker:
+  - UI-specen.
+  - Tydliga prioriteringar.
+
+
 ## Scrummöte 23/3
 
 Alexander
