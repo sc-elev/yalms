@@ -195,7 +195,7 @@ namespace yalms.Tests.Controllers
         {
             IDateProvider today = new DummyDateProvider("2016-03-26");
             IUserProvider who = 
-                new DummyUserProvider("J Edgar Hoover", "student");
+                new DummyUserProvider("J Edgar Hoover", "student",1);
             var _today = DateTime.Now.Date;
             var slots = new List<Slot> {
                 new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(8) },
@@ -283,7 +283,7 @@ namespace yalms.Tests.Controllers
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student");
+                new DummyUserProvider("J Edgar Hoover", "student",1);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());
@@ -351,7 +351,7 @@ namespace yalms.Tests.Controllers
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student");
+                new DummyUserProvider("J Edgar Hoover", "student",1);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());

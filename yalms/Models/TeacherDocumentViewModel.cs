@@ -5,7 +5,7 @@ using System.Web;
 
 namespace yalms.Models
 {
-    public class TeascherAdministrationViewModel
+    public class TeacherDocumentViewModel
     {
     }
 }

@@ -36,6 +36,8 @@ namespace yalms.Models
         public ApplicationUser Teacher_User { get; set; }
         [NotMapped]
         public List<Assignment> Assignments { get; set; }
+        [NotMapped]
+        public List<Slot> Slots { get; set; }
 
     }
 }

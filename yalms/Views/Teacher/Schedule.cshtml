@@ -1,5 +1,77 @@
-﻿@{
+﻿@model yalms.Models.TeacherScheduleViewModel
+@{
     Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
 }
-Schedule
+Schedule - SelectedCourse: @Model.SelectedCourse
 
+<div>
+    <div class="FirstsCol">
+        @{
+            if (Model.Courses.Count > 0)
+            {
+                @Html.Label("Välj kurs")
+                @Html.DropDownListFor(m => m.SelectedCourse, Model.CourseSelectionData)
+            }
+            else
+            {
+                @Html.Label("Du har inga kurser")
+            }
+        }
+    </div>
+    <div class="SecondCol">
+
+        <div class="DayColumn">&nbsp;</div>
+
+        @for(var i = 1; i < 6; i++)
+        {
+            @: <div class="DayColumn">&nbsp;</div>
+        }
+
+        
+
+  
+
+    </div>
+    <div class="ThirdCol">
+
+
+    </div>
+</div>
+
+<style>
+    .FirstsCol {
+        float: left;
+        display: inline-block;
+        width: 200px;
+        border: 1px solid red;
+                height: 400px;
+    }
+
+    .SecondCol {
+                float: left;
+        display: inline-block;
+        width: 600px;
+        border: 1px solid green;
+                height: 800px;
+    }
+
+    .ThirdCol {
+        float: left;
+        display: inline-block;
+        width: 200px;
+        border: 1px solid blue;
+                height: 400px;
+    }
+
+    .DayColumn {
+
+        display: inline-block;
+        width: 75px;
+        border: 1px solid black;
+        height: 400px;
+    }
+
+
+
+
+</style>

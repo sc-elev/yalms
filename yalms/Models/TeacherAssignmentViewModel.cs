@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 
 namespace yalms.Models
 {
-    public class TeascherAssignmentViewModel
+    public class TeacherAssignmentViewModel
     {
         // Populate courses with Classes that is populated with students and assignments
         public List<Course> Courses { get; set; }

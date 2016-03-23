@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace yalms.Models
 {
@@ -11,6 +12,7 @@ namespace yalms.Models
     {
         string Who();
         string Role();
+        int UserID();
     }
 
 
@@ -18,15 +20,20 @@ namespace yalms.Models
     {
         private string who;
         private string role;
+        private int userID;
+
 
         public string Who()   { return who;  }
 
         public string Role()  {  return role;   }
 
-        public DummyUserProvider(string w, string r)
+        public int UserID()  {  return userID;   }
+
+        public DummyUserProvider(string w, string r, int u)
         {
             who = w;
             role = r;
+            userID = u;
         }
     }
 
@@ -45,6 +52,10 @@ namespace yalms.Models
         }
 
         public string Who()  { return controller.User.Identity.Name; }
+
+        public int UserID() { 
+            return Convert.ToInt32( controller.User.Identity.GetUserId());
+        }
 
         public UserProvider(Controller c) { controller = c; }
 

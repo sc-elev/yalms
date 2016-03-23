@@ -11,8 +11,8 @@ namespace yalms.DAL
     public interface ICourseRepository : IDisposable 
     {
 
-        IEnumerable<Course> GetAllCourses(); 
-
+        IEnumerable<Course> GetAllCourses();
+        IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date);
 
         Course GetCourseByID(int? courseID); 
 

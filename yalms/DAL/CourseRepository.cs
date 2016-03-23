@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace yalms.DAL
 {
@@ -24,7 +25,7 @@ namespace yalms.DAL
         #endregion
 
         #region Get all Courses.
-        public IEnumerable<Course> GetAllCoursesByTeacherID_Full(int teacher_UserID)
+        public IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date)
         {
 
             var courses = (from cour in context.Courses
@@ -36,8 +37,8 @@ namespace yalms.DAL
             {
                 course.SchoolClass = new SchoolClassRepository().GetSchoolClassBySchoolClassID_Full(course.SchoolClassID);
                 course.Assignments = new AssignmentRepository().GetAllAssignmentsByCourseID(course.CourseID);
+                course.Slots = new SlotRepository().GetTeachersWeeklySheduleByCourseIDAndDate_Full(course.CourseID, date);
             }
-
 
             return courses;
         }
@@ -50,8 +51,6 @@ namespace yalms.DAL
         {
             // Get single Course by its unique ID
             var course = context.Courses.SingleOrDefault(o => o.CourseID == courseID);
-
-
 
             return course;
         }
@@ -82,6 +81,10 @@ namespace yalms.DAL
             // Get Course by ID.
             Course course = context.Courses.SingleOrDefault(o => o.CourseID == courseID);
             context.Courses.Remove(course);
+
+            // Save context changes.
+            Save();
+            Dispose();
         }
         #endregion
 

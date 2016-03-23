@@ -221,10 +221,10 @@
     <Compile Include="Models\SchoolClassStudent.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\StudentMainViewModel.cs" />
-    <Compile Include="Models\TeascherAdministrationViewModel.cs" />
-    <Compile Include="Models\TeascherAssignmentViewModel.cs" />
-    <Compile Include="Models\TeascherDocumentViewModel.cs" />
-    <Compile Include="Models\TeascherScheduleViewModel.cs" />
+    <Compile Include="Models\TeacherAdministrationViewModel.cs" />
+    <Compile Include="Models\TeacherAssignmentViewModel.cs" />
+    <Compile Include="Models\TeacherDocumentViewModel.cs" />
+    <Compile Include="Models\TeacherScheduleViewModel.cs" />
     <Compile Include="Models\Upload.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\UserProvider.cs" />
@@ -289,15 +289,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SetUserRole.cshtml" />
     <Content Include="Views\Student\MainView.cshtml" />
+
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
     <Content Include="Views\Teacher\Administration.cshtml" />
     <Content Include="Views\Teacher\Assignment.cshtml" />
     <Content Include="Views\Teacher\Document.cshtml" />
     <Content Include="Views\Teacher\Schedule.cshtml" />
+    <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Student\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -8,25 +8,34 @@
 <body>
 
     <div class="TopLayout">
-        <div>
-            @Html.ActionLink("yalms", "Index", "Home");
+        <div class="MenuItem">
+            @Html.ActionLink("yalms", "Index", "Home")
         </div>
-
+        <div class="MenuItem">
+            @Html.ActionLink("yalms", "Schedule", "Teacher")
+        </div>
+        <div class="MenuItem">
+            @Html.Partial("_LoginPartial")
+        </div>
     </div>
-
     <div>
         @RenderBody()
-    </div>
 
     <style>
         .TopLayout {
+            display: inline-block;
             height: 35px;
-            color: #AFAFAF;
-            background-color: #4646Af;
-            font-size: 25px;
+            width: 100%; 
+
+            color: #FFFFFF;
+            background-color: #86869f;
+            font-size: 23px;
             font-family: 'Segoe UI', 'verdana', 'Arial';
             padding: 3px 3px 6px 20px;
         }
+     .MenuItem {
+         padding-bottom: 50px;
+     }
     </style>
 </body>
 </html>
