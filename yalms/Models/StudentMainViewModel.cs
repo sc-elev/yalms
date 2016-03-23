@@ -27,7 +27,7 @@ namespace yalms.Models
                 .Where(u => u.UserName == studentName)
                 .SingleOrDefault();
             SchoolClassStudent scs = context.GetSchoolClassStudents()
-                .Where(s => s.SchoolClassStudentID == user.Id)
+                .Where(s => s.Student_UserID == user.Id)
                 .SingleOrDefault();
             SchoolClass sc = context.GetSchoolClasses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)

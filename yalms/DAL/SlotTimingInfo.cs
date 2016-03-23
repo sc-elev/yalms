@@ -19,12 +19,12 @@ namespace yalms.DAL
             end = DateTime.ParseExact(to, "HH:mm", provider);
         }
 
-        public string FormatFrom(string format = "hh:mm")
+        public string FormatFrom(string format = "HH:mm")
         {
             return start.ToString(format);
         }
 
-        public string FormatTo(string format = "hh:mm")
+        public string FormatTo(string format = "HH:mm")
         {
             return end.ToString(format);
         }

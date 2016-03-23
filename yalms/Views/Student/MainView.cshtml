@@ -13,7 +13,7 @@
             v @Model.WeekNr, @Model.Today.Year &bull; 
              @Model.WeekDay @Model.Date &bull;  @Model.SchoolClass
             @Html.ActionLink("<", "MainViewPrevDay")
-            @if (DateTime.Now.Date == Model.Today)
+            @if (DateTime.Now.Date != Model.Today)
             { 
                 @Html.ActionLink("Idag", "MainViewToday")
             }
