@@ -22,6 +22,13 @@ namespace yalms.Models
             UserName = userName;
         }
 
+        public ApplicationUser(string userName, int Id)
+            : base()
+        {
+            CreatedAt = DateTime.Now;
+            UserName = userName;
+            this.Id = Id;
+        }
         public ApplicationUser() : base() 
         {
             CreatedAt = DateTime.Now;
