@@ -51,18 +51,19 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Get all Uploads one specific student
-        public IEnumerable<Upload> GetAllUploadsByStudentUserID(int studentUserID)
-        {
+        // FIXME: Not currently used, and referring to non-existing course_students.
+        //#region Get all Uploads one specific student
+        //public IEnumerable<Upload> GetAllUploadsByStudentUserID(int studentUserID)
+        //{
 
-            return (from uplo in context.Uploads
-                    join assi in context.Assignments on uplo.AssignmentID equals assi.AssignmentID
-                    join cour in context.Courses on assi.AssignmentID equals cour.CourseID
-                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-                    where cost.Course_StudentID == studentUserID
-                    select uplo);
-        }
-        #endregion
+        //    return (from uplo in context.Uploads
+        //            join assi in context.Assignments on uplo.AssignmentID equals assi.AssignmentID
+        //            join cour in context.Courses on assi.AssignmentID equals cour.CourseID
+        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
+        //            where cost.Course_StudentID == studentUserID
+        //            select uplo);
+        //}
+        //#endregion
 
         #region Get Upload by its Upload ID without populating foregin key data
         public Upload GetUpload_SimpleByID(int? uploadID)

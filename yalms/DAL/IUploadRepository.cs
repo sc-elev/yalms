@@ -13,11 +13,13 @@ namespace yalms.DAL
 
     public interface IUploadRepository : IDisposable 
     { 
-        IEnumerable<Upload> GetAllUploads();
+        //IEnumerable<Upload> GetAllUploads();
+        // FIXME: disabled due to broken implementation.
 
         IEnumerable<Upload> GetAllUploadsByTeacherUserID(int teacherUserID);
         IEnumerable<Upload> GetAllUploadsBySchoolClassID(int schoolClassID);
-        IEnumerable<Upload> GetAllUploadsByStudentUserID(int studentUserID);
+        // FIXME: disabled due to broken implementation.
+        //IEnumerable<Upload> GetAllUploadsByStudentUserID(int studentUserID);
 
         Upload GetUpload_SimpleByID(int? uploadID); 
         Upload GetUploadByID(int? uploadID); 

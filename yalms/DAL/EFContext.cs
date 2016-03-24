@@ -16,8 +16,6 @@ namespace yalms.Models
 
         IList<Course> GetCourses();
 
-        IList<Course_Student> GetCourse_Students();
-
         IList<Room> GetRooms();
 
         IList<SchoolClass> GetSchoolClasses();
@@ -56,8 +54,6 @@ namespace yalms.Models
 
         public virtual DbSet<Course> Courses { get; set; }
 
-        public virtual DbSet<Course_Student> Course_Students { get; set; }
-
         public virtual DbSet<Room> Rooms { get; set; }
 
         public virtual DbSet<SchoolClass> SchoolClasses { get; set; }
@@ -76,11 +72,6 @@ namespace yalms.Models
         public virtual IList<Course> GetCourses()
         {
             return Courses.ToList();
-        }
-
-        public virtual IList<Course_Student> GetCourse_Students()
-        {
-            return Course_Students.ToList();
         }
 
         public virtual IList<Room> GetRooms()
