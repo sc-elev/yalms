@@ -18,12 +18,11 @@ namespace yalms.DAL
         public List<ApplicationUser> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID)
         {
 
-            return (from apus in context.Users
-                           join cost in context.Course_Students on apus.Id equals cost.Student_UserID
-                           join cour in context.Courses on cost.CourseID equals cour.CourseID
+            return ( from apus in context.GetUsers()
+                           join cost in context.GetSchoolClassStudents() on apus.Id equals cost.Student_UserID
+                           join cour in context.GetCourses() on cost.SchoolClassID  equals cour.SchoolClassID
                            where cour.SchoolClassID == schoolClassID
                            select apus
-                
                 ).ToList();
 
         }
