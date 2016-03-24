@@ -13,7 +13,7 @@ namespace yalms.DAL
     public class UserRepository: IUserRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
         public List<ApplicationUser> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID)
         {
@@ -135,6 +135,16 @@ namespace yalms.DAL
         }
 
         #endregion
+
+        public UserRepository()
+        {
+            context = new EFContext();
+        }
+
+        public UserRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
     }
 }

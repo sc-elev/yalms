@@ -15,12 +15,12 @@ namespace yalms.DAL
     public class CourseRepository: ICourseRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
         #region Get all Courses.
         public IEnumerable<Course> GetAllCourses()
         {
-            return context.Courses;
+            return context.GetCourses();
         }
         #endregion
 
@@ -28,16 +28,16 @@ namespace yalms.DAL
         public IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date)
         {
 
-            var courses = (from cour in context.Courses
+            var courses = (from cour in context.GetCourses()
                            where cour.Teacher_UserID == teacher_UserID   
                            select cour
                            );
 
             foreach (var course in courses)
             {
-                course.SchoolClass = new SchoolClassRepository().GetSchoolClassBySchoolClassID_Full(course.SchoolClassID);
-                course.Assignments = new AssignmentRepository().GetAllAssignmentsByCourseID(course.CourseID);
-                course.Slots = new SlotRepository().GetTeachersWeeklySheduleByCourseIDAndDate_Full(course.CourseID, date);
+                course.SchoolClass = new SchoolClassRepository(context).GetSchoolClassBySchoolClassID_Full(course.SchoolClassID);
+                course.Assignments = new AssignmentRepository(context).GetAllAssignmentsByCourseID(course.CourseID);
+                course.Slots = new SlotRepository(context).GetTeachersWeeklySheduleByCourseIDAndDate_Full(course.CourseID, date);
             }
 
             return courses;
@@ -133,6 +133,15 @@ namespace yalms.DAL
 
         #endregion
 
+        public CourseRepository()
+        {
+            context = new EFContext();
+        }
+
+        public CourseRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
 
     }

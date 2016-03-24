@@ -13,7 +13,7 @@ namespace yalms.DAL
     public class AssignmentRepository: IAssignmentRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
 
 
@@ -27,7 +27,7 @@ namespace yalms.DAL
         #region Get all Assignments by courseID
         public List<Assignment> GetAllAssignmentsByCourseID(int courseID)
         {
-            return (from assi in context.Assignments
+            return (from assi in context.GetAssignments()
                         where assi.CourseID == courseID
                         select assi
                         ).ToList();
@@ -122,6 +122,16 @@ namespace yalms.DAL
         }
 
         #endregion
+
+        public AssignmentRepository()
+        {
+            context = new EFContext();
+        }
+
+        public AssignmentRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
       
     }
