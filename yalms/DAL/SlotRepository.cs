@@ -51,16 +51,17 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Get students daily Schedule by date
-        public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when)
-        {
-            return (from slot in context.Slots
-                    join cour in context.Courses on slot.CourseID equals cour.CourseID
-                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-                    where cost.Student_UserID == studentUserID && slot.When == when
-                    select slot);
-        }
-        #endregion
+        // FIXME: Not used, and referring to not-.existing Course_students table.
+        //#region Get students daily Schedule by date
+        //public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when)
+        //{
+        //    return (from slot in context.Slots
+        //            join cour in context.Courses on slot.CourseID equals cour.CourseID
+        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
+        //            where cost.Student_UserID == studentUserID && slot.When == when
+        //            select slot);
+        //}
+        //#endregion
 
         #region Get students weekly Schedule by Student_userID, week,day
         //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when)
