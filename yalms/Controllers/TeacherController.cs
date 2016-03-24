@@ -57,7 +57,8 @@ namespace yalms.Controllers
             catch { }
             //var userID = user.Id;
 
-            TeacherScheduleViewModel model = new TeacherScheduleViewModel((DateTime)Session["selectedDate"], teacher_UserID);
+            TeacherScheduleViewModel model = 
+                new TeacherScheduleViewModel((DateTime)Session["selectedDate"], teacher_UserID, context);
 
             if (Session["selectedSlot"] != null)
             {
@@ -75,12 +76,11 @@ namespace yalms.Controllers
                         model.FormSelectedRoom = (int)slot.RoomID;
                     }
                     catch { }
-
                 }
             }
-
             return View(model);
         }
+
 
         [HttpPost]
         public ActionResult SlotForm(TeacherScheduleViewModel pageviewmodel)
@@ -94,23 +94,18 @@ namespace yalms.Controllers
 
                 if (slot.SlotID == -1)
                 {
-                    // Creat new slot
                     new SlotRepository().InsertSlot(slot);
                 }
                 else
                 {
-                    // Update Existing Slot
                     new SlotRepository().UpdateSlot(slot);
                 }
-
-
                 //var b = model.FormSelectedCourse;
-
                 Session["selectedSlot"] = null;
             }
-
             return RedirectToAction("Schedule");
         }
+
 
         public ActionResult DeleteSelectedSlot()
         {
@@ -122,18 +117,14 @@ namespace yalms.Controllers
                     new SlotRepository().DeleteSlot(slot.SlotID);
                 }
             }
-   
-
-
             return RedirectToAction("Schedule");
         }
+
 
         public ActionResult SlotClick(Slot clickedSlot, TeacherScheduleViewModel model)
         {
 
             Session["selectedSlot"] = clickedSlot;
-
-
             return RedirectToAction("Schedule");
         }
 
