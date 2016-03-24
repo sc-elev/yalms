@@ -16,7 +16,7 @@ namespace yalms.DAL
     public class SlotRepository: ISlotRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
 
         #region Get all Slots.
@@ -32,14 +32,14 @@ namespace yalms.DAL
             var weekNr = CustomConversion.GetWeekFromDate(date);
 
             //Varning Halvful kod.
-            var listOfSlots = (from slot in context.Slots
+            var listOfSlots = (from slot in context.GetSlots()
                                 where slot.CourseID == courseID
                                select slot).ToList().Where(o => CustomConversion.GetWeekFromDate(o.When) == weekNr).ToList();
 
             // remove all thats the wrong week. -- CustomConversion.GetWeekFromDate(slot.When.Date) == weekNr
 
-            var allCourses = new CourseRepository().GetAllCourses();
-            var allRooms = new RoomRepository().GetAllRooms();
+            var allCourses = new CourseRepository(context).GetAllCourses();
+            var allRooms = new RoomRepository(context).GetAllRooms();
 
             foreach (var slot in listOfSlots)
             {
@@ -117,7 +117,6 @@ namespace yalms.DAL
         #endregion
 
 
-
         #region Update existing Slot object.
         public void UpdateSlot (Slot newSlot)
         {
@@ -131,9 +130,6 @@ namespace yalms.DAL
             Dispose();
         }
         #endregion
-
-
-
 
 
         #region System functions.
@@ -162,6 +158,17 @@ namespace yalms.DAL
         }
 
         #endregion
+
+
+        public SlotRepository()
+        {
+            context = new EFContext();
+        }
+
+        public SlotRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
 
     }
