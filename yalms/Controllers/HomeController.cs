@@ -17,7 +17,7 @@ namespace yalms.Controllers
     {
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
-        protected YalmContext context;
+        protected EFContext context;
 
 
         public ViewResult Index()
@@ -28,11 +28,17 @@ namespace yalms.Controllers
             // Alle added code to redirect depending un succesfull
             if (userProvider.Role() == "teacher")
             {
-                return View("Schedule", "Teacher");
+                var model = new TeacherScheduleViewModel(dateProvider.Today(), 
+                                                         userProvider.UserID(),
+                                                         context);
+                return View("../Teacher/Schedule", model);
             }
             if (userProvider.Role() == "student")
             {
-                return View("MainView", "Student");
+                var model = new StudentMainViewModel(
+                                  context, userProvider.Who(), dateProvider);
+                TempData["StudentViewModel"] = model;
+                return View("../Student/MainView", model);
             }
             return View("Index");
         }
@@ -60,7 +66,7 @@ namespace yalms.Controllers
 
         public HomeController(IDateProvider when, 
                               IUserProvider who, 
-                              YalmContext ctx)
+                              EFContext ctx)
         {
             dateProvider = when;
             userProvider = who;
