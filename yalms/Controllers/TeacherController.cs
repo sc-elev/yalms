@@ -16,7 +16,7 @@ namespace yalms.Controllers
 
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
-        protected YalmContext context;
+        protected EFContext context;
 
         // GET: Teacher
         public ViewResult Administration()
@@ -145,7 +145,7 @@ namespace yalms.Controllers
             context = new EFContext();
         }
 
-        public TeacherController(IUserProvider u, IDateProvider d, YalmContext c)
+        public TeacherController(IUserProvider u, IDateProvider d, EFContext c)
         {
             dateProvider = d;
             userProvider = u;
