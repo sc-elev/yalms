@@ -25,21 +25,21 @@ namespace yalms.Models
 
         public TeacherScheduleViewModel() {}
 
-        public TeacherScheduleViewModel(DateTime date, int teacher_UserID)
+        public TeacherScheduleViewModel(DateTime date, int teacher_UserID, EFContext ctx)
         {
             SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
 
             FirstDayOfWeek = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(date);
 
             // populate rooms
-            var Rooms = new RoomRepository().GetAllRooms();
+            var Rooms = ctx.GetRooms();
             RoomSelectionData = new List<SelectListItem>();
             foreach (var room in Rooms) {
                 RoomSelectionData.Add(new SelectListItem { Text = room.Name, Value = room.RoomID.ToString() });
             }
 
             // populate full courses data.
-            Courses = new CourseRepository().GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
+            Courses = new CourseRepository(ctx).GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
 
             // Check if courses found
             if (Courses.Count != 0) {
