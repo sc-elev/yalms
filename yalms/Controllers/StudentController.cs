@@ -17,55 +17,45 @@ namespace yalms.Controllers
 
         protected IUserProvider userProvider;
 
-        protected YalmContext context;
+        protected EFContext context;
+
+        protected StudentMainViewModelFactory modelFactory;
      
         public ViewResult MainView()
         {
-            StudentMainViewModel model = 
-                TempData["StudentViewModel"] as StudentMainViewModel;
-            if (model == null)
-            {
-                model = new StudentMainViewModel(context,
-                                                 userProvider.Who(),
-                                                 dateProvider);
-            }
-            TempData["StudentViewModel"] = model;
+            StudentMainViewModel model = modelFactory.Create(null);
             return View(model);
         }
 
-        public ActionResult MainViewNextDay( )
-        {
-            StudentMainViewModel model =
-                 TempData["StudentViewModel"] as StudentMainViewModel;
-            var tomorrow =
-                new DummyDateProvider(model.Today.AddDays(1));
-            var  dateProvider = new DummyDateProvider(tomorrow.Today());
-            model = 
-                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
-            TempData["StudentViewModel"] = model;
-            return RedirectToAction("MainView");
-        }
 
-        public ActionResult MainViewPrevDay()
+        [HttpPost]
+        public ViewResult MainView(StudentMainViewModel model)
         {
-            StudentMainViewModel model =
-                 TempData["StudentViewModel"] as StudentMainViewModel;
-            var yesterday =
-                new DummyDateProvider(model.Today.AddDays(-1));
-            var dateProvider = new DummyDateProvider(yesterday.Today());
-            model =
-                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
-            TempData["StudentViewModel"] = model;
-            return RedirectToAction("MainView");
+            return View(model);
         }
 
 
-        public ActionResult MainViewToday()
+        public ViewResult MainViewNextDay( )
         {
-            var model =
-                new StudentMainViewModel(context, userProvider.Who(), dateProvider);
-            TempData["StudentViewModel"] = model;
-            return RedirectToAction("MainView");
+            StudentMainViewModel model =
+                modelFactory.Create(null, 1);
+            return View("MainView", model);
+        }
+
+
+        public ViewResult MainViewPrevDay()
+        {
+            StudentMainViewModel model =
+                modelFactory.Create(null, -1);
+            return View("MainView", model);
+        }
+
+
+        public ViewResult MainViewToday()
+        {
+            StudentMainViewModel model =
+                modelFactory.Create(dateProvider);
+            return View("MainView", model);
         }
 
 
@@ -75,18 +65,22 @@ namespace yalms.Controllers
             base.Dispose(disposing);
         }
 
+
         public StudentController()
         {
             dateProvider = new DateProvider();
             userProvider = new UserProvider(this);
             context = new EFContext();
+            modelFactory = new StudentMainViewModelFactory(this, context, userProvider);
+
         }
 
-        public StudentController(IUserProvider u, IDateProvider d, YalmContext c)
+        public StudentController(IUserProvider u, IDateProvider d, EFContext c)
         {
             dateProvider = d;
             userProvider = u;
             context = c;
+            modelFactory = new StudentMainViewModelFactory(this, context, userProvider);
         }
     }
 }
