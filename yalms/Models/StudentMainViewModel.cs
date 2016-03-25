@@ -3,10 +3,47 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using yalms.DAL;
 
 namespace yalms.Models
 {
+
+    public class StudentMainViewModelFactory
+    {
+        private Controller controller;
+        private EFContext context;
+        private IUserProvider userProvider;
+        
+        public StudentMainViewModelFactory(Controller controller, 
+                                           EFContext context,  
+                                           IUserProvider user)
+        {
+            this.controller = controller;
+            this.context = context;
+            this.userProvider = user;
+        }
+
+
+        public StudentMainViewModel Create( IDateProvider date, int DaysToAdd = 0)
+        {
+            StudentMainViewModel model =
+                 controller.TempData["studentViewModel"] as StudentMainViewModel;
+
+            var nextDate = date != null ? date.Today() : DateTime.Now.Date;
+            if (model != null && date == null)
+            {
+                nextDate = model.Today;   
+            }
+            nextDate = nextDate.AddDays(DaysToAdd);
+            var nextDay = new DummyDateProvider(nextDate);
+            model =
+                new StudentMainViewModel(context, userProvider.Who(), nextDay);
+            controller.TempData["studentViewModel"] = model;
+            return model;
+        }
+    }
+
 
     public class StudentMainViewModel
     {
@@ -17,6 +54,24 @@ namespace yalms.Models
         public IList<Slot> slots { get; set; }
         public IList<TimingInfo> SlotTimings { get; set;  }
         public string SchoolClass { get; set; }
+
+        public static StudentMainViewModel Create(
+            Controller controller, 
+            EFContext context,  
+            UserProvider user, 
+            DateProvider date,
+            int DaysToAdd = 0) 
+        {
+            StudentMainViewModel model =
+                 controller.TempData["tudentViewModel"] as StudentMainViewModel;
+            var nextDay =
+                new DummyDateProvider(model.Today.AddDays(DaysToAdd));
+            var dateProvider = new DummyDateProvider(nextDay.Today());
+            model =
+                new StudentMainViewModel(context, user.Who(), dateProvider);
+            controller.TempData["StudentViewModel"] = model;
+            return model;
+        }
 
         public StudentMainViewModel(YalmContext context,
                                     string studentName, 
