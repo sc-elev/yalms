@@ -115,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TeacherCtrlTests.cs" />
     <Compile Include="Controllers\YalmsTests.cs" />
     <Compile Include="Controllers\StudentCtrlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
