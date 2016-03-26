@@ -44,10 +44,10 @@ namespace yalms.Controllers
 
             if (Session["selectedDate"] == null)
             {
-                Session["selectedDate"] = DateTime.Now;
+                Session["selectedDate"] = dateProvider.Today();
             }
 
-            var selectedDate = DateTime.Now;
+            var selectedDate = dateProvider.Today();
 
             var teacher_UserID = -1;
             try
