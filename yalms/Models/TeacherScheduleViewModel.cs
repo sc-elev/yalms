@@ -48,16 +48,25 @@ namespace yalms.Models
             }
 
             // populate full courses data.
-            Courses = new CourseRepository(ctx).GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
+            //Courses = new CourseRepository(ctx).GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
+            var Courses = ctx.GetCourses()
+                            .Where( c => c.Teacher_UserID == teacher_UserID)
+                            .ToList();
+            var CourseIDs = Courses.Select(c => c.CourseID).ToList();
 
-            // Check if courses found
             if (Courses.Count != 0) {
                 SelectedCourse = Courses.FirstOrDefault().CourseID;
-
                 CourseSelectionData = new List<SelectListItem>();
                 foreach (var course in Courses)
                 {
-                    CourseSelectionData.Add(new SelectListItem { Text = course.Name + " "+ course.SchoolClass.Name, Value = course.CourseID.ToString() });
+                    var className = ctx.GetSchoolClasses()
+                        .Where(s => s.SchoolClassID == course.SchoolClassID)
+                        .Select(s => s.Name)
+                        .SingleOrDefault();
+                    CourseSelectionData.Add(new SelectListItem { 
+                        Text = course.Name + " "+ className, 
+                        Value = course.CourseID.ToString() 
+                    });
                 }
             }
             else
@@ -69,21 +78,23 @@ namespace yalms.Models
 
             for (var i = 0; i < 5; i++)
             {
-                var course = Courses.FirstOrDefault(o => o.CourseID == SelectedCourse);
                 var dailyDate = FirstDayOfWeek.AddDays(i);
-                var dailySlots = course.Slots.Where(o => o.When.Date == dailyDate.Date);
-
-                for (var row = 1; row < SlotTimings.Count; row++)
+                var dailySlots = ctx.GetSlots()
+                        .Where(o => o.When.Date == dailyDate.Date)
+                        .Where(o => CourseIDs.Contains((int)o.CourseID));
+                for (var row = 0; row < SlotTimings.Count; row++)
                 {
                     var slot = dailySlots.FirstOrDefault(o => o.SlotNR == row);
                     if (slot != null)
                     {
-                        ThisWeekSlots[row, i] = slot;
+                        slot.Room = ctx.GetRooms()
+                                        .Where(r => r.RoomID == slot.RoomID)
+                                        .SingleOrDefault();
+                        slot.Course = ctx.GetCourses()
+                                        .Where(r => r.CourseID == slot.CourseID)
+                                        .SingleOrDefault();
                     }
-                    else
-                    {
-                        ThisWeekSlots[row, i] = null;
-                    }
+                    ThisWeekSlots[row, i] = slot;
                 }
             }
         }
@@ -114,9 +125,17 @@ namespace yalms.Models
                     }
                     else
                     {
-                        ThisWeekUrls[row, day] = urlHelper.Action(
-                            "SlotClick", "Teacher",
-                            new Slot { SlotID = -1, SlotNR = row, When = weekDay });
+                        try
+                        {
+                            ThisWeekUrls[row, day] = urlHelper.Action(
+                                "SlotClick", "Teacher",
+                                new Slot { SlotID = -1, SlotNR = row, When = weekDay });
+                        }
+                        catch (System.ArgumentNullException)
+                        {
+                            // Unit testing: No Request available.
+                            ThisWeekUrls[row, day] = "http://not-defined";
+                        }
                     }
                 }
             }
