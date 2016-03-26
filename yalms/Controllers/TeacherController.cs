@@ -40,7 +40,7 @@ namespace yalms.Controllers
         public ViewResult Schedule()
         {
             // viewmodel: TeacherScheduleViewModel
-           // DateTime selectedDate = Session["selectedDate"] ? ;
+            // DateTime selectedDate = Session["selectedDate"] ? ;
 
             if (Session["selectedDate"] == null)
             {
@@ -59,7 +59,8 @@ namespace yalms.Controllers
 
             TeacherScheduleViewModel model = 
                 new TeacherScheduleViewModel((DateTime)Session["selectedDate"], teacher_UserID, context);
-
+            UrlHelper urlHelper = new UrlHelper(this.Request.RequestContext);
+            model.BuildSlotUrls(urlHelper);
             if (Session["selectedSlot"] != null)
             {
                 var slot = (Slot)Session["selectedSlot"];
