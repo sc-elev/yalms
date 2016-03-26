@@ -42,7 +42,7 @@ namespace yalms.Controllers
             // viewmodel: TeacherScheduleViewModel
             // DateTime selectedDate = Session["selectedDate"] ? ;
 
-            if (Session["selectedDate"] == null)
+            if (Session != null && Session["selectedDate"] == null)
             {
                 Session["selectedDate"] = dateProvider.Today();
             }
@@ -58,10 +58,16 @@ namespace yalms.Controllers
             //var userID = user.Id;
 
             TeacherScheduleViewModel model = 
-                new TeacherScheduleViewModel((DateTime)Session["selectedDate"], teacher_UserID, context);
-            UrlHelper urlHelper = new UrlHelper(this.Request.RequestContext);
-            model.BuildSlotUrls(urlHelper);
-            if (Session["selectedSlot"] != null)
+                new TeacherScheduleViewModel(
+                    selectedDate, teacher_UserID, context);
+            UrlHelper urlHelper;
+            if (this.Request != null)
+                urlHelper = new UrlHelper(this.Request.RequestContext);
+            else
+                urlHelper = new UrlHelper();
+            if (this.Request != null) model.BuildSlotUrls(urlHelper);
+
+            if (Session != null && Session["selectedSlot"] != null)
             {
                 var slot = (Slot)Session["selectedSlot"];
                 if (slot.SlotID != -1)
