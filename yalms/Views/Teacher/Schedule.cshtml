@@ -5,7 +5,7 @@
 
 <div>
     <div class="FirstsCol">
-        @if (Model.Courses.Count > 0)
+        @if (Model.Courses != null && Model.Courses.Count > 0)
         {
             Html.Label("Välj kurs");
             Html.DropDownListFor(m => m.SelectedCourse, 
