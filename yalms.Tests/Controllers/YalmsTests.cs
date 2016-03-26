@@ -190,7 +190,7 @@ namespace yalms.Tests.Controllers
     public class YalmsTests
     {
 
-        protected Mock<EFContext> GetStandardContext()
+        protected Mock<EFContext> GetStandardContext(DateTime? when = null)
         {
             var users = new List<ApplicationUser> { 
                 new ApplicationUser("student1", 3),
@@ -218,17 +218,19 @@ namespace yalms.Tests.Controllers
                 new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 4},
                 new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
             };
-            var _today = DateTime.Now.Date;
+            
+            var _today = (DateTime)(when != null ? when : DateTime.Now.Date);
+
             var slots = new List<Slot> {
-                new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(8) },
-                new Slot {CourseID = 2, RoomID = 1, SlotID = 1, When = _today.AddHours(9) },
-                new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(10) },
-                new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(12) },
-                new Slot {CourseID = 1, RoomID = 1, SlotID = 1, When = _today.AddHours(13) },
-                new Slot {CourseID = 2, RoomID = 1, SlotID = 1, When = _today.AddHours(14) },
-                new Slot {CourseID = 2, RoomID = 1, SlotID = 1, When = _today.AddHours(32) },
-                new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(33) },
-                new Slot {CourseID = 3, RoomID = 1, SlotID = 1, When = _today.AddHours(34) },
+                new Slot {CourseID = 1, RoomID = 1, SlotNR = 0, When = _today },
+                new Slot {CourseID = 2, RoomID = 1, SlotNR = 1, When = _today },
+                new Slot {CourseID = 3, RoomID = 1, SlotNR = 2, When = _today },
+                new Slot {CourseID = 1, RoomID = 1, SlotNR = 3, When = _today },
+                new Slot {CourseID = 1, RoomID = 1, SlotNR = 5, When = _today },
+                new Slot {CourseID = 2, RoomID = 1, SlotNR = 6, When = _today },
+                new Slot {CourseID = 2, RoomID = 1, SlotNR = 0, When = _today.AddDays(1) },
+                new Slot {CourseID = 3, RoomID = 1, SlotNR = 1, When = _today.AddDays(1) },
+                new Slot {CourseID = 3, RoomID = 1, SlotNR = 2, When = _today.AddDays(1) },
             };
             var rooms = new List<Room> {
                 new Room { RoomID = 1, Description = "E265" }
