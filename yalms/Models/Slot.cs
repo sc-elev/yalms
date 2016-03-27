@@ -15,13 +15,13 @@ namespace yalms.Models
         public int SlotID { get; set; }
 
         [Display(Name = "Course")]
-        public int? CourseID  { get; set; }
+        public int CourseID  { get; set; }
 
         [Display(Name = "Room")]
-        public int? RoomID  { get; set; }
+        public int RoomID  { get; set; }
 
         [Display(Name = "SlotNR")]
-        public int? SlotNR  { get; set; }
+        public int SlotNR  { get; set; }
 
         // Start time of this slot
         public DateTime When { get; set;  }
