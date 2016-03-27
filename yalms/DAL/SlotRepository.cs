@@ -18,7 +18,6 @@ namespace yalms.DAL
         // Get context for specific connectionstring.
         private EFContext context;
 
-
         #region Get all Slots.
         public IEnumerable<Slot> GetAllSlots()
         {
@@ -52,16 +51,32 @@ namespace yalms.DAL
         #endregion
 
         // FIXME: Not used, and referring to not-.existing Course_students table.
-        //#region Get students daily Schedule by date
-        //public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when)
-        //{
-        //    return (from slot in context.Slots
-        //            join cour in context.Courses on slot.CourseID equals cour.CourseID
-        //            join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-        //            where cost.Student_UserID == studentUserID && slot.When == when
-        //            select slot);
-        //}
-        //#endregion
+        // Get student's daily Schedule by date
+        public IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when)
+        {
+            var scs = context.GetSchoolClassStudents()
+                .Where( s=> s.Student_UserID == studentUserID)
+                .SingleOrDefault();
+            var courses = context.GetCourses()
+                .Where(c => c.SchoolClassID == scs.SchoolClassID)
+                .Select(c => c.CourseID)
+                .ToList();
+            return from slot in context.GetSlots()
+                   where courses.Contains(slot.CourseID) && slot.When == when
+                   join room in context.GetRooms()
+                       on slot.RoomID equals room.RoomID
+                   join course in context.GetCourses()
+                       on slot.CourseID equals course.CourseID
+                   select new Slot {
+                       SlotID = slot.SlotID,
+                       SlotNR = slot.SlotNR,
+                       When = slot.When,
+                       Room = room,
+                       RoomID = slot.RoomID,
+                       Course = course,
+                       CourseID = course.CourseID
+                   };       
+        }
 
         #region Get students weekly Schedule by Student_userID, week,day
         //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when)
