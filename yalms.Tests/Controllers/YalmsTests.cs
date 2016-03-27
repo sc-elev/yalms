@@ -237,10 +237,25 @@ namespace yalms.Tests.Controllers
             };
 
             var assignments = new List<Assignment> {
-                new Assignment {CourseID = 1, 
+                new Assignment {AssignmentID = 1, CourseID = 1, 
                                 StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(14)},
-                new Assignment {CourseID = 1, 
+                new Assignment {AssignmentID = 2, CourseID = 1, 
                                 StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(3) }
+            };
+
+            var uploads = new List<Upload> {
+                new Upload {AssignmentID  = 1, Description = "assignment 1",
+                    Grade = 3, GradeDescription = "what grade?", 
+                    SchoolClassID = 1, Uploaded = DateTime.Now.AddDays(-2),
+                    UploadedBy = 3 },
+                new Upload {AssignmentID  = 2, Description = "assignment 2",
+                    Grade = 2, GradeDescription = "what grade?", 
+                    SchoolClassID = 1, Uploaded = DateTime.Now.AddDays(-1),
+                    UploadedBy = 3 },
+                new Upload {AssignmentID  = 3, Description = "assignment 2A",
+                    Grade = 3, GradeDescription = "what grade?", 
+                    SchoolClassID = 2, Uploaded = DateTime.Now.AddDays(-1),
+                    UploadedBy = 4 }
             };
 
             var context = new Mock<EFContext>();
@@ -251,7 +266,7 @@ namespace yalms.Tests.Controllers
             context.Setup(x => x.GetSchoolClasses()).Returns(classes);
             context.Setup(x => x.GetRooms()).Returns(rooms);
             context.Setup(x => x.GetAssignments()).Returns(assignments);
-
+            context.Setup(x => x.GetUploads()).Returns(uploads);
             return context;
         }
     }
