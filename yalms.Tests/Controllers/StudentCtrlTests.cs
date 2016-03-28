@@ -28,7 +28,7 @@ namespace yalms.Tests.Controllers
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider("2016-03-26");
             IUserProvider who = 
-                new DummyUserProvider("J Edgar Hoover", "student",1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var controller = new StudentController(who, today, context.Object);
             var modelFactory =
                 new StudentMainViewModelFactory(controller, context.Object, who);
@@ -47,7 +47,7 @@ namespace yalms.Tests.Controllers
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider("2016-03-26");
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student", 1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var controller = new StudentController(who, today, context.Object);
             var modelFactory =
                 new StudentMainViewModelFactory(controller, context.Object, who);
@@ -66,7 +66,7 @@ namespace yalms.Tests.Controllers
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider("2016-03-26");
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student", 1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var controller = new StudentController(who, today, context.Object);
             var modelFactory =
                 new StudentMainViewModelFactory(controller, context.Object, who);
@@ -86,7 +86,7 @@ namespace yalms.Tests.Controllers
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider("2016-02-26");
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student", 1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var controller = new StudentController(who, today, context.Object);
             var modelFactory =
                 new StudentMainViewModelFactory(controller, context.Object, who);
@@ -106,7 +106,7 @@ namespace yalms.Tests.Controllers
             EFContext context = GetStandardContext().Object;
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student",1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());
@@ -140,7 +140,7 @@ namespace yalms.Tests.Controllers
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student",1);
+                new DummyUserProvider("J Edgar Hoover", "student",4);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());
