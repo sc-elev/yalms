@@ -21,7 +21,7 @@ namespace yalms.Tests.Controllers
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             var userProvider = 
-                new DummyUserProvider("J Edgar Hoover", "student", 1);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             HomeController controller = 
                 new HomeController(today,  userProvider, context.Object);
 

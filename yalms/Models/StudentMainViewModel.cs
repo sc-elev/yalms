@@ -38,7 +38,7 @@ namespace yalms.Models
             nextDate = nextDate.AddDays(DaysToAdd);
             var nextDay = new DummyDateProvider(nextDate);
             model =
-                new StudentMainViewModel(context, userProvider.Who(), nextDay);
+                new StudentMainViewModel(context, userProvider, nextDay);
             controller.TempData["studentViewModel"] = model;
             return model;
         }
@@ -68,21 +68,19 @@ namespace yalms.Models
                 new DummyDateProvider(model.Today.AddDays(DaysToAdd));
             var dateProvider = new DummyDateProvider(nextDay.Today());
             model =
-                new StudentMainViewModel(context, user.Who(), dateProvider);
+                new StudentMainViewModel(context, user,  dateProvider);
             controller.TempData["StudentViewModel"] = model;
             return model;
         }
 
         public StudentMainViewModel(YalmContext context,
-                                    string studentName, 
+                                    IUserProvider user, 
                                     IDateProvider dateProvider)
         {
 
-            ApplicationUser user = context.GetUsers()
-                .Where(u => u.UserName == studentName)
-                .SingleOrDefault();
+            
             SchoolClassStudent scs = context.GetSchoolClassStudents()
-                .Where(s => s.Student_UserID == user.Id)
+                .Where(s => s.Student_UserID == user.UserID())
                 .SingleOrDefault();
             SchoolClass sc = context.GetSchoolClasses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)

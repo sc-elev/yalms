@@ -36,7 +36,7 @@ namespace yalms.Controllers
             if (userProvider.Role() == "student")
             {
                 var model = new StudentMainViewModel(
-                                  context, userProvider.Who(), dateProvider);
+                                  context, userProvider, dateProvider);
                 TempData["StudentViewModel"] = model;
                 return View("../Student/MainView", model);
             }
