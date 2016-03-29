@@ -13,13 +13,13 @@ namespace yalms.DAL
     public class RoomRepository: IRoomRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
 
         #region Get all Rooms even those tagged as removed and not yet created.
         public IEnumerable<Room> GetAllRooms()
         {
-            return context.Rooms;
+            return context.GetRooms();
         }
 
         #endregion
@@ -75,7 +75,6 @@ namespace yalms.DAL
         #endregion
 
 
-
         #region Update existing Room object.
         public void UpdateRoom (Room newRoom)
         {
@@ -88,9 +87,6 @@ namespace yalms.DAL
             Dispose();
         }
         #endregion
-
-
-
 
 
         #region System functions.
@@ -120,6 +116,15 @@ namespace yalms.DAL
 
         #endregion
 
+        public RoomRepository()
+        {
+            context = new EFContext();
+        }
+
+        public RoomRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
     }
 }

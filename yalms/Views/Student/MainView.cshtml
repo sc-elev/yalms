@@ -12,16 +12,16 @@
         <div>
             v @Model.WeekNr, @Model.Today.Year &bull; 
              @Model.WeekDay @Model.Date &bull;  @Model.SchoolClass
-            @Html.ActionLink("<< ", "MainViewPrevDay")
-            @if (DateTime.Now.Date == Model.Today)
+            @Html.ActionLink("<< ", "../Student/MainViewPrevDay")
+            @if (DateTime.Now.Date != Model.Today)
             { 
-                @Html.ActionLink("Idag", "MainViewToday")
+                @Html.ActionLink("Idag", "../Student/MainViewToday")
             }
             else
             {
                 <text>Idag</text>
             }
-            @Html.ActionLink(" >>", "MainViewNextDay")
+            @Html.ActionLink(" >>", "../Student/MainViewNextDay")
         </div>
         <div>
            

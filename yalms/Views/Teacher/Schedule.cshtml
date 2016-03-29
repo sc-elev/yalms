@@ -5,83 +5,70 @@
 
 <div>
     <div class="FirstsCol">
-        @{
-            if (Model.Courses.Count > 0)
-            {
-                @Html.Label("Välj kurs")
-                @Html.DropDownListFor(m => m.SelectedCourse, Model.CourseSelectionData)
-            }
-            else
-            {
-                @Html.Label("Du har inga kurser")
-            }
+        @if (Model.Courses != null && Model.Courses.Count > 0)
+        {
+            Html.Label("Välj kurs");
+            Html.DropDownListFor(m => m.SelectedCourse, 
+                                 Model.CourseSelectionData);
+        }
+        else
+        {
+            Html.Label("Du har inga kurser");
         }
     </div>
+
     <div class="SecondCol">
 
         <div class="DayColumn">
             @for (var s = 1; s < Model.SlotTimings.Count; s++)
             {
                 <div class="TimeSlot">
-                    @Model.SlotTimings[s].FormatFrom() - @Model.SlotTimings[s].FormatTo()
+                    @Model.SlotTimings[s].FormatFrom() 
+                    - 
+                    @Model.SlotTimings[s].FormatTo()
                 </div>
             }
         </div>
 
-
-
-        @for(var i = 0; i < 5; i++)
+        @for(var day = 0; day < 5; day++)
         {
-            var course = Model.Courses.FirstOrDefault(o => o.CourseID == Model.SelectedCourse);
-            var dailyDate = Model.FirstDayOfWeek.AddDays(i);
-            var dailySlots = course.Slots.Where(o => o.When.Date == dailyDate.Date);
-            
             <div class="DayColumn">
-            @for (var s = 1; s < Model.SlotTimings.Count; s++)
-            {
-                var slot = dailySlots.FirstOrDefault(o => o.SlotNR == s);
-
-                if (slot != null)
+                @for (var row = 1; row < Model.SlotTimings.Count; row++)
                 {
-                    //if slot is full
-                    <a href="@Url.Action("SlotClick","Teacher", new yalms.Models.Slot { SlotID= slot.SlotID, SlotNR = slot.SlotNR, When = slot.When })">
-                        <div class="Slot">
-                            @slot.Room.Name -
-                            @slot.Course.Name
-                        </div>
+                    var slot = Model.ThisWeekSlots[row, day];
+                    <a href="@Model.ThisWeekUrls[row, day]">
+                        @if (slot == null)
+                        {
+                            // slot is empty
+                            <div class="EmptySlot"> &nbsp; </div>
+                        }
+                        else
+                        {
+                            <div class="Slot">
+                                @slot.Room.Description - @slot.Course.Name
+                            </div>
+                        }
                     </a>
                 }
-                else
-                {
-                //if slot is empty
-                <a href="@Url.Action("SlotClick","Teacher", new yalms.Models.Slot { SlotID= -1, SlotNR = s, When = Model.FirstDayOfWeek.AddDays(i) })">
-                    <div class="EmptySlot">
-                        &nbsp; 
-                    </div>
-                </a>
-                }
-            }
             </div>
         }
-
-
-
-
-
     </div>
+
     <div class="ThirdCol">
-        @using (Html.BeginForm("SlotForm", "Teacher", FormMethod.Post, new { pageviewmodel = Model }))
+        @using (Html.BeginForm("SlotForm", "Teacher", FormMethod.Post, 
+                               new { pageviewmodel = Model }))
         {
             @Html.Label("Välj kurs")
-            @Html.DropDownListFor(m => m.FormSelectedCourse, Model.CourseSelectionData)
+            @Html.DropDownListFor(m => m.FormSelectedCourse, 
+                                  Model.CourseSelectionData)
             <br />
             @Html.Label("Välj sal")
-            @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData)
+            @Html.DropDownListFor(m => m.FormSelectedRoom, 
+                                  Model.RoomSelectionData)
             <br />
             <input type="submit" value="Spara vald slot" />
             <br />
             @Html.ActionLink("Tabort","DeleteSelectedSlot")
-            
         }
     </div>
 </div>

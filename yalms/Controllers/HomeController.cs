@@ -17,23 +17,30 @@ namespace yalms.Controllers
     {
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
+        protected EFContext context;
 
 
-        public ActionResult Index()
+        public ViewResult Index()
         {
             // debugkod
-            userProvider = new UserProvider(this);
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
 
             // Alle added code to redirect depending un succesfull
             if (userProvider.Role() == "teacher")
             {
-                return RedirectToAction("Schedule", "Teacher");
+                var model = new TeacherScheduleViewModel(dateProvider.Today(), 
+                                                         userProvider.UserID(),
+                                                         context);
+                return View("../Teacher/Schedule", model);
             }
             if (userProvider.Role() == "student")
             {
-                return RedirectToAction("MainView", "Student");
+                var model = new StudentMainViewModel(
+                                  context, userProvider, dateProvider);
+                TempData["StudentViewModel"] = model;
+                return View("../Student/MainView", model);
             }
-            return View();
+            return View("Index");
         }
 
         public ActionResult About()
@@ -48,6 +55,22 @@ namespace yalms.Controllers
             ViewBag.Message = "StudentConsulting";
 
             return View();
+        }
+
+        public HomeController() 
+        {
+            dateProvider = new DateProvider();
+            userProvider = new UserProvider(this);
+            context = new EFContext();
+        }
+
+        public HomeController(IDateProvider when, 
+                              IUserProvider who, 
+                              EFContext ctx)
+        {
+            dateProvider = when;
+            userProvider = who;
+            context = ctx;
         }
     }
 }

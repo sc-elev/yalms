@@ -11,13 +11,10 @@ namespace yalms.Models
 {
     public interface YalmContext 
     {
-        void OnModelCreating(DbModelBuilder modelBuilder);
 
         IList<Assignment> GetAssignments(); 
 
         IList<Course> GetCourses();
-
-        IList<Course_Student> GetCourse_Students();
 
         IList<Room> GetRooms();
 
@@ -53,69 +50,56 @@ namespace yalms.Models
             base.OnModelCreating(modelBuilder);
         }
     
-        public DbSet<Assignment> Assignments { get; set; }
+        public virtual DbSet<Assignment> Assignments { get; set; }
 
-        public DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
 
-        public DbSet<Course_Student> Course_Students { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
 
-        public DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<SchoolClass> SchoolClasses { get; set; }
 
-        public DbSet<SchoolClass> SchoolClasses { get; set; }
+        public virtual DbSet<SchoolClassStudent> SchoolClassStudents { get; set; }
 
-        public DbSet<SchoolClassStudent> SchoolClassStudents { get; set; }
+        public virtual DbSet<Slot> Slots { get; set; }
 
-        public DbSet<Slot> Slots { get; set; }
+        public virtual DbSet<Upload> Uploads { get; set; }
 
-        public DbSet<Upload> Uploads { get; set; }
-
-
-        void YalmContext.OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new NotImplementedException();
-        }
-
-        IList<Assignment> YalmContext.GetAssignments()
+        public virtual IList<Assignment> GetAssignments()
         {
             return Assignments.ToList();
         }
 
-        IList<Course> YalmContext.GetCourses()
+        public virtual IList<Course> GetCourses()
         {
             return Courses.ToList();
         }
 
-        IList<Course_Student> YalmContext.GetCourse_Students()
-        {
-            return Course_Students.ToList();
-        }
-
-        IList<Room> YalmContext.GetRooms()
+        public virtual IList<Room> GetRooms()
         {
             return Rooms.ToList();
         }
 
-        IList<SchoolClass> YalmContext.GetSchoolClasses()
+        public virtual IList<SchoolClass> GetSchoolClasses()
         {
             return SchoolClasses.ToList();
         }
 
-        IList<SchoolClassStudent> YalmContext.GetSchoolClassStudents()
+        public virtual IList<SchoolClassStudent> GetSchoolClassStudents()
         {
             return SchoolClassStudents.ToList();
         }
 
-        IList<Slot> YalmContext.GetSlots()
+        public virtual IList<Slot> GetSlots()
         {
             return Slots.ToList();
         }
 
-        IList<Upload> YalmContext.GetUploads()
+        public virtual IList<Upload> GetUploads()
         {
             return Uploads.ToList();
         }
 
-        IList<ApplicationUser> YalmContext.GetUsers()
+        public virtual IList<ApplicationUser> GetUsers()
         {
             return Users.ToList();
         }

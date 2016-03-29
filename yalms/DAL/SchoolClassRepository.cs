@@ -13,7 +13,7 @@ namespace yalms.DAL
     public class SchoolClassRepository: ISchoolClassRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
 
         #region Get all SchoolClasses.
@@ -28,7 +28,7 @@ namespace yalms.DAL
         public SchoolClass GetSchoolClassBySchoolClassID(int? schoolClassID)
         {
             // Get single SchoolClass by its unique ID
-            return context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
+            return context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == schoolClassID);
 
         }
         #endregion
@@ -36,9 +36,9 @@ namespace yalms.DAL
         #region Get SchoolClass by its SchoolClassID with list of all students
         public SchoolClass GetSchoolClassBySchoolClassID_Full(int? schoolClassID)
         {
-            var schoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
+            var schoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == schoolClassID);
 
-            schoolClass.Students = new UserRepository().GetAllSchoolClassStudentsBySchoolClassID(schoolClass.SchoolClassID);
+            schoolClass.Students = new UserRepository(context).GetAllSchoolClassStudentsBySchoolClassID(schoolClass.SchoolClassID);
 
             return schoolClass;
         }
@@ -48,7 +48,7 @@ namespace yalms.DAL
         public SchoolClass GetSchoolClassByID(int? schoolClassID)
         {
             // Get single SchoolClass by its unique ID
-            var schoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
+            var schoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == schoolClassID);
 
 
             return schoolClass;
@@ -58,7 +58,7 @@ namespace yalms.DAL
         #region Get newest SchoolClass.
         public SchoolClass GetNewestSchoolClass()
         {
-           return context.SchoolClasses.OrderByDescending(u => u.SchoolClassID).FirstOrDefault();
+           return context.GetSchoolClasses().OrderByDescending(u => u.SchoolClassID).FirstOrDefault();
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace yalms.DAL
         public void DeleteSchoolClass (int schoolClassID)
         {
             // Get SchoolClass by ID.
-            SchoolClass schoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == schoolClassID);
+            SchoolClass schoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == schoolClassID);
             context.SchoolClasses.Remove(schoolClass);
             Save();
         }
@@ -90,7 +90,7 @@ namespace yalms.DAL
         public void UpdateSchoolClass (SchoolClass newSchoolClass)
         {
             // Get existing SchoolClass object by ID for update.
-            var oldSchoolClass = context.SchoolClasses.SingleOrDefault(o => o.SchoolClassID == newSchoolClass.SchoolClassID);
+            var oldSchoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == newSchoolClass.SchoolClassID);
             oldSchoolClass.Name = newSchoolClass.Name;
             oldSchoolClass.SharedClassFolderUrl = newSchoolClass.SharedClassFolderUrl;
             oldSchoolClass.Year = newSchoolClass.Year;
@@ -134,6 +134,15 @@ namespace yalms.DAL
 
         #endregion
 
+        public SchoolClassRepository()
+        {
+            context = new EFContext();
+        }
+
+        public SchoolClassRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
     }
 }

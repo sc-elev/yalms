@@ -13,8 +13,19 @@ namespace yalms.DAL
     public class UploadRepository: IUploadRepository
     {
         // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
 
+
+        public UploadRepository()
+        {
+            EFContext context = new EFContext();
+        }
+
+
+        public UploadRepository(EFContext ctx)
+        {
+            context = ctx;
+        }
 
 
         #region Get all Uploads even those tagged as removed and not yet created.
@@ -51,18 +62,32 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Get all Uploads one specific student
+        // Get uploads for given student
         public IEnumerable<Upload> GetAllUploadsByStudentUserID(int studentUserID)
         {
+            var scs = context.GetSchoolClassStudents()
+                .Where(s => s.Student_UserID == studentUserID)
+                .SingleOrDefault();
 
-            return (from uplo in context.Uploads
-                    join assi in context.Assignments on uplo.AssignmentID equals assi.AssignmentID
-                    join cour in context.Courses on assi.AssignmentID equals cour.CourseID
-                    join cost in context.Course_Students on cour.CourseID equals cost.CourseID
-                    where cost.Course_StudentID == studentUserID
-                    select uplo);
+            return from upload in context.GetUploads()
+                   where upload.SchoolClassID == scs.SchoolClassID
+                   join class_ in context.GetSchoolClasses()
+                       on upload.SchoolClassID equals class_.SchoolClassID
+                   join assign in context.GetAssignments()
+                       on upload.AssignmentID equals assign.AssignmentID
+                   select new Upload
+                   {
+                       Assignment = assign,
+                       AssignmentID = upload.AssignmentID,
+                       UploadID = upload.UploadID,
+                       Description = upload.Description,
+                       Grade = upload.Grade,
+                       GradeDescription = upload.GradeDescription,
+                       SchoolClassID = upload.SchoolClassID,
+                       Uploaded = upload.Uploaded,
+                       UploadedBy = upload.UploadedBy,
+                   };
         }
-        #endregion
 
         #region Get Upload by its Upload ID without populating foregin key data
         public Upload GetUpload_SimpleByID(int? uploadID)
