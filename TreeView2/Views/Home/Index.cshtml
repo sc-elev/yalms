@@ -32,6 +32,7 @@ DEMO 1:
     </ul>
 </div>
 
+<!--
 <script>
     $(function () {
         $("#demo1").jstree({
@@ -50,6 +51,29 @@ DEMO 1:
     .bind("loaded.jstree", function (event, data) {
         $(this).jstree("open_all");
         alert("tree loaded");
+    });
+</script>
+-->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#demo1").jstree({
+            "json_data": {
+                "ajax": {
+                    "type": "POST",
+                    "dataType": "json",
+                    "contentType": "application/json;",
+                    "url": "JsTree-Json.aspx/GetAllNodes11",
+                    "data": function (node) {
+                        return '{ "operation" : "get_children", "id" : 1 }';
+                    },
+                    "success": function (retval) {
+                        return retval.d;
+                    }
+                }
+            },
+            "plugins": ["themes", "json_data"]
+        });
     });
 </script>
 
@@ -74,3 +98,4 @@ DEMO 1:
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+
