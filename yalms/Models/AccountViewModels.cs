@@ -6,7 +6,7 @@ namespace yalms.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Mejl")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
     }
 
@@ -42,7 +42,7 @@ namespace yalms.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Mejl")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
     }
 
@@ -66,7 +66,7 @@ namespace yalms.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Mejl")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
 
         [Required]
@@ -85,7 +85,7 @@ namespace yalms.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Mejl")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
 
         [Required]
@@ -106,7 +106,7 @@ namespace yalms.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Mejl")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
     }
 
