@@ -13,45 +13,44 @@
         <br />
         <legend>Uppgifter att göra</legend>
         <p><br />
-            <div id="AssignmentsTree">
-
-                <ul>
-                    <li>
-                        <a>Svenska A</a>
+        <div id="AssignmentsTree">
+            <ul>
+                @foreach (var course in Model.Assignments)
+                {
+                    <li class="jstree-open">
+                        <a href="#"> @course.Title</a>
                         <ul>
-                            <li><a>Uppsats om Esaias Tegner</a></li>
-                            <li><a>Kortfrågor: Svenska författare</a></li>
+                            @foreach (var assignment in course.Assignments)
+                            {
+                                <li id="@assignment.AssignmentID">@assignment.Name</li>
+                            }
                         </ul>
                     </li>
-                    <li><a>Engelska</a>  </li>
-                    <li>
-                        <a>Fysik</a>
-                        <ul>
-                            <li><a>Extrauppgift 2016-04-04</a></li>
-                            <li><a>Inlämningsuppgift 3</a></li>
-                            <li><a>Inlämningsuppgift 4</a></li>
-                        </ul>
-                </ul>
-            </div>
-        <br />
-
-
+                }
+            </ul>
+        </div>
         <br />
         </p>
         <legend>Lämna in uppgift</legend>
-        <select id="SelectTask" style="width:380px">
-            <option selected>Välj inlämningsuppgift</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-        </select>
-        <div style="display:inline-block">
-            <input id="UploadTask" type="file" />
-        </div>
-        <div style="display:inline-block; float:right">
-            <input id="UploadButton" type="button" class="btn btn-default" style="width:75px" value="OK" />
-        </div>
+        <p/>        
+        @using (Html.BeginForm("PostAssignment", "Student", FormMethod.Post, 
+                new { enctype = "multipart/form-data" }))
+        {    
+            <text>  
+                Uppgift:
+                <div id="assignmentLabel" style="display:inline-block">
+                    (ej vald)
+                </div> 
+                <div style="display:inline-block">
+                    <input id="UploadTask" type="file" />
+                </div>
+                <input id="assignmentUploadBtn" type="button" value="OK"
+                       class="btn btn-default btn-md pull-right" 
+                       disabled="disabled"/>
+                <input type="hidden" name="assignmentId" id="assignmentId"
+                       value="-1"/>
+            </text>
+        }  
     </div>
 
 
