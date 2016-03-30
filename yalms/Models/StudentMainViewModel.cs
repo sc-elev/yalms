@@ -44,6 +44,12 @@ namespace yalms.Models
         }
     }
 
+    public class AssignmentCategory
+    {
+        public string Title { set; get; }
+        public IList<Assignment> Assignments { set; get; }
+    }
+
 
     public class StudentMainViewModel
     {
@@ -51,9 +57,11 @@ namespace yalms.Models
         public int WeekNr  { set; get; }
         public string Date { set; get; }
         public DateTime Today { set; get; }
+
         public IList<Slot> slots { get; set; }
-        public IList<TimingInfo> SlotTimings { get; set;  }
+        public IList<TimingInfo> SlotTimings { get; set; }
         public string SchoolClass { get; set; }
+        public IList<AssignmentCategory> Assignments { set; get; }
 
         public static StudentMainViewModel Create(
             Controller controller,
@@ -86,6 +94,22 @@ namespace yalms.Models
             slots = new List<Slot>(result)
                             .OrderBy(w => w.SlotNR)
                             .ToList();
+            var scs = context.GetSchoolClassStudents()
+                .Where( s=> s.Student_UserID == user.UserID())
+                .SingleOrDefault();
+            var courses = context.GetCourses()
+                .Where(c => c.SchoolClassID == scs.SchoolClassID)
+                .ToList();
+            Assignments = new List<AssignmentCategory>();
+            foreach (var course in courses)
+            {
+                var category = new AssignmentCategory();
+                category.Title = course.Name;
+                category.Assignments = context.GetAssignments()
+                    .Where(a => a.CourseID == course.CourseID)
+                    .ToList();
+                Assignments.Add(category);
+            }
             Today = dateProvider.Today();
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
             var month = CultureInfo

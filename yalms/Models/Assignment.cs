@@ -17,10 +17,11 @@ namespace yalms.Models
         [Display(Name = "Course")]
         public int? CourseID  { get; set; }
 
+        public string Name { get; set;  }
+
         [Display(Name = "EndTime")]
         public DateTime? EndTime  { get; set; }
 
-        [Required(ErrorMessage = "Field can not be empty.")]
         [Display(Name = "PathUrl")]
         public string PathUrl  { get; set; }
 

@@ -13,24 +13,18 @@
         <br />
         <legend>Uppgifter att göra</legend>
         <p><br />
-            <div id="AssignmentsTree">
-
+            <div id="XXAssignmentsTree">
                 <ul>
-                    <li>
-                        <a>Svenska A</a>
+                    @foreach (var course in Model.Assignments)
+                    {
+                        <li><a>@course.Title</a></li>
                         <ul>
-                            <li><a>Uppsats om Esaias Tegner</a></li>
-                            <li><a>Kortfrågor: Svenska författare</a></li>
+                            @foreach (var assignment in course.Assignments)
+                            {
+                                <li><a>@assignment.Name</a></li>
+                            }
                         </ul>
-                    </li>
-                    <li><a>Engelska</a>  </li>
-                    <li>
-                        <a>Fysik</a>
-                        <ul>
-                            <li><a>Extrauppgift 2016-04-04</a></li>
-                            <li><a>Inlämningsuppgift 3</a></li>
-                            <li><a>Inlämningsuppgift 4</a></li>
-                        </ul>
+                    }
                 </ul>
             </div>
         <br />

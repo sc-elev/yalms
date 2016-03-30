@@ -1,6 +1,5 @@
 namespace yalms.Migrations
 {
-    using Microsoft.AspNet.Identity.Owin;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -8,7 +7,6 @@ namespace yalms.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
-
     using yalms.Models;
     using System.Collections.Generic;
     using yalms.DAL;
@@ -33,7 +31,7 @@ namespace yalms.Migrations
             }
             return candidateDate;
         }
-        
+
 
         private void seedRoles(EFContext ctx)
         {
@@ -49,7 +47,7 @@ namespace yalms.Migrations
                 {
                     continue;
                 }
-                    
+
                 roleManager.Create(customRole);
             }
         }
@@ -98,15 +96,15 @@ namespace yalms.Migrations
             ctx.SaveChanges();
 
             var courses = new List<Course> {
-                new Course { Name = "Matematik A", SchoolClassID = 1, 
+                new Course { Name = "Matematik A", SchoolClassID = 1,
                              Teacher_UserID = teacher1.Id },
-                new Course { Name = "Svenska A", SchoolClassID = 1, 
+                new Course { Name = "Svenska A", SchoolClassID = 1,
                              Teacher_UserID = teacher2.Id },
-                new Course { Name = "SO 3", SchoolClassID = 2, 
+                new Course { Name = "SO 3", SchoolClassID = 2,
                              Teacher_UserID = teacher2.Id },
-                new Course { Name = "Engelska A", SchoolClassID = 1, 
+                new Course { Name = "Engelska A", SchoolClassID = 1,
                              Teacher_UserID = teacher2.Id },
-                new Course { Name = "Idrott & hälsa", SchoolClassID = 1, 
+                new Course { Name = "Idrott & hälsa", SchoolClassID = 1,
                              Teacher_UserID = teacher2.Id },
             };
             foreach (var course in courses) ctx.Courses.AddOrUpdate(course);
@@ -132,6 +130,18 @@ namespace yalms.Migrations
                     new SchoolClassStudent { SchoolClassID = 2, Student_UserID = student3.Id},
                 };
             foreach (var member in classMembers) ctx.SchoolClassStudents.AddOrUpdate(member);
+        }
+
+        public void seedAssignments(EFContext ctx)
+        {
+            var assignments = new List<Assignment>  {
+                new Assignment { CourseID = 1, Name = "Uppgift 1" },
+                new Assignment { CourseID = 1, Name = "Uppgift 3" },
+                new Assignment { CourseID = 2, Name = "Uppgift 4" },
+                new Assignment { CourseID = 3, Name = "Uppgift 5" },
+                new Assignment { CourseID = 4, Name = "Uppgift 6" },
+            };
+            foreach (var assignment in assignments) ctx.Assignments.AddOrUpdate(assignment);
         }
 
 
@@ -196,7 +206,7 @@ namespace yalms.Migrations
             };
             foreach (var slot in slots) ctx.Slots.AddOrUpdate(slot);
             ctx.SaveChanges();
-            
+
         }
 
 
@@ -204,8 +214,8 @@ namespace yalms.Migrations
         {
             AutomaticMigrationsEnabled = true;
         }
-        
-        
+
+
         protected override void Seed(yalms.Models.EFContext ctx)
         {
             seedRoles(ctx);
@@ -213,6 +223,7 @@ namespace yalms.Migrations
             seedCourses(ctx);
             seedClasses(ctx);
             seedSlots(ctx);
+            seedAssignments(ctx);
         }
     }
 }
