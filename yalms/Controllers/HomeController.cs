@@ -20,7 +20,7 @@ namespace yalms.Controllers
         protected EFContext context;
 
 
-        public ViewResult Index()
+        public ActionResult Index()
         {
             // debugkod
             IDateProvider today = new DummyDateProvider(DateTime.Now);
@@ -31,13 +31,15 @@ namespace yalms.Controllers
                 var model = new TeacherScheduleViewModel(dateProvider.Today(), 
                                                          userProvider.UserID(),
                                                          context);
-                return View("../Teacher/Schedule", model);
+                return RedirectToAction("Schedule","Teacher");
+               // return View("../Teacher/Schedule", model);
             }
             if (userProvider.Role() == "student")
             {
                 var model = new StudentMainViewModel(
                                   context, userProvider, dateProvider);
                 TempData["StudentViewModel"] = model;
+                //return RedirectToAction("Schedule", "Teacher", model);
                 return View("../Student/MainView", model);
             }
             return View("Index");

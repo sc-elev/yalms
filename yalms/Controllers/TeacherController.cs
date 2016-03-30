@@ -42,12 +42,12 @@ namespace yalms.Controllers
             // viewmodel: TeacherScheduleViewModel
             // DateTime selectedDate = Session["selectedDate"] ? ;
 
-            if (Session != null && Session["selectedDate"] == null)
+            if (Session["selectedDate"] == null)
             {
                 Session["selectedDate"] = dateProvider.Today();
             }
 
-            var selectedDate = dateProvider.Today();
+            var selectedDate = (DateTime)Session["selectedDate"];
 
             var teacher_UserID = -1;
             try
@@ -84,6 +84,12 @@ namespace yalms.Controllers
                     }
                     catch { }
                 }
+
+                ViewBag.SelectedSlotInformation = slot.When.ToShortDateString() 
+                    + " (" + model.SlotTimings[slot.SlotNR].start.ToLongTimeString().Substring(0, 5)
+                    + " - " + model.SlotTimings[slot.SlotNR].end.ToLongTimeString().Substring(0, 5) + ")";
+            } else {
+                ViewBag.SelectedSlotInformation ="- Ingen vald -";
             }
             return View(model);
         }
@@ -92,8 +98,8 @@ namespace yalms.Controllers
         [HttpPost]
         public ActionResult SlotForm(TeacherScheduleViewModel pageviewmodel)
         {
-            if (Session["selectedSlot"] != null)
-            {
+            if (Session["selectedSlot"] != null && pageviewmodel.FormSelectedCourse != -1 && pageviewmodel.FormSelectedRoom != -1)
+            { 
                 var slot = (Slot)Session["selectedSlot"];
                 // update from form
                 slot.CourseID = pageviewmodel.FormSelectedCourse;
@@ -128,13 +134,36 @@ namespace yalms.Controllers
         }
 
 
-        public ActionResult SlotClick(Slot clickedSlot, TeacherScheduleViewModel model)
+        public ActionResult SlotClick(Slot clickedSlot)
         {
 
             Session["selectedSlot"] = clickedSlot;
             return RedirectToAction("Schedule");
         }
 
+        public ActionResult NextWeek_Click(TeacherScheduleViewModel model) {
+
+            if (Session["selectedDate"] != null)
+            {
+                var date = (DateTime)Session["selectedDate"];
+                Session["selectedDate"] = date.AddDays(7);
+            }
+
+
+            return RedirectToAction("Schedule");
+        }
+
+        public ActionResult PreviousWeek_Click(TeacherScheduleViewModel model)
+        {
+            if (Session["selectedDate"] != null)
+            {
+                var date = (DateTime)Session["selectedDate"];
+                Session["selectedDate"] = date.AddDays(-7);
+            }
+
+
+            return RedirectToAction("Schedule");
+        }
 
         public TeacherController()
         {

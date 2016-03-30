@@ -22,6 +22,7 @@ namespace yalms.Models
         public Slot SelectedSlot { get; set; }
 
         public DateTime FirstDayOfWeek { get; set; }
+        public int Week { get; set; }
 
         int foo = SlotTimingInfo.Timings.Count;
 
@@ -39,6 +40,7 @@ namespace yalms.Models
             SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
 
             FirstDayOfWeek = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(date);
+            Week = CommonFunctions.CustomConversion.GetWeekFromDate(date);
 
             // populate rooms
             var Rooms = ctx.GetRooms();
@@ -46,6 +48,8 @@ namespace yalms.Models
             foreach (var room in Rooms) {
                 RoomSelectionData.Add(new SelectListItem { Text = room.Name, Value = room.RoomID.ToString() });
             }
+            // add empty selection in the beginning of RoomSelectionData
+            RoomSelectionData.Insert(0, new SelectListItem { Text = " - Ingen vald - ", Value = "-1" });
 
             // populate full courses data.
             //Courses = new CourseRepository(ctx).GetAllCoursesByTeacherIDAndWeek_Full(teacher_UserID, date).ToList();
@@ -55,7 +59,7 @@ namespace yalms.Models
             var CourseIDs = Courses.Select(c => c.CourseID).ToList();
 
             if (Courses.Count != 0) {
-                SelectedCourse = Courses.FirstOrDefault().CourseID;
+                //SelectedCourse = Courses.FirstOrDefault().CourseID;
                 CourseSelectionData = new List<SelectListItem>();
                 foreach (var course in Courses)
                 {
@@ -73,6 +77,11 @@ namespace yalms.Models
             {
                 SelectedCourse = -1;
             }
+
+            // add empty selection in the beginning of CourseSelectionData
+            CourseSelectionData.Insert(0, new SelectListItem { Text = " - Ingen vald - ", Value = "-1" });
+            SelectedCourse = Courses.FirstOrDefault().CourseID;
+
             ThisWeekSlots = new Slot[SlotTimingInfo.Timings.Count, 5];
             ThisWeekUrls = new string[SlotTimingInfo.Timings.Count, 5];
 
@@ -105,7 +114,9 @@ namespace yalms.Models
             return new Slot {
                 SlotID = slot.SlotID,
                 SlotNR = slot.SlotNR,
-                When = slot.When
+                When = slot.When,
+                CourseID = slot.CourseID,
+                RoomID = slot.RoomID
             };
         }
 

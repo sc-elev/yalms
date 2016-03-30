@@ -19,52 +19,75 @@
 
     <div class="SecondCol">
 
+        <div style="width: 100%; display: inline-block; height: 25px; text-align: center">
+            @Html.ActionLink("<<<", "PreviousWeek_Click","Teacher")
+        @(Model.Week)
+            @Html.ActionLink(">>>", "NextWeek_Click", "Teacher")
+        </div>
+
+
         <div class="DayColumn">
-            @for (var s = 1; s < Model.SlotTimings.Count; s++)
-            {
-                <div class="TimeSlot">
-                    @Model.SlotTimings[s].FormatFrom() 
-                    - 
-                    @Model.SlotTimings[s].FormatTo()
-                </div>
-            }
+            <div class="CalSlot">
+                <b> Vecka @Model.Week</b>
+            </div>
+                @for (var s = 1; s < Model.SlotTimings.Count; s++)
+                {
+                    <div class="TimeSlot">
+                        @Model.SlotTimings[s].FormatFrom()
+                        -
+                        @Model.SlotTimings[s].FormatTo()
+                    </div>
+                }
         </div>
 
         @for(var day = 0; day < 5; day++)
         {
-            <div class="DayColumn">
-                @for (var row = 1; row < Model.SlotTimings.Count; row++)
+        
+            
+                <div class="DayColumn">
+                    <div class="CalSlot">
+                        @Model.FirstDayOfWeek.AddDays(day).DayOfWeek
+                        <br />
+                        @Model.FirstDayOfWeek.AddDays(day).Month
+                        /
+                        @Model.FirstDayOfWeek.AddDays(day).Day
+                    </div>
+
+                    @for (var row = 1; row < Model.SlotTimings.Count; row++)
                 {
                     var slot = Model.ThisWeekSlots[row, day];
-                    <a href="@Model.ThisWeekUrls[row, day]">
-                        @if (slot == null)
+                        <a href="@Model.ThisWeekUrls[row, day]">
+                            @if (slot == null)
                         {
                             // slot is empty
-                            <div class="EmptySlot"> &nbsp; </div>
+                                <div class="EmptySlot"> &nbsp; </div>
                         }
                         else
                         {
-                            <div class="Slot">
-                                @slot.Room.Description - @slot.Course.Name
-                            </div>
+                                <div class="Slot">
+                                    @slot.Room.Name <br /> @slot.Course.Name
+                                </div>
                         }
-                    </a>
+                        </a>
+                }
+                </div>
                 }
             </div>
-        }
-    </div>
 
     <div class="ThirdCol">
+        <div class="SelectedSlotInformation">
+            @ViewBag.SelectedSlotInformation
+        </div>
         @using (Html.BeginForm("SlotForm", "Teacher", FormMethod.Post, 
                                new { pageviewmodel = Model }))
         {
-            @Html.Label("Välj kurs")
-            @Html.DropDownListFor(m => m.FormSelectedCourse, 
-                                  Model.CourseSelectionData)
+            @Html.Label("Välj kurs", new { @class = "LabelClass" })
+            @Html.DropDownListFor(m => m.FormSelectedCourse,
+                                            Model.CourseSelectionData, new { @class = "DDLClass" })
             <br />
-            @Html.Label("Välj sal")
-            @Html.DropDownListFor(m => m.FormSelectedRoom, 
-                                  Model.RoomSelectionData)
+            @Html.Label("Välj sal",new { @class = "LabelClass" })
+            @Html.DropDownListFor(m => m.FormSelectedRoom,
+                                       Model.RoomSelectionData, new { @class = "DDLClass" })
             <br />
             <input type="submit" value="Spara vald slot" />
             <br />
@@ -75,6 +98,7 @@
 
 <style>
     .FirstsCol {
+               padding: 3px;
         float: left;
         display: inline-block;
         width: 200px;
@@ -83,17 +107,19 @@
     }
 
     .SecondCol {
+               padding: 3px;
                 float: left;
         display: inline-block;
-        width: 700px;
+        width: 640px;
         border: 1px solid green;
                 height: 800px;
     }
 
     .ThirdCol {
+        /*padding: 3px;*/
         float: left;
         display: inline-block;
-        width: 200px;
+        width: 250px;
         border: 1px solid blue;
                 height: 400px;
     }
@@ -101,16 +127,17 @@
     .DayColumn {
         padding: 1px;
         display: inline-block;
-        width: 85px;
+        width: 90px;
         border: 0px solid black;
         height: 400px;
     }
 
     .TimeSlot {
+               margin: 2px;
         color: #DDDDDD;
         background-color: #2c9f00;
         border: 1px solid #4cff00;
-                width: 80px;
+                width: 90px;
                 display: inline-block;
                 font-size: 10px;
                 height: 45px;
@@ -118,25 +145,59 @@
     }
 
         .Slot {
+                   margin: 2px;
         color: #DDDDDD;
-        background-color: #2c009f;
+        background-color: #7c70af;
         border: 1px solid #4c00ff;
-                width: 80px;
+                width: 90px;
                 display: inline-block;
                 font-size: 10px;
                 height: 45px;
                 text-align: center;
     }
 
-                .EmptySlot {
+    .EmptySlot {
+               margin: 2px;
         color: #DDDDDD;
         background-color: #FFFFFF;
         border: 1px solid #4c00ff;
-                width: 80px;
+                width: 90px;
                 display: inline-block;
                 font-size: 10px;
                 height: 45px;
                 text-align: center;
     }
 
+   .CalSlot {
+       margin: 2px;
+        color: #121212;
+        background-color: #FFFFFF;
+        border: 1px solid #DDDDDD;
+                width: 90px;
+                display: inline-block;
+                font-size: 10px;
+                height: 45px;
+                text-align: center;
+    }
+
+      .SelectedSlotInformation {
+        color: #121212;
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #DDDDDD;
+                width: 100%;
+                display: inline-block;
+                font-size: 13px;
+                height: 25px;
+                text-align: center;
+        padding-bottom: 10px;
+    }
+      .DDLClass {
+          width: 140px; 
+          font-size: 13px;
+      }
+      
+      .LabelClass {
+          width: 90px; 
+          font-size: 13px;
+      }
 </style>
