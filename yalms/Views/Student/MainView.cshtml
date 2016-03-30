@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Uppgifter";
 }
+@Scripts.Render("~/bundles/jquery")
+
+<script src="~/Scripts/StudentMainView.js"></script>
+
 <div class="row">
 
     <!-- Left column -->
@@ -9,11 +13,29 @@
         <br />
         <legend>Uppgifter att göra</legend>
         <p><br />
-            [Filträd med uppgifter]<br />
-            [Filträd med uppgifter]<br />
-            [Filträd med uppgifter]<br />
-            [Filträd med uppgifter]<br />
+            <div id="AssignmentsTree">
+
+                <ul>
+                    <li>
+                        <a>Svenska A</a>
+                        <ul>
+                            <li><a>Uppsats om Esaias Tegner</a></li>
+                            <li><a>Kortfrågor: Svenska författare</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Engelska</a>  </li>
+                    <li>
+                        <a>Fysik</a>
+                        <ul>
+                            <li><a>Extrauppgift 2016-04-04</a></li>
+                            <li><a>Inlämningsuppgift 3</a></li>
+                            <li><a>Inlämningsuppgift 4</a></li>
+                        </ul>
+                </ul>
+            </div>
         <br />
+
+
         <br />
         </p>
         <legend>Lämna in uppgift</legend>
