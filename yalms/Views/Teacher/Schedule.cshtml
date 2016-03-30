@@ -19,9 +19,9 @@
 
     <div class="SecondCol">
 
-        <div style="width: 100%; display: inline-block; height: 25px; text-align: center">
+        <div style="width: 100%; display: inline-block; height: 25px; text-align: center; font-weight: bold; font-size: 13px">
             @Html.ActionLink("<<<", "PreviousWeek_Click","Teacher")
-        @(Model.Week)
+        &nbsp; Vecka&nbsp;@(Model.Week)&nbsp;
             @Html.ActionLink(">>>", "NextWeek_Click", "Teacher")
         </div>
 

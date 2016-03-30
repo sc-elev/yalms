@@ -129,6 +129,7 @@ namespace yalms.DAL
             // Get Slot by ID.
             Slot slot = context.Slots.SingleOrDefault(o => o.SlotID == slotID);
             context.Slots.Remove(slot);
+            context.SaveChanges();
         }
         #endregion
 

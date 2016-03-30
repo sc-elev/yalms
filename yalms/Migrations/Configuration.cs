@@ -151,41 +151,48 @@ namespace yalms.Migrations
             ctx.Slots.RemoveRange(ctx.Slots);
             ctx.SaveChanges();
 
+            // Get courses for slot creation
+            var createrdCourses = ctx.Courses.ToList();
+
+            // get Rooms for Slot creatíon
+            var room1 = ctx.Rooms.FirstOrDefault(o => o.Name == "A4").RoomID;
+            var room2 = ctx.Rooms.FirstOrDefault(o => o.Name == "B3").RoomID;
+
             var monday = FirstDayOfWeek(DateTime.Today);
             var slots = new List<Slot> {
-                    new Slot {CourseID = 1, RoomID = 1, When = monday, SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = monday, SlotNR = 2 },
-                    new Slot {CourseID = 3, RoomID = 1, When = monday, SlotNR = 3},
-                    new Slot {CourseID = 1, RoomID = 1, When = monday, SlotNR = 4 },
-                    new Slot {CourseID = 4, RoomID = 1, When = monday, SlotNR = 5 },
-                    new Slot {CourseID = 4, RoomID = 1, When = monday, SlotNR = 6 },
-                    new Slot {CourseID = 5, RoomID = 1, When = monday, SlotNR = 7 },
-                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(1), SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(1), SlotNR = 2 },
-                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(1), SlotNR = 3},
-                    new Slot {CourseID = 5, RoomID = 1, When = monday.AddDays(1), SlotNR = 4 },
-                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(1), SlotNR = 5 },
-                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(2), SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(2), SlotNR = 2 },
-                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(2), SlotNR = 3 },
-                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(2), SlotNR = 5 },
-                    new Slot {CourseID = 3, RoomID = 1, When = monday.AddDays(2), SlotNR = 6 },
-                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(3), SlotNR = 1 },
-                    new Slot {CourseID = 3, RoomID = 2, When = monday.AddDays(3), SlotNR = 4 },
-                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(3), SlotNR = 3 },
-                    new Slot {CourseID = 4, RoomID = 1, When = monday.AddDays(3), SlotNR = 5 },
-                    new Slot {CourseID = 5, RoomID = 1, When = monday.AddDays(3), SlotNR = 7 },
-                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(4), SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(4), SlotNR = 2 },
-                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(4), SlotNR = 3 },
-                    new Slot {CourseID = 4, RoomID = 2, When = monday.AddDays(4), SlotNR = 5 },
-                    new Slot {CourseID = 3, RoomID = 1, When = monday.AddDays(4), SlotNR = 6 },
-                    new Slot {CourseID = 1, RoomID = 1, When = monday.AddDays(7), SlotNR = 1 },
-                    new Slot {CourseID = 2, RoomID = 2, When = monday.AddDays(7), SlotNR = 2 },
-                    new Slot {CourseID = 1, RoomID = 2, When = monday.AddDays(7), SlotNR = 3 },
-                    new Slot {CourseID = 4, RoomID = 2, When = monday.AddDays(7), SlotNR = 5 },
-                    new Slot {CourseID = 3, RoomID = 1, When = monday.AddDays(7), SlotNR = 6 },
-                    new Slot {CourseID = 5, RoomID = 1, When = monday, SlotNR = 7 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday, SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[1].CourseID, RoomID = room2, When = monday, SlotNR = 2 },
+                    new Slot {CourseID = createrdCourses[2].CourseID, RoomID = room1, When = monday, SlotNR = 3},
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday, SlotNR = 4 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room1, When = monday, SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room1, When = monday, SlotNR = 6 },
+                    new Slot {CourseID = createrdCourses[4].CourseID, RoomID = room1, When = monday, SlotNR = 7 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday.AddDays(1), SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[1].CourseID, RoomID = room2, When = monday.AddDays(1), SlotNR = 2 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room2, When = monday.AddDays(1), SlotNR = 3 },
+                    new Slot {CourseID = createrdCourses[4].CourseID, RoomID = room1, When = monday.AddDays(1), SlotNR = 4 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room1, When = monday.AddDays(1), SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday.AddDays(2), SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[1].CourseID, RoomID = room2, When = monday.AddDays(2), SlotNR = 2 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room2, When = monday.AddDays(2), SlotNR = 3 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room1, When = monday.AddDays(2), SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[2].CourseID, RoomID = room1, When = monday.AddDays(2), SlotNR = 6 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday.AddDays(3), SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room2, When = monday.AddDays(3), SlotNR = 4 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room2, When = monday.AddDays(3), SlotNR = 3 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room1, When = monday.AddDays(3), SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[4].CourseID, RoomID = room1, When = monday.AddDays(3), SlotNR = 7 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday.AddDays(4), SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[1].CourseID, RoomID = room2, When = monday.AddDays(4), SlotNR = 2 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room2, When = monday.AddDays(4), SlotNR = 3 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room2, When = monday.AddDays(4), SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[2].CourseID, RoomID = room1, When = monday.AddDays(4), SlotNR = 6 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room1, When = monday.AddDays(7), SlotNR = 1 },
+                    new Slot {CourseID = createrdCourses[1].CourseID, RoomID = room2, When = monday.AddDays(7), SlotNR = 2 },
+                    new Slot {CourseID = createrdCourses[0].CourseID, RoomID = room2, When = monday.AddDays(7), SlotNR = 3 },
+                    new Slot {CourseID = createrdCourses[3].CourseID, RoomID = room2, When = monday.AddDays(7), SlotNR = 5 },
+                    new Slot {CourseID = createrdCourses[2].CourseID, RoomID = room1, When = monday.AddDays(7), SlotNR = 6 },
+                    new Slot {CourseID = createrdCourses[4].CourseID, RoomID = room1, When = monday, SlotNR = 7 },
             };
             foreach (var slot in slots) ctx.Slots.AddOrUpdate(slot);
             ctx.SaveChanges();

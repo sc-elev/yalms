@@ -68,7 +68,7 @@ namespace yalms.Models
                         .Select(s => s.Name)
                         .SingleOrDefault();
                     CourseSelectionData.Add(new SelectListItem { 
-                        Text = course.Name + " "+ className, 
+                        Text = "("+ course.CourseID +")"+course.Name + " "+ className, 
                         Value = course.CourseID.ToString() 
                     });
                 }
