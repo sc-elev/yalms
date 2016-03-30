@@ -3,47 +3,81 @@
     ViewBag.Title = "Uppgifter";
 }
 <div class="row">
+
+    <!-- Left column -->
     <div class="col-md-4">
-        Uppgifter att göra
+        <br />
+        <legend>Uppgifter att göra</legend>
+        <p><br />
+            [Filträd med uppgifter]<br />
+            [Filträd med uppgifter]<br />
+            [Filträd med uppgifter]<br />
+            [Filträd med uppgifter]<br />
+        <br />
+        <br />
+        </p>
+        <legend>Lämna in uppgift</legend>
+        <select id="SelectTask" style="width:380px">
+            <option selected>Välj inlämningsuppgift</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+        <div style="display:inline-block">
+            <input id="UploadTask" type="file" />
+        </div>
+        <div style="display:inline-block; float:right">
+            <input id="UploadButton" type="button" style="width:75px" value="OK" />
+        </div>
     </div>
+
+
+    <!-- Middle column -->
     <div class="col-md-4">
-        <h2>Idag </h2>
-
+        <br />
+        <legend>Schema @Model.SchoolClass</legend>
         <div>
-            v @Model.WeekNr, @Model.Today.Year &bull; 
-             @Model.WeekDay @Model.Date &bull;  @Model.SchoolClass
-            @Html.ActionLink("<< ", "../Student/MainViewPrevDay")
-            @if (DateTime.Now.Date != Model.Today)
-            { 
-                @Html.ActionLink("Idag", "../Student/MainViewToday")
-            }
-            else
-            {
-                <text>Idag</text>
-            }
-            @Html.ActionLink(" >>", "../Student/MainViewNextDay")
+            <div style="display:inline-block; float:left; font-size:1.2em">
+                v @Model.WeekNr, @Model.Today.Year &bull;
+                @Model.WeekDay @Model.Date
+            </div>
+            <div style="display:inline-block; float:right; font-size:1.2em">
+                @Html.ActionLink("<< ", "MainViewPrevDay")
+                @if (DateTime.Now.Date != Model.Today)
+                {
+                    @Html.ActionLink("Idag", "MainViewToday")
+                }
+                else
+                {
+                    <text>Idag</text>
+                }
+                @Html.ActionLink(" >>", "MainViewNextDay")
+            </div>
         </div>
-        <div>
-           
-            
-        </div>
-
         <table class="table table-striped table-condensed">
             @foreach (var slot in Model.slots)
             {
                 <tr>
-                    <td>@Model.SlotTimings[(int)slot.SlotNR].FormatFrom()</td>
-                    <td>-</td>
-                    <td>@Model.SlotTimings[(int)slot.SlotNR].FormatTo()</td>
-                    <td>@slot.Course.Name </td>
-                    <td>@slot.Room.Description </td>
+                    <td style="text-align:center">@Model.SlotTimings[(int)slot.SlotNR].FormatFrom()</td>
+                    <td>&ndash;</td>
+                    <td style="text-align:center">@Model.SlotTimings[(int)slot.SlotNR].FormatTo()</td>
+                    <td>@slot.Course.Name</td>
+                    <td>@slot.Room.Description</td>
                 </tr>
             }
         </table>
     </div>
+
+
+    <!-- Right column -->
     <div class="col-md-4">
-        Feedback på uppgifter
+        <br />
+        <legend>Feedback på uppgifter</legend>
     </div>
+
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
