@@ -42,15 +42,16 @@
                     (ej vald)
                 </div> 
                 <div style="display:inline-block">
-                    <input id="UploadTask" type="file" />
+                    <input id="assignmentFile" name="assignmentFile" type="file" />
                 </div>
-                <input id="assignmentUploadBtn" type="button" value="OK"
+                <input id="assignmentUploadBtn" type="submit" value="OK"
                        class="btn btn-default btn-md pull-right" 
                        disabled="disabled"/>
                 <input type="hidden" name="assignmentId" id="assignmentId"
                        value="-1"/>
             </text>
         }  
+        @ViewBag.UploadMessage
     </div>
 
 

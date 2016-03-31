@@ -66,6 +66,18 @@ namespace yalms.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult PostAssignment(HttpPostedFileBase assignmentFile, 
+                                           int assignmentID)
+        {
+            int id = assignmentID;
+            StudentMainViewModel model =
+                modelFactory.Create(dateProvider);
+            ViewBag.UploadMessage = 
+                "Uploaded file " + assignmentFile.FileName + " OK";
+            return View("MainView", model);
+        }
+
         public StudentController()
         {
             dateProvider = new DateProvider();
