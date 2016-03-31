@@ -28,7 +28,48 @@ namespace yalms.Controllers
         public ViewResult Assignment()
         {
             // viewmodel: TeacherAssignmentViewModel
-            return View();
+            var teacher_UserID = -1;
+            try
+            {
+                teacher_UserID = this.userProvider.UserID();
+            }
+            catch { }
+            //var userID = user.Id;
+
+            TeacherAssignmentViewModel model = new TeacherAssignmentViewModel(teacher_UserID, context);
+
+            return View(model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadStudentsByClass(string id)
+        {
+            // Get Students
+            var studentList = new SchoolClassStudentRepository().GetAllSchoolClassStudentsBySchoolClassID_Full(Convert.ToInt32(id));
+
+
+            var studentData = studentList.Select(m => new SelectListItem()
+            {
+                Text = m.Student.UserName,
+                Value = m.Student_UserID.ToString()
+            });
+            return Json(studentData, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadAssignmentsByClass(string id)
+        {//
+            var courseID = new CourseRepository().GetCourseByClassID(Convert.ToInt32(id)).CourseID;
+
+            // Get Assignments
+            var assignmentList = new AssignmentRepository().GetAllAssignmentsByCourseID(courseID);
+
+            var studentData = assignmentList.Select(m => new SelectListItem()
+            {
+                Text = m.Name,
+                Value = m.AssignmentID.ToString()
+            });
+            return Json(studentData, JsonRequestBehavior.AllowGet);
         }
 
         public ViewResult Document()
@@ -179,6 +220,21 @@ namespace yalms.Controllers
             dateProvider = d;
             userProvider = u;
             context = c;
+//=======
+//           // DateTime selectedDate = Session["selectedDate"] ? ;
+
+//            if (Session["selectedDate"] == null)
+//            {
+//                Session["selectedDate"] = DateTime.Now;
+//            }
+
+//            var selectedDate = DateTime.Now;
+//            var selectedCourseID = 1;
+
+//            TeacherScheduleViewModel model = new TeacherScheduleViewModel(selectedCourseID, (DateTime)Session["selectedDate"]);
+
+//            return View(model);
+//>>>>>>> Stashed changes
         }
     }
 }

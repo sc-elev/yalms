@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+//<<<<<<< Updated upstream
 using System.Web.Mvc;
+//=======
+//>>>>>>> Stashed changes
 using yalms.DAL;
 
 namespace yalms.Models
 {
     public class TeacherScheduleViewModel
     {
+//<<<<<<< Updated upstream
         public List<Course> Courses { get; set; }
         public List<SelectListItem> CourseSelectionData { get; set; }
         public int SelectedCourse { get; set; }
@@ -154,3 +158,21 @@ namespace yalms.Models
 
     }
 }
+//=======
+//        List<Slot> Slots { get; set; }
+//        List<Course> Courses { get; set; }
+//        int DefaultSelectedCourse { get; set; }
+
+//        public TeacherScheduleViewModel() {}
+
+//        public TeacherScheduleViewModel(int courseID, DateTime date, int teacher_UserID)
+//        {
+//            // populate full courses data.
+//            Courses = new CourseRepository().GetAllCoursesByTeacherID_Full(teacher_UserID).ToList();
+
+//            // populate slots
+//            Slots = new SlotRepository().GetTeachersWeeklySheduleByCourseIDAndDate_Full(courseID, date);
+//        }
+//    }
+//}
+//>>>>>>> Stashed changes

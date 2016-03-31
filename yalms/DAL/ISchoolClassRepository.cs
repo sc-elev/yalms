@@ -11,7 +11,7 @@ namespace yalms.DAL
     { 
         IEnumerable<SchoolClass> GetAllSchoolClasses();
         SchoolClass GetSchoolClassBySchoolClassID(int? schoolClassID);
-        SchoolClass GetSchoolClassBySchoolClassID_Full(int? schoolClassID); 
+        SchoolClass GetSchoolClassBySchoolClassID_Full(int? schoolClassID);
 
         SchoolClass GetNewestSchoolClass(); 
         void InsertSchoolClass(SchoolClass company); 

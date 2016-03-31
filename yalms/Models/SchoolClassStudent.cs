@@ -22,6 +22,8 @@ namespace yalms.Models
 
 
         // objects for sub key data relationship
+        [NotMapped]
+        public ApplicationUser Student { get; set; }
 
 
     }

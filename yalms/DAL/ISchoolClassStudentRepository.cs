@@ -10,7 +10,9 @@ namespace yalms.DAL
     public interface ISchoolClassStudentRepository : IDisposable 
     { 
         IEnumerable<SchoolClassStudent> GetAllSchoolClassStudents();
-        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID); 
+        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID);
+        IEnumerable<SchoolClassStudent> GetAllSchoolClassStudentsBySchoolClassID_Full(int schoolClassID);
+
         SchoolClassStudent GetSchoolClassStudentByID(int? schoolClassStudentID); 
 
         SchoolClassStudent GetNewestSchoolClassStudent(); 
