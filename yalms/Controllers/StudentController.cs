@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 using yalms.Models;
 
 namespace yalms.Controllers
@@ -20,6 +20,20 @@ namespace yalms.Controllers
         protected EFContext context;
 
         protected StudentMainViewModelFactory modelFactory;
+
+        private void seedUploads()
+        {
+            string[] paths = new string[] {
+                "~/Upload", "~/Upload/Assignments", "~/Upload/Shared"};
+            foreach (var path in paths)
+            {
+                var dirpath =
+                    System.Web.HttpContext.Current.Server.MapPath(path);
+                if (Directory.Exists(dirpath)) Directory.Delete(dirpath, true);
+                Directory.CreateDirectory(dirpath);
+            }
+        }
+
      
         public ViewResult MainView()
         {
@@ -70,11 +84,30 @@ namespace yalms.Controllers
         public ActionResult PostAssignment(HttpPostedFileBase assignmentFile, 
                                            int assignmentID)
         {
+            seedUploads();
             int id = assignmentID;
-            StudentMainViewModel model =
-                modelFactory.Create(dateProvider);
-            ViewBag.UploadMessage = 
-                "Uploaded file " + assignmentFile.FileName + " OK";
+            StudentMainViewModel model = modelFactory.Create(null);
+
+            if (assignmentFile == null || assignmentFile.ContentLength < 10)
+            {
+                ViewBag.UploadMessage = "Fel: Ingenting laddades upp";
+                return View("MainView", model);
+            }
+            string [] parts = {
+                 "~", "Upload", "Assignments", userProvider.UserID().ToString()};
+            var path = Path.Combine(parts);
+            path = System.Web.HttpContext.Current.Server.MapPath(path); //FIXME - testability.
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            path = Path.Combine(
+                path, assignmentID.ToString() + "-" + assignmentFile.FileName);
+            string msg = "Filen " + assignmentFile.FileName + " uppladdad.";
+            if (System.IO.File.Exists(path))
+            {
+                msg += " (Filen fanns sedan förut, raderar.)";
+                System.IO.File.Delete(path);
+            }
+            assignmentFile.SaveAs(path);
+            ViewBag.UploadMessage = msg;
             return View("MainView", model);
         }
 

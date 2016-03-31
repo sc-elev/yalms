@@ -6,6 +6,10 @@ yalms/Content/themes
 yalms/Scripts/json2*
 yalms/Scripts/jstree*
 
+# Test data
+
+Upload
+
 
 # User-specific files
 *.suo
