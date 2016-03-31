@@ -33,6 +33,25 @@ namespace yalms.DAL
         }
         #endregion
 
+        #region Get SchoolClassStudent by its SchoolClassStudent ID without populating foregin key data
+        public IEnumerable<SchoolClassStudent> GetAllSchoolClassStudentsBySchoolClassID_Full(int schoolClassID)
+        {
+            var students = (from scs in context.SchoolClassStudents
+                    where scs.SchoolClassID == schoolClassID
+                    select scs
+                );
+
+            // Add student objects to list of class students
+            foreach (var classStudent in students)
+            {
+                classStudent.Student = new UserRepository().GetUserByID((int)classStudent.Student_UserID);
+            }
+
+
+            return students;
+        }
+        #endregion
+
         #region Get SchoolClassStudent by its SchoolClassStudent ID
         public SchoolClassStudent GetSchoolClassStudentByID(int? schoolClassStudentID)
         {

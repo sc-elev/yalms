@@ -45,6 +45,30 @@ namespace yalms.DAL
 
         #endregion
 
+        public IEnumerable<Course> GetAllCoursesByTeacherID_ClassAndAssignment_Full(int teacher_UserID)
+        {
+
+            var courses = (from cour in context.GetCourses()
+                           where cour.Teacher_UserID == teacher_UserID
+                           select cour
+                           );
+
+            foreach (var course in courses)
+            {
+                course.SchoolClass = new SchoolClassRepository(context).GetSchoolClassBySchoolClassID_Full(course.SchoolClassID);
+                course.Assignments = new AssignmentRepository(context).GetAllAssignmentsByCourseID(course.CourseID);
+            }
+
+            return courses;
+        }
+
+        public Course GetCourseByClassID(int classID)
+        {
+            return (from cour in context.GetCourses()
+                    where cour.SchoolClassID == classID
+                    select cour
+                           ).FirstOrDefault();
+        }
 
         #region Get Course by its Course ID
         public Course GetCourseByID(int? courseID)

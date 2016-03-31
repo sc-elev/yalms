@@ -1,5 +1,144 @@
-﻿@{
+﻿@model yalms.Models.TeacherAssignmentViewModel
+@{
     Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
 }
-Assignment
+<div>
+    <div class="FirstsCol">
+        @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
+        @Html.DropDownListFor(m => m.FormSelectedSchoolClass,
+                                         Model.ClassSelectionData, new { @id="classList", @class = "DDLClass" })
+        <br />
+    </div>
 
+    <div class="SecondCol">
+        <br />
+        @Html.DropDownListFor(m => m.FormSelectedStudent,
+                                                     Model.StudentSelectionData, new { @id = "studentList", @class = "DDLClass" })
+    </div>
+
+    <div class="ThirdCol">
+        @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
+        <br />
+        @Html.DropDownListFor(m => m.FormSelectedAssignment,
+                                            Model.AssignmentSelectionData, new { @id="assignmentList", @class = "DDLClass" })
+    </div>
+</div>
+
+<script type="text/javascript">
+    alert('starts');
+
+    $(function () {
+        $('select#classList').change(function () {
+            var classid = $(this).val();
+            alert('A: '+classid);
+
+            $.getJSON("../Teacher/LoadStudentsByClass", { id: classid },
+                   function (data) {
+                       //alert('fetched');
+                       var select = $("#studentList");
+                       select.empty();
+                       select.append($('<option/>', {
+                           value: 0,
+                           text: "- Välj student -"
+                       }));
+                       $.each(data, function (index, itemData) {
+                           select.append($('<option/>', {
+                               value: itemData.Value,
+                               text: itemData.Text
+                           }));
+                       });
+                   });
+
+            $.getJSON("../Teacher/LoadAssignmentsByClass", { id: classid },
+                   function (data) {
+                       //alert('fetched');
+                       var select = $("#assignmentList");
+                       select.empty();
+                       select.append($('<option/>', {
+                           value: 0,
+                           text: "- Välj Assigment -"
+                       }));
+                       $.each(data, function (index, itemData) {
+                           select.append($('<option/>', {
+                               value: itemData.Value,
+                               text: itemData.Text
+                           }));
+                       });
+                   });
+
+            //alert('finnish');
+        });
+    });
+
+        </script>
+        @*var ddl = $('#FormSelectedSchoolClass');
+
+
+});
+
+
+});*@
+
+        @*<script type="text/javascript">
+     $(document).ready(function () {
+         $("#classList").change(function () {
+             var cID = $(this).val();
+             alert(cID);
+             $.getJSON("../Teacher/LoadStudentsByClass", { classId: cID },
+                    function (data) {
+                        var select = $("#studentsList");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "Select a Student"
+                        }));
+                        $.each(data, function (index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+         });
+     });
+    </script>*@
+
+
+    <style>
+        .FirstsCol {
+            padding: 3px;
+            float: left;
+            display: inline-block;
+            width: 200px;
+            border: 1px solid red;
+            height: 400px;
+        }
+
+        .SecondCol {
+            padding: 3px;
+            float: left;
+            display: inline-block;
+            width: 640px;
+            border: 1px solid green;
+            height: 800px;
+        }
+
+        .ThirdCol {
+            /*padding: 3px;*/
+            float: left;
+            display: inline-block;
+            width: 250px;
+            border: 1px solid blue;
+            height: 400px;
+        }
+
+        .DDLClass {
+            width: 140px;
+            font-size: 13px;
+        }
+
+        .LabelClass {
+            width: 90px;
+            font-size: 13px;
+        }
+</style>

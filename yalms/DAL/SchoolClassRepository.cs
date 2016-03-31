@@ -15,13 +15,11 @@ namespace yalms.DAL
         // Get context for specific connectionstring.
         private EFContext context;
 
-
-        #region Get all SchoolClasses.
         public IEnumerable<SchoolClass> GetAllSchoolClasses()
         {
             return context.SchoolClasses;
         }
-        #endregion
+
 
         
         #region Get SchoolClass by its SchoolClassID
@@ -43,6 +41,8 @@ namespace yalms.DAL
             return schoolClass;
         }
         #endregion
+
+        
 
         #region Get SchoolClass by its SchoolClass ID
         public SchoolClass GetSchoolClassByID(int? schoolClassID)
@@ -74,7 +74,7 @@ namespace yalms.DAL
         }
         #endregion
 
-        #region Delete SchoolClass  from database by SchoolClass ID - Do not use unless sure it will not create data inconsistency and only if user is super Admin.
+        #region Delete SchoolClass  from database by SchoolClass ID 
         public void DeleteSchoolClass (int schoolClassID)
         {
             // Get SchoolClass by ID.
