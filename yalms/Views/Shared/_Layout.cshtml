@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,9 +21,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Start", "Index", "Home")</li>
                     <li>@Html.ActionLink("Om", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li><div style="display:inline-block; width:80px"></div></li>
+                    <li>@Html.ActionLink("Uppgifter", "Assignment", "")</li>
+                    <li>@Html.ActionLink("Delade dokument", "Document", "")</li>
+                    <li>@Html.ActionLink("Schema", "Schedule", "Teacher")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -246,6 +246,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\sc-logo.png" />
+    <Content Include="images\yalms-pupil.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\themes\default-dark\Thumbs.db" />
