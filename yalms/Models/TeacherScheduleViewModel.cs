@@ -23,6 +23,7 @@ namespace yalms.Models
 
         public DateTime FirstDayOfWeek { get; set; }
         public int Week { get; set; }
+        public DateTime Today { set; get; }
 
         int foo = SlotTimingInfo.Timings.Count;
 
