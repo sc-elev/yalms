@@ -15,7 +15,7 @@ namespace yalms.Models
         public int AssignmentID { get; set; }
 
         [Display(Name = "Course")]
-        public int? CourseID  { get; set; }
+        public int CourseID  { get; set; }
 
         public string Name { get; set;  }
 
@@ -30,7 +30,7 @@ namespace yalms.Models
 
         // objects for sub key data relationship
         [NotMapped]
-        public Course Course { get; set; }
+        public Course course { get; set; }
     }
 }
 
