@@ -28,6 +28,8 @@ namespace yalms.Models
 
         IList<ApplicationUser> GetUsers();
 
+        IList<Submission> GetSubmissions();
+
         void Dispose();
     }
 
@@ -63,6 +65,8 @@ namespace yalms.Models
         public virtual DbSet<Slot> Slots { get; set; }
 
         public virtual DbSet<Upload> Uploads { get; set; }
+
+        public virtual DbSet<Submission> Submissions { get; set; }
 
         public virtual IList<Assignment> GetAssignments()
         {
@@ -103,6 +107,11 @@ namespace yalms.Models
         {
             return Users.ToList();
         }
+        public virtual IList<Submission> GetSubmissions()
+        {
+            return Submissions.ToList();
+        }
+
     }
 }
 

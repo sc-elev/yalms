@@ -28,12 +28,9 @@ namespace yalms.Models
         [Display(Name = "StartTime")]
         public DateTime? StartTime  { get; set; }
 
-
         // objects for sub key data relationship
         [NotMapped]
         public Course Course { get; set; }
-
-
     }
 }
 

@@ -219,6 +219,7 @@
     <Compile Include="Models\SchoolClassStudent.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\StudentMainViewModel.cs" />
+    <Compile Include="Models\Submission.cs" />
     <Compile Include="Models\TeacherAdministrationViewModel.cs" />
     <Compile Include="Models\TeacherAssignmentViewModel.cs" />
     <Compile Include="Models\TeacherDocumentViewModel.cs" />
