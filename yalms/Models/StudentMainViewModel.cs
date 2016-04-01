@@ -84,7 +84,6 @@ namespace yalms.Models
     }
 
 
-
     public class StudentMainViewModel
     {
         public string WeekDay { set; get; }
@@ -95,8 +94,12 @@ namespace yalms.Models
         public IList<Slot> slots { get; set; }
         public IList<TimingInfo> SlotTimings { get; set; }
         public string SchoolClass { get; set; }
+
         public IList<AssignmentNode> Assignments { set; get; }
-        public SubmissionsNode SubmissiontStates { set; get; }
+        public SubmissionsNode SubmissionStates { set; get; }
+
+        public int selectedAssignment { set; get; }
+        public IList<SelectListItem> assignmentSelections { set; get; }
 
         public static StudentMainViewModel Create(
             Controller controller,
@@ -117,7 +120,7 @@ namespace yalms.Models
         }
 
 
-        private IEnumerable<Submission> submissionsByState(
+        private IEnumerable<Submission> SubmissionsByState(
                        EFContext context,
                        IList<int> assignments, 
                        Submission.States state,
@@ -139,15 +142,31 @@ namespace yalms.Models
         }
 
 
+        private IEnumerable<SelectListItem> 
+            BuildAssignmentSelections(EFContext context, IList<Course> courses)
+        {
+            List<int> courseIDs = courses.Select(c => c.CourseID).ToList();
+            return
+                from assignment in context.GetAssignments()
+                where courseIDs.Contains(assignment.CourseID)
+                join course in context.GetCourses() 
+                    on assignment.CourseID equals course.CourseID
+                select new SelectListItem {
+                    Value = assignment.AssignmentID.ToString(),
+                    Text = course.Name + "-" +
+                        assignment.Name
+                };
+        }
+
+
         public StudentMainViewModel(EFContext context,
                                     IUserProvider user,
                                     IDateProvider dateProvider)
         {
 
             var repo = new SlotRepository(context);
-            var result =
-                repo.GetStudentsDailySheduleByStudentUserID(
-                    user.UserID(), dateProvider.Today());
+            var result = repo.GetStudentsDailySheduleByStudentUserID(
+                                        user.UserID(), dateProvider.Today());
             slots = new List<Slot>(result)
                             .OrderBy(w => w.SlotNR)
                             .ToList();
@@ -157,6 +176,8 @@ namespace yalms.Models
             var courses = context.GetCourses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)
                 .ToList();
+            assignmentSelections = 
+                BuildAssignmentSelections(context, courses).ToList();
             Assignments = new List<AssignmentNode>();
             foreach (var course in courses)
             {
@@ -171,43 +192,30 @@ namespace yalms.Models
             var approvedNode = new SubmissionsNode("Godkända");
             var rejectedNode = new SubmissionsNode("Ej godkända");
             foreach (var course in courses)
-            {
-                
+            {    
                 var assignmentIDs = context.GetAssignments() 
                     .Where(a => a.CourseID == course.CourseID)
                     .Select(a => a.AssignmentID)
                     .ToList();
                 var courseNode = new SubmissionsNode(course.Name);
-                var query = submissionsByState(
+                var query = SubmissionsByState(
                     context, assignmentIDs, Submission.States.Accepted, user);
-                 
                 courseNode.Submissions = query.ToList();
                 if (courseNode.Submissions.Count > 0)
                     approvedNode.Children.Add(courseNode);
 
                 courseNode = new SubmissionsNode(course.Name);
-                query  =
-                    from submission in context.GetSubmissions()
-                    where assignmentIDs.Contains(submission.AssignmentID) &&
-                         submission.State == Submission.States.Rejected
-                    join assignment in context.GetAssignments()
-                          on submission.AssignmentID equals assignment.AssignmentID
-                    select new Submission {
-                        AssignmentID = assignment.AssignmentID,
-                        State = Submission.States.New,
-                        SubmissionTime = DateTime.Now,
-                        UserID = user.UserID(),
-                        assignment = assignment
-                    };
+                query = SubmissionsByState(
+                     context, assignmentIDs, Submission.States.Rejected, user);
                 courseNode.Submissions = query.ToList();
                 if (courseNode.Submissions.Count > 0)
                     rejectedNode.Children.Add(courseNode);
             }
-            SubmissiontStates = new SubmissionsNode("Status uppgifter");
+            SubmissionStates = new SubmissionsNode("");
             if (rejectedNode.Children.Count > 0)
-                SubmissiontStates.Children.Add(rejectedNode);
+                SubmissionStates.Children.Add(rejectedNode);
             if (approvedNode.Children.Count > 0)
-                SubmissiontStates.Children.Add(approvedNode);
+                SubmissionStates.Children.Add(approvedNode);
   
             Today = dateProvider.Today();
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");

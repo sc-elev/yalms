@@ -189,7 +189,7 @@ namespace yalms.Tests.Controllers
             var action = (ViewResult)controller.MainView();
             StudentMainViewModel model = (StudentMainViewModel)action.Model;
 
-            Assert.AreEqual(1, model.SubmissiontStates.Children[0].Children[0].Submissions.Count);
+            Assert.AreEqual(1, model.SubmissionStates.Children[0].Children[0].Submissions.Count);
             //FIXME Assert.AreEqual(1, model.SubmissiontStates.Children[1].Children[1].Submissions.Count);
         }
     }

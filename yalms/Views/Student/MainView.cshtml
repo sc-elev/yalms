@@ -22,7 +22,11 @@
                         <ul>
                             @foreach (var assignment in course.Assignments)
                             {
-                                <li id="@assignment.AssignmentID">@assignment.Name</li>
+                                <li id="@assignment.AssignmentID">
+                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentPath(assignment.AssignmentID)">
+                                        @assignment.Name
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </li>
@@ -37,7 +41,7 @@
                 new { enctype = "multipart/form-data" }))
         {    
             <text>  
-                Uppgift:
+                @Html.DropDownListFor(p => Model.selectedAssignment, Model.assignmentSelections) 
                 <div id="assignmentLabel" style="display:inline-block">
                     (ej vald)
                 </div> 
@@ -45,9 +49,8 @@
                     <input id="assignmentFile" name="assignmentFile" type="file" />
                 </div>
         <input id="assignmentUploadBtn" type="submit" value="OK"
-               class="btn btn-default"
-               disabled="disabled" />
-                <input type="hidden" name="assignmentId" id="assignmentId" value="-1"/>
+               class="btn btn-default" />
+               <input type="hidden" name="assignmentId" id="assignmentId" value="-1"/>
             </text>
         }  
         @ViewBag.UploadMessage
@@ -95,7 +98,7 @@
     <div class="col-md-4">
         <br />
         <legend>Feedback på uppgifter</legend>
-        @Html.Partial("_AssignmentNode", Model.SubmissiontStates)
+        @Html.Partial("_SubmissionNode", Model.SubmissionStates)
     </div>
 
 </div>
