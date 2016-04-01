@@ -9,92 +9,68 @@
 
 <style>
     .FirstCol {
-        padding: 3px;
+        /* padding: 3px; */
         float: left;
         display: inline-block;
         width: 200px;
         border: 1px solid red;
         height: 400px;
     }
-
     .SecondCol {
-        padding: 3px;
+        /* padding: 3px; */
         float: left;
         display: inline-block;
         width: 640px;
         border: 1px solid green;
         height: 800px;
     }
-
     .ThirdCol {
-        /*padding: 3px;*/
+        /* padding: 3px; */
         float: left;
         display: inline-block;
         width: 250px;
         border: 1px solid blue;
         height: 400px;
     }
-
     .DayColumn {
-        padding: 1px;
+        /* padding: 1px; */
         display: inline-block;
         width: 90px;
         border: 0px solid black;
         height: 400px;
     }
-
+    .OuterBox {
+        height: 50px;
+        width: 90px;
+        text-align: center;
+        font-size: .8em;
+        margin-bottom: 2px;
+    }
     .TimeSlot {
-        margin: 2px;
-        color: #DDDDDD;
+        color: #000;
         background: linear-gradient(to bottom, #cdeb8e 0%,#a5c956 100%);
-        border: 1px solid #4cff00;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        width: 90px;
-        display: inline-block;
-        font-size: 10px;
-        height: 45px;
-        text-align: center;
     }
-
     .Slot {
-        margin: 2px;
-        color: #DDDDDD;
+        color: #000;
         background: linear-gradient(to bottom, #cfe7fa 0%,#6393c1 100%);
-        border: 1px solid #4c00ff;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        width: 90px;
-        display: inline-block;
-        font-size: 10px;
-        height: 45px;
-        text-align: center;
     }
-
     .EmptySlot {
-        margin: 2px;
-        color: #DDDDDD;
+        color: #ccc;
         background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
-        border: 1px solid #4c00ff;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        width: 90px;
-        display: inline-block;
-        font-size: 10px;
-        height: 45px;
-        text-align: center;
     }
-
     .CalSlot {
-        margin: 2px;
         color: #121212;
-        background: linear-gradient(to bottom, #f7fbfc 0%,#d9edf2 40%,#add9e4 100%);
-        border: 1px solid #DDDDDD;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #fefcea 0%,#f1da36 100%);
+        border: 1px solid #ccc;
         border-radius: 6px;
-        width: 90px;
-        display: inline-block;
-        font-size: 10px;
-        height: 45px;
-        text-align: center;
     }
-
     .SelectedSlotInformation {
         color: #121212;
         background-color: #FFFFFF;
@@ -106,12 +82,10 @@
         text-align: center;
         padding-bottom: 10px;
     }
-
     .DDLClass {
         width: 140px;
         font-size: 13px;
     }
-
     .LabelClass {
         width: 90px;
         font-size: 13px;
@@ -129,7 +103,7 @@
         }
         else
         {
-            Html.Label("Du har inga kurser");
+            Html.Label("Du har inga kurser.");
         }
     </div>
 
@@ -137,31 +111,41 @@
     <!-- Middle column -->
     <div class="col-md-4 SecondCol">
 
-        <div style="width: 100%; display: inline-block; height: 25px; text-align: center; font-weight: bold; font-size: 13px">
-            @Html.ActionLink("<< ", "PreviousWeek_Click", "Teacher")
-            &nbsp; Vecka&nbsp;@(Model.Week)&nbsp;
-            @Html.ActionLink(" >>", "NextWeek_Click", "Teacher")
-        </div>
+        <div style="text-align:center; font-size:1.5em">
+                @Html.ActionLink("<< ", "PreviousWeek_Click", "Teacher")
+                @if (DateTime.Now.Date != Model.Today)
+                {
+                    <!-- IMPLEMENT THIS! -->
+                    @Html.ActionLink("Idag", "MainViewToday")
+                }
+                else
+                {
+                    <text>Idag</text>
+                }
+                @Html.ActionLink(" >>", "NextWeek_Click", "Teacher")
+            </div>
 
-
+        <!-- Vecka + klockslag -->
         <div class="DayColumn">
-            <div class="CalSlot">
-                <b>Vecka @Model.Week</b>
+            <div class="OuterBox CalSlot">
+                <br />
+                Vecka @Model.Week
             </div>
             @for (var s = 1; s < Model.SlotTimings.Count; s++)
             {
-                <div class="TimeSlot">
+                <div class="OuterBox TimeSlot">
                     @Model.SlotTimings[s].FormatFrom()
-                    -
+                    &ndash;
                     @Model.SlotTimings[s].FormatTo()
                 </div>
             }
         </div>
 
+        <!-- Skoldagar under veckan -->
         @for (var day = 0; day < 5; day++)
         {
             <div class="DayColumn">
-                <div class="CalSlot">
+                <div class="OuterBox CalSlot">
                     @Model.FirstDayOfWeek.AddDays(day).DayOfWeek
                     <br />
                     @Model.FirstDayOfWeek.AddDays(day).Month
@@ -176,11 +160,11 @@
                         @if (slot == null)
                         {
                             // slot is empty
-                            <div class="EmptySlot">&nbsp;</div>
+                            <div class="OuterBox EmptySlot">&nbsp;</div>
                         }
                         else
                         {
-                            <div class="Slot">
+                            <div class="OuterBox Slot">
                                 @slot.Room.Name<br />
                                 @slot.Course.Name
                             </div>
@@ -205,11 +189,11 @@
             @Html.Label("Välj sal", new { @class = "LabelClass" })
             @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData, new { @class = "DDLClass" })
             <br />
-            <input type="submit" value="Spara markerad lektion i schemat" class="btn btn-default" />
+            <input type="submit" value="Spara markerad lektion" class="btn btn-default" style="width:150px" />
             <br />
-            <input type="button" value="Ta bort markerad lektion från schemat" class="btn btn-default" onclick="DeleteSelectedSlot()" />
+            <input type="button" value="Ta bort markerad lektion" class="btn btn-default" style="width:150px" onclick="@Html.Action("DeleteSelectedSlot")" />
             <br />
-            @Html.ActionLink("Ta bort [***TA BORT DENNA LÄNK OM KNAPPEN OVAN FUNKAR***]", "DeleteSelectedSlot")
+            @Html.ActionLink("Ta bort [REMOVE IF BUTTON ABOVE WORKS!]", "DeleteSelectedSlot")
         }
     </div>
 </div>
