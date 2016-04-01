@@ -80,8 +80,8 @@ namespace yalms.Controllers
                 ViewBag.UploadMessage = "Fel: Ingenting laddades upp";
                 return View("MainView", model);
             }
-            var path = UploadPaths.GetAssignmentPath(
-                userProvider.UserID(), assignmentID, assignmentFile.FileName);
+            var path = UploadPaths.GetSubmissionPath(
+                assignmentID, userProvider.UserID(), assignmentFile.FileName);
             string msg = "Filen " + assignmentFile.FileName + " uppladdad.";
             if (System.IO.File.Exists(path))
             {

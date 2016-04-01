@@ -1,0 +1,25 @@
+﻿@model yalms.Models.SubmissionsNode
+
+@{
+    <a href="#">@Model.Title</a>
+    if (Model.Children.Count > 0)
+    {
+        <ul>
+            @foreach (var child in Model.Children)
+            {
+                <li>
+                    @Html.Partial("_SubmissionNode", child)
+                </li>
+            }
+        </ul>
+    }
+    else if (Model.Submissions.Count > 0)
+    {
+        <ul>
+            @foreach (var node in Model.Submissions)
+            {
+                <li id="@node.SubmissionID">@node.assignment.Name</li>
+            }
+        </ul>
+    }
+}
