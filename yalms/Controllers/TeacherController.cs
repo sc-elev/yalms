@@ -42,12 +42,14 @@ namespace yalms.Controllers
             // viewmodel: TeacherScheduleViewModel
             // DateTime selectedDate = Session["selectedDate"] ? ;
 
-            if (Session["selectedDate"] == null)
+            if (Session != null && Session["selectedDate"] == null)
             {
                 Session["selectedDate"] = dateProvider.Today();
             }
 
-            var selectedDate = (DateTime)Session["selectedDate"];
+            var selectedDate = dateProvider.Today();
+            if (Session != null)
+                selectedDate = (DateTime)Session["selectedDate"];
 
             var teacher_UserID = -1;
             try
