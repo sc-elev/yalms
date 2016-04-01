@@ -15,19 +15,19 @@ using System.Linq;
 
 namespace yalms.Tests.Controllers
 {
-    
+
 
     [TestFixture]
     public class StudentControllerTests: YalmsTests
     {
-        
+
 
         [Test]
         public void StudentCtrlReturnsValidDate()
         {
             var context = GetStandardContext();
             IDateProvider today = new DummyDateProvider("2016-03-26");
-            IUserProvider who = 
+            IUserProvider who =
                 new DummyUserProvider("J Edgar Hoover", "student", 4);
             var controller = new StudentController(who, today, context.Object);
             var modelFactory =
@@ -37,8 +37,8 @@ namespace yalms.Tests.Controllers
 
             var action = (ViewResult)controller.MainView();
 
-            Assert.AreEqual("26 mar", 
-                            ((StudentMainViewModel)action.Model).Date);    
+            Assert.AreEqual("26 mar",
+                            ((StudentMainViewModel)action.Model).Date);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace yalms.Tests.Controllers
             var action = (ViewResult)controller.MainView();
             StudentMainViewModel model = (StudentMainViewModel)action.Model;
 
-            Assert.AreEqual(5, model.slots.Count());             
+            Assert.AreEqual(5, model.slots.Count());
         }
 
 
@@ -140,7 +140,7 @@ namespace yalms.Tests.Controllers
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
             IUserProvider who =
-                new DummyUserProvider("J Edgar Hoover", "student",4);
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
             var mockAuthenticationManager = new Mock<IAuthenticationManager>();
             mockAuthenticationManager.Setup(am => am.SignOut());
             mockAuthenticationManager.Setup(am => am.SignIn());
@@ -156,8 +156,6 @@ namespace yalms.Tests.Controllers
         [Test]
         public void StudentCtrlReturnsJoinedAttributes()
         {
- 
-
             var context = GetStandardContext();
 
             IDateProvider today = new DummyDateProvider(DateTime.Now);
@@ -172,6 +170,27 @@ namespace yalms.Tests.Controllers
             StudentMainViewModel model = (StudentMainViewModel)action.Model;
 
             Assert.AreEqual("kurs1", model.slots[0].Course.Name);
+        }
+
+
+        [Test]
+        public void StudentCtrlReturnsAssignmentStatus()
+        {
+            var context = GetStandardContext();
+
+            IDateProvider today = new DummyDateProvider(DateTime.Now);
+            IUserProvider who =
+                new DummyUserProvider("J Edgar Hoover", "student", 4);
+            var mockAuthenticationManager = new Mock<IAuthenticationManager>();
+            mockAuthenticationManager.Setup(am => am.SignOut());
+            mockAuthenticationManager.Setup(am => am.SignIn());
+            var controller = new StudentController(who, today, context.Object);
+
+            var action = (ViewResult)controller.MainView();
+            StudentMainViewModel model = (StudentMainViewModel)action.Model;
+
+            Assert.AreEqual(1, model.SubmissiontStates.Children[0].Children[0].Submissions.Count);
+            //FIXME Assert.AreEqual(1, model.SubmissiontStates.Children[1].Children[1].Submissions.Count);
         }
     }
 }

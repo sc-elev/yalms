@@ -313,6 +313,7 @@
     <Content Include="Views\Teacher\Document.cshtml" />
     <Content Include="Views\Teacher\Schedule.cshtml" />
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
+    <Content Include="Views\Shared\_AssignmentNode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

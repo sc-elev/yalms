@@ -238,9 +238,28 @@ namespace yalms.Tests.Controllers
 
             var assignments = new List<Assignment> {
                 new Assignment {AssignmentID = 1, CourseID = 1, 
-                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(14)},
-                new Assignment {AssignmentID = 2, CourseID = 1, 
-                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(3) }
+                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(14),
+                               Name = "Uppgift 1"},
+                new Assignment {AssignmentID = 2, CourseID = 2, 
+                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(3),
+                               Name = "Uppgift 2"},                               
+                new Assignment {AssignmentID = 3, CourseID = 2, 
+                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(3),
+                               Name = "Uppgift 3"},
+                new Assignment {AssignmentID = 4, CourseID = 2, 
+                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(3),
+                                Name = "Uppgift 4"},
+                new Assignment {AssignmentID = 5, CourseID = 2, 
+                                StartTime = DateTime.Now, EndTime = DateTime.Now.AddDays(5),
+                                Name = "Uppgift 5"}
+            };
+
+            var submissions = new List<Submission> {
+                new Submission { AssignmentID = 1, State = Submission.States.New, UserID = 4},
+                new Submission { AssignmentID = 2, State = Submission.States.Accepted, UserID = 4},
+                new Submission { AssignmentID = 3, State = Submission.States.Rejected, UserID = 4},
+                new Submission { AssignmentID = 4, State = Submission.States.Accepted, UserID = 4},
+                new Submission { AssignmentID = 5, State = Submission.States.Accepted, UserID = 4},
             };
 
             var uploads = new List<Upload> {
@@ -267,6 +286,7 @@ namespace yalms.Tests.Controllers
             context.Setup(x => x.GetRooms()).Returns(rooms);
             context.Setup(x => x.GetAssignments()).Returns(assignments);
             context.Setup(x => x.GetUploads()).Returns(uploads);
+            context.Setup(x => x.GetSubmissions()).Returns(submissions);
             return context;
         }
     }

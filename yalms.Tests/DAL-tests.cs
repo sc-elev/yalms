@@ -10,18 +10,6 @@ namespace yalms.Tests
     [TestFixture]
     public class DAL_tests: YalmsTests
     {
-        [Test]
-        public void TestGetUploadsForStudent()
-        {
-            var ctx = GetStandardContext().Object;
-            var repo = new UploadRepository(ctx);
-
-            var result = repo.GetAllUploadsByStudentUserID(3);
-
-            var resultList = new List<Upload>(result);
-            Assert.AreEqual(2, resultList.Count);
-            Assert.AreEqual(1, resultList[0].Assignment.AssignmentID);
-        }
 
         [Test]
         public void TestStudentsDailySchedule()

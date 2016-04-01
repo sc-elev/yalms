@@ -135,11 +135,13 @@ namespace yalms.Migrations
         public void seedAssignments(EFContext ctx)
         {
             var assignments = new List<Assignment>  {
-                new Assignment { CourseID = 1, Name = "Uppgift 1" },
-                new Assignment { CourseID = 1, Name = "Uppgift 3" },
-                new Assignment { CourseID = 2, Name = "Uppgift 4" },
-                new Assignment { CourseID = 3, Name = "Uppgift 5" },
-                new Assignment { CourseID = 4, Name = "Uppgift 6" },
+                new Assignment { CourseID = 1, Name = "Uppgift 1"},
+                new Assignment { CourseID = 1, Name = "Uppgift 3"},
+                new Assignment { CourseID = 2, Name = "Uppgift 4"},
+                new Assignment { CourseID = 3, Name = "Uppgift 5"},
+                new Assignment { CourseID = 3, Name = "Uppgift 6"},
+                new Assignment { CourseID = 2, Name = "Uppgift 7"},
+                new Assignment { CourseID = 2, Name = "Uppgift 8"},
             };
             foreach (var assignment in assignments) ctx.Assignments.AddOrUpdate(assignment);
         }
@@ -209,6 +211,22 @@ namespace yalms.Migrations
 
         }
 
+        public void seedSubmissions(EFContext ctx)
+        {
+            var submissions = new List<Submission> {
+                new Submission { AssignmentID = 1, UserID = student1.Id, State = Submission.States.Accepted },
+                new Submission { AssignmentID = 2, UserID = student1.Id, State = Submission.States.Rejected },
+                new Submission { AssignmentID = 3, UserID = student1.Id, State = Submission.States.New },
+                new Submission { AssignmentID = 4, UserID = student1.Id, State = Submission.States.Accepted },
+                new Submission { AssignmentID = 5, UserID = student1.Id, State = Submission.States.Rejected },
+                new Submission { AssignmentID = 6, UserID = student1.Id, State = Submission.States.Accepted },
+                new Submission { AssignmentID = 1, UserID = student2.Id, State = Submission.States.Accepted },
+                new Submission { AssignmentID = 2, UserID = student2.Id, State = Submission.States.Accepted },
+            };
+            foreach (var submission in submissions) ctx.Submissions.AddOrUpdate(submission);
+            ctx.SaveChanges();
+        }
+
 
         public Configuration()
         {
@@ -224,6 +242,7 @@ namespace yalms.Migrations
             seedClasses(ctx);
             seedSlots(ctx);
             seedAssignments(ctx);
+            seedSubmissions(ctx);
         }
     }
 }

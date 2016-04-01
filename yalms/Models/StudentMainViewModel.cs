@@ -44,11 +44,45 @@ namespace yalms.Models
         }
     }
 
-    public class AssignmentCategory
+
+    public class AssignmentNode
     {
         public string Title { set; get; }
         public IList<Assignment> Assignments { set; get; }
+        public IList<AssignmentNode> Children { set; get; }
+
+        public AssignmentNode()
+        {
+            Assignments = new List<Assignment>();
+            Children = new List<AssignmentNode>();
+        }
+
+        public AssignmentNode(string title): this()
+        {
+            Title = title;
+        }
     }
+
+
+    public class SubmissionsNode
+    {
+        public string Title { set; get; }
+        public IList<Submission> Submissions { set; get; }
+        public IList<SubmissionsNode> Children { set; get; }
+
+        public SubmissionsNode()
+        {
+            Submissions = new List<Submission>();
+            Children = new List<SubmissionsNode>();
+        }
+
+        public SubmissionsNode(string title)
+            : this()
+        {
+            Title = title;
+        }
+    }
+
 
 
     public class StudentMainViewModel
@@ -61,7 +95,8 @@ namespace yalms.Models
         public IList<Slot> slots { get; set; }
         public IList<TimingInfo> SlotTimings { get; set; }
         public string SchoolClass { get; set; }
-        public IList<AssignmentCategory> Assignments { set; get; }
+        public IList<AssignmentNode> Assignments { set; get; }
+        public SubmissionsNode SubmissiontStates { set; get; }
 
         public static StudentMainViewModel Create(
             Controller controller,
@@ -71,7 +106,7 @@ namespace yalms.Models
             int DaysToAdd = 0)
         {
             StudentMainViewModel model =
-                 controller.TempData["tudentViewModel"] as StudentMainViewModel;
+                 controller.TempData["studentViewModel"] as StudentMainViewModel;
             var nextDay =
                 new DummyDateProvider(model.Today.AddDays(DaysToAdd));
             var dateProvider = new DummyDateProvider(nextDay.Today());
@@ -79,6 +114,28 @@ namespace yalms.Models
                 new StudentMainViewModel(context, user,  dateProvider);
             controller.TempData["StudentViewModel"] = model;
             return model;
+        }
+
+
+        private IEnumerable<Submission> submissionsByState(
+                       EFContext context,
+                       IList<int> assignments, 
+                       Submission.States state,
+                       IUserProvider user)
+        {
+              return
+                    from submission in context.GetSubmissions()
+                    where assignments.Contains(submission.AssignmentID) &&
+                        submission.State == state
+                    join assignment in context.GetAssignments()
+                        on submission.AssignmentID equals assignment.AssignmentID
+                    select new Submission {
+                        AssignmentID = assignment.AssignmentID,
+                        State = Submission.States.New,
+                        SubmissionTime = DateTime.Now,
+                        UserID = user.UserID(),
+                        assignment = assignment
+                    };
         }
 
 
@@ -100,10 +157,10 @@ namespace yalms.Models
             var courses = context.GetCourses()
                 .Where(c => c.SchoolClassID == scs.SchoolClassID)
                 .ToList();
-            Assignments = new List<AssignmentCategory>();
+            Assignments = new List<AssignmentNode>();
             foreach (var course in courses)
             {
-                var category = new AssignmentCategory();
+                var category = new AssignmentNode();
                 category.Title = course.Name;
                 category.Assignments = context.GetAssignments()
                     .Where(a => a.CourseID == course.CourseID)
@@ -111,6 +168,47 @@ namespace yalms.Models
                 if (category.Assignments.Count > 0 )
                     Assignments.Add(category);
             }
+            var approvedNode = new SubmissionsNode("Godkända");
+            var rejectedNode = new SubmissionsNode("Ej godkända");
+            foreach (var course in courses)
+            {
+                
+                var assignmentIDs = context.GetAssignments() 
+                    .Where(a => a.CourseID == course.CourseID)
+                    .Select(a => a.AssignmentID)
+                    .ToList();
+                var courseNode = new SubmissionsNode(course.Name);
+                var query = submissionsByState(
+                    context, assignmentIDs, Submission.States.Accepted, user);
+                 
+                courseNode.Submissions = query.ToList();
+                if (courseNode.Submissions.Count > 0)
+                    approvedNode.Children.Add(courseNode);
+
+                courseNode = new SubmissionsNode(course.Name);
+                query  =
+                    from submission in context.GetSubmissions()
+                    where assignmentIDs.Contains(submission.AssignmentID) &&
+                         submission.State == Submission.States.Rejected
+                    join assignment in context.GetAssignments()
+                          on submission.AssignmentID equals assignment.AssignmentID
+                    select new Submission {
+                        AssignmentID = assignment.AssignmentID,
+                        State = Submission.States.New,
+                        SubmissionTime = DateTime.Now,
+                        UserID = user.UserID(),
+                        assignment = assignment
+                    };
+                courseNode.Submissions = query.ToList();
+                if (courseNode.Submissions.Count > 0)
+                    rejectedNode.Children.Add(courseNode);
+            }
+            SubmissiontStates = new SubmissionsNode("Status uppgifter");
+            if (rejectedNode.Children.Count > 0)
+                SubmissiontStates.Children.Add(rejectedNode);
+            if (approvedNode.Children.Count > 0)
+                SubmissiontStates.Children.Add(approvedNode);
+  
             Today = dateProvider.Today();
             var cultureInfo = new System.Globalization.CultureInfo("sv-SE");
             var month = CultureInfo
@@ -122,10 +220,9 @@ namespace yalms.Models
                 Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
             WeekDay = cultureInfo.DateTimeFormat.GetDayName(Today.DayOfWeek);
             SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
-       }
+        }
 
 
         public StudentMainViewModel() { }
-
     }
 }

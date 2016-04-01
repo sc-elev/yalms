@@ -27,6 +27,9 @@ namespace yalms.Models
 
         public enum States {New, Submitted, Accepted, Rejected};
         public States State { get; set; }
+
+        public virtual Assignment assignment { get; set;  }
+
     }
 }
 
