@@ -1,3 +1,38 @@
+##  Morgonmöte 1/4
+
+Alexander:
+   - Slutfört lärarschema
+   - JObbar med lärardelen med inlämningsuppgifter
+   - INga problem.
+
+Pekka:
+   - Jobbar med UI lärarshema
+   - Behöver hjälp från micke för att kunna bygga hemma i helgen.
+   - Behöver hjälp fråm alexander med att förstå schemahantering.
+
+Micke
+   - Gjort klart student, inlämning av uppgift
+   - Stor mina: Datamodellen behöver revideras, "submission" saknas.
+
+
+##  Morgonmöte 31/3 (lunchtid)
+
+Alla:
+   - intervjuer har stökat till det
+   - git-synk behövs
+
+
+Pekka:
+   - jobbar med UI för Lärarschem
+   - Behöver git-hjälp
+
+Alexander
+   - Avslutar lärarschema under dagen
+
+Micke
+   - Avslutar student, inlämning av uppgifter under dagen.
+
+
 ##  Sprintavslutning  23/3
 
 Problem:
