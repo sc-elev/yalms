@@ -181,6 +181,7 @@
     <Compile Include="CommonFunctions\CustomConversion.cs" />
     <Compile Include="CommonFunctions\Enumerators.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -209,6 +210,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\DateProvider.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminView.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\default-dark\32px.png" />
@@ -249,6 +252,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\sc-logo.png" />
     <Content Include="images\yalms-pupil.png" />
+    <Content Include="Scripts\AdminView.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\themes\default-dark\Thumbs.db" />
@@ -314,6 +318,7 @@
     <Content Include="Views\Teacher\Schedule.cshtml" />
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
     <Content Include="Views\Shared\_SubmissionNode.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
