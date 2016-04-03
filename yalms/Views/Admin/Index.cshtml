@@ -1,73 +1,155 @@
 ﻿@model yalms.Models.AdminViewModel
 
 @Scripts.Render("~/bundles/bootstrap")
-
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/TeacherAdmin.js"></script>
 
 @{
     ViewBag.Title = "Index";
 }
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Användare</a></li>
-    <li><a data-toggle="tab" href="#menu1">Kurser</a></li>
+    <li><a data-toggle="tab" href="#courses">Kurser</a></li>
     <li><a data-toggle="tab" href="#menu2">Klasser</a></li>
 </ul>
 
 <div class="tab-content">
     <div id="users" class="tab-pane fade in active">
         <div class="row">
-            @using (Html.BeginForm("Index"))
-            {
             <div class="col-md-6">
-                <h3>Registrera</h3>
-                @Html.Label("Användare");
-                @Html.DropDownListFor(m => m.SelectedUser, Model.UnregisteredUsers);
-                <br/>
-                <p/>
-                @Html.Label("Behörighet:")
-                <div class="row">
-                    <div class="col-md-6">
-                       Elev
+                @using (Html.BeginForm("RegisterUser", "Admin"))
+                {
+                    <h3>Registrera</h3>
+                    @Html.Label("Användare");
+                    @Html.DropDownListFor(m => m.SelectedUser, Model.UnregisteredUsers);
+                    <br />
+                    <p />
+                    @Html.Label("Behörighet:")
+                    <div class="row">
+                        <div class="col-md-6">
+                            Elev
+                        </div>
+                        <div class="col-md-6 text-left">
+                            @Html.RadioButton("SelectedRole", "student")
+                        </div>
+                        <div class="col-md-6">
+                            Lärare
+                        </div>
+                        <div class="col-md-6 text-left">
+                            @Html.RadioButton("SelectedRole", "teacher")'
+                        </div>
                     </div>
-                    <div class="col-md-6 text-left">
-                        @Html.RadioButton("Role", "student")
-                    </div>
-                    <div class="col-md-6">
-                        Lärare
-                    </div>
-                    <div class="col-md-6 text-left">
-                        @Html.RadioButton("Role", "teacher")'
-                    </div>
-                </div>
-                <br/>
-                <p/>
-                @Html.Label("KLasstillhörighet")
-                <br/>
-                @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
-                <br/>
-                <p/>
-                <input type="submit" class="btn btn-primary" value="Registrera"/>
+                    <br />
+                    <p />
+                    @Html.Label("KLasstillhörighet")
+                    <br />
+                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
+                    <br />
+                    <p />
+                    <input type="submit" class="btn btn-primary" value="Registrera" />
+                }
             </div>
-            }
-            @using (Html.BeginForm("Remove"))
-            {
-                <div class="col-md-6">
+            <div class="col-md-6">
+                @using (Html.BeginForm("RemoveUser", "Admin"))
+                {
                     <h3> Ta bort användare</h3>
                     <p/>
                     @Html.Label("Användare:")
-                    @Html.DropDownListFor(m => m.SelectedVictim, Model.RegisteredUsers);
+                    @Html.DropDownListFor(m => m.SelectedUser, Model.RegisteredUsers);
                     <p/>
                     <input type="submit" class="btn btn-danger" value="Ta bort" />
-                </div>
-            }
+                }          
+            </div>
         </div>
     </div>
-    <div id="menu1" class="tab-pane fade">
-        <h3>Kurser</h3>
+    <div id="courses" class="tab-pane fade">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Skapa ny kurs</h3>
+                @using (Html.BeginForm("AddCourse", "Admin"))
+                { 
+                    @Html.Label("Namn på kursen")
+                    <input type="text" id="NewCourse" name="NewCourse" value=""/>
+                    <p/>
+                    <br/>
+                    @Html.Label("Lärare")
+                    @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers);
+                    <p/>
+                    @Html.Label("Klass")
+                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
+                    <br/>
+                    <p/>
+                    <input type="submit" class="btn btn-primary" value="Skapa kurs" />
+                }
+            </div>
+            <div class="col-md-6">
+                <h3> Ta bort kurs</h3>
+                <p />
+                @using (Html.BeginForm("RemoveCourse", "Admin"))
+                {
+                    @Html.Label("Kurs:")
+                    @Html.DropDownListFor(m => m.SelectedCourse, Model.Courses);
+                    <p />
+                    <input type="submit" class="btn btn-danger" value="Ta bort" />
+                }
+            </div>
+        </div>
+       
         
     </div>
     <div id="menu2" class="tab-pane fade">
-        <h3>Klasser</h3>
-        <p>Some content in menu 2.</p>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Skapa ny klass</h3>
+                @using (Html.BeginForm("AddClass", "Admin"))
+                {
+                    @Html.Label("Namn på klassen")
+                    <p/>
+                    <input type="text" id="SelectedClassname" 
+                           name="SelectedClassname" value="" />
+                    <p />
+                    <br />
+                    <div id="studentsTree">
+                        <ul>
+                            <li> <a href="#">Välj elever</a>
+                                <ul>
+                                    @foreach (var index in 
+                                        Model.StudentsByIndex.Keys)
+                                    {
+                                        <li>
+                                            <a href="#">@index</a>
+                                            <ul>
+                                                @foreach (var student in 
+                                                    Model.StudentsByIndex[index])
+                                                {
+                                                    <li id="@student.Value">
+                                                        @student.Text 
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+                    <p />
+                    <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
+                    <input type="submit" class="btn btn-primary" value="Skapa klass" />
+                }
+            </div>
+            <div class="col-md-6">'
+                <h3> Ta bort klass</h3>
+                @using (Html.BeginForm("RemoveClass", "Admin"))
+                {                    
+                    @Html.Label("Klass:")
+                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
+                    <p />
+                    <input type="submit" class="btn btn-danger" value="Ta bort" />
+                }
+            </div>
+        </div>
     </div>
 </div>
 
