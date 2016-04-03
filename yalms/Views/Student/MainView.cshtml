@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <br />
         <legend>Uppgifter att göra</legend>
-        <p><br />
+        
         <div id="AssignmentsTree">
             <ul>
                 @foreach (var course in Model.Assignments)
@@ -23,7 +23,7 @@
                             @foreach (var assignment in course.Assignments)
                             {
                                 <li id="@assignment.AssignmentID">
-                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentPath(assignment.AssignmentID)">
+                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentDir(assignment.AssignmentID)">
                                         @assignment.Name
                                     </a>
                                 </li>
@@ -35,25 +35,41 @@
         </div>
         <br />
         </p>
-        <legend>Lämna in uppgift</legend>
-        <p/>        
-        @using (Html.BeginForm("PostAssignment", "Student", FormMethod.Post, 
+        Valt: 
+        <div id="assignmentLabel" style="display:inline-block">
+            (ej vald)
+        </div>
+        <br/>
+        <div id="uploadMsg">@ViewBag.UploadMessage</div>
+        @using (Html.BeginForm("PostAssignment", "Student", FormMethod.Post,
                 new { enctype = "multipart/form-data" }))
-        {    
-            <text>  
-                @Html.DropDownListFor(p => Model.selectedAssignment, Model.assignmentSelections) 
-                <div id="assignmentLabel" style="display:inline-block">
-                    (ej vald)
-                </div> 
-                <div style="padding-top:10px; padding-bottom:10px">
-                    <input id="assignmentFile" name="assignmentFile" type="file" />
+        {
+            <div class="row">
+                <div class="col-md-3"> <legend>Hämta</legend> </div>
+                <div class="col-md-5">
+                    <legend>Lämna in</legend>
+                    <p />
+                    <div class="fileUpload btn btn-group-sm">
+                        <div style="padding-top:10px; padding-bottom:10px">
+                            <input id="assignmentFile" name="assignmentFile"
+                                   type="file" onclick="return enableUploads()" />
+                        </div>
+                    </div>
                 </div>
-        <input id="assignmentUploadBtn" type="submit" value="OK"
-               class="btn btn-default" />
-               <input type="hidden" name="assignmentId" id="assignmentId" value="-1"/>
-            </text>
-        }  
-        @ViewBag.UploadMessage
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input id="assignmentDownloadBtn" type="button" value="Hämta"
+                           class="btn btn-default" disabled="disabled" />
+                </div>    
+                <div class="col-md-5">
+                    <input id="assignmentUploadBtn" type="submit" value="Lämna in"
+                           class="btn btn-default" disabled="disabled" />
+                    <input type="hidden" name="assignmentId" id="assignmentId" 
+                           value="-1" />
+                </div>
+            </div>
+        }
     </div>
 
 
@@ -98,7 +114,9 @@
     <div class="col-md-4">
         <br />
         <legend>Feedback på uppgifter</legend>
-        @Html.Partial("_SubmissionNode", Model.SubmissionStates)
+        <div id="submissionsTree">
+            @Html.Partial("_SubmissionNode", Model.SubmissionStates)
+        </div>
     </div>
 
 </div>
