@@ -18,7 +18,26 @@
         <ul>
             @foreach (var node in Model.Submissions)
             {
-                <li id="@node.SubmissionID">@node.assignment.Name</li>
+                <li>
+                    <a href="#">@node.assignment.Name</a> 
+                    @if (yalms.DAL.UploadPaths.FindSubmissionPaths(
+                        node.AssignmentID, node.UserID).Length > 0)
+                    {
+                        <ul>
+                            @foreach (var path in
+                                yalms.DAL.UploadPaths
+                                .FindSubmissionURIs(
+                                    node.AssignmentID, node.UserID)
+                            ){
+                                <li>
+                                    <a href="@path">
+                                         @Path.GetFileName(path)
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
             }
         </ul>
     }

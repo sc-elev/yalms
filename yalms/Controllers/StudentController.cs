@@ -72,9 +72,7 @@ namespace yalms.Controllers
         public ActionResult PostAssignment(HttpPostedFileBase assignmentFile, 
                                            int assignmentID)
         {
-            int id = assignmentID;
             StudentMainViewModel model = modelFactory.Create(null);
-
             if (assignmentFile == null || assignmentFile.ContentLength < 10)
             {
                 ViewBag.UploadMessage = "Fel: Ingenting laddades upp";
@@ -83,15 +81,11 @@ namespace yalms.Controllers
             var path = UploadPaths.GetSubmissionPath(
                 assignmentID, userProvider.UserID(), assignmentFile.FileName);
             string msg = "Filen " + assignmentFile.FileName + " uppladdad.";
-            if (System.IO.File.Exists(path))
-            {
-                msg += " (Filen fanns sedan förut, raderar.)";
-                System.IO.File.Delete(path);
-            }
             assignmentFile.SaveAs(path);
             ViewBag.UploadMessage = msg;
             return View("MainView", model);
         }
+
 
         public StudentController()
         {
