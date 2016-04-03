@@ -17,11 +17,19 @@ namespace yalms.Models
         public int SelectedVictim { set; get; }
         public IList<SelectListItem> RegisteredUsers { set; get; }
 
+        public int SelectedTeacher { set; get; }
+        public IList<SelectListItem> Teachers { set; get; }
+
+        public int SelectedCourse { set; get; }
+        public IList<SelectListItem> Courses { set; get; }
+
         public AdminViewModel()
         {
             UnregisteredUsers = new List<SelectListItem>();
             RegisteredUsers = new List<SelectListItem>();
             Classes = new List<SelectListItem> ();
+            Teachers = new List<SelectListItem>();
+            Courses = new List<SelectListItem>();
             Role = "Elev";
         }
     }  
