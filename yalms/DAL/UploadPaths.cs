@@ -30,46 +30,86 @@ namespace yalms.DAL
         static public string GetSubmissionPath(
             int assignmentID, int userID, string filename)
         {
-            string [] parts = { 
-                "~", "Upload", "Submissions", userID.ToString()};
-            var path = Path.Combine(parts);
+            string[] existing = FindSubmissionPaths(assignmentID, userID);
+            string version = "0";
+            if (existing.Length > 0)
+            {
+                var parent = Directory.GetParent(existing[0]).Name;
+                int ix = int.Parse(parent); //FIXME - handle parse error
+                version = (ix + 1).ToString();
+            }
+            var path = Path.Combine(
+               "~", "Upload", "Submissions", userID.ToString(), 
+               assignmentID.ToString(), version
+            );
             path = System.Web.HttpContext.Current.Server.MapPath(path); //FIXME - testability.
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            return Path.Combine(
-                path, assignmentID.ToString() + "-" + filename);
+            return Path.Combine(path, filename);
         }
 
 
         // Return all files found for given submission, sorted with newest path
         // first.
         static public string[] 
-            FindSubmissionPaths(int assignmentID, int userID, int version=0)
+            FindSubmissionPaths(int assignmentID, int userID)
         {
-            string path = GetSubmissionPath(assignmentID,  userID,  "");
-            var dirpath = Path.GetDirectoryName(path);
-            var filename = Path.GetFileName(path);
-            string[] found = Directory.GetFiles(dirpath, filename + "*");
-            Array.Sort(found);
-            Array.Reverse(found);
-            return found;
+            var dirpath = Path.Combine(
+               "~", "Upload", "Submissions", userID.ToString(), 
+               assignmentID.ToString()
+               );
+            dirpath = System.Web.HttpContext.Current.Server.MapPath(dirpath); //FIXME - testability
+            if (!Directory.Exists(dirpath)) Directory.CreateDirectory(dirpath);
+            string[] subdirs = Directory.GetDirectories(dirpath, "*");
+            List<string> paths = new List<string>();
+            foreach (var subdir in subdirs)
+            {
+                var tryDir = Path.Combine(dirpath, subdir);
+                string[] leafs = Directory.GetFiles(tryDir, "*");
+                foreach (var leaf in leafs) paths.Add(leaf);
+            }
+            paths.Sort();
+            paths.Reverse();
+            return paths.ToArray();
         }
 
-        // Return path for storing an assignment, presumable not used.
-        static public string GetAssignmentPath(int assignmentID)
+        static public string[] 
+            FindSubmissionURIs(int assignmentID, int userID)
         {
-            string[] parts = new string[] { 
-                "Upload", "Assignments", assignmentID.ToString()};
-            return Path.Combine(parts);
+            var paths = FindSubmissionPaths(assignmentID, userID);
+            var prefix = System.Web.HttpContext.Current.Server.MapPath("~"); //FIXME - testability
+            for (int i = 0; i < paths.Length; i += 1)
+            {
+                paths[i] = paths[i].Replace(prefix, "/");
+            }
+            return paths;
         }
+
+
+        // Return path for storing an assignment, presumably not used.
+        static public string 
+            GetAssignmentPath(int assignmentID, string filename)
+        {
+            return Path.Combine(
+                "Upload", "Assignments", assignmentID.ToString(), filename);
+        }
+
+        
+        // Return dir for storing an assignment, presumably not used.
+        static public string GetAssignmentDir(int assignmentID)
+        {
+            return Path.Combine(
+                "Upload", "Assignments", assignmentID.ToString());
+        }
+
+
 
         // Return list of all paths with documents for this assignment,
         // sorted with newest first.
         static public string[] FindAssignments(int assignmentID)
         {
-            string path = GetAssignmentPath(assignmentID);
+            string path = GetAssignmentPath(assignmentID, "foo");
             var dirpath = Path.GetDirectoryName(path);
-            var filename = Path.GetFileName(path);
-            string[] found = Directory.GetFiles(dirpath, filename + "*");
+            string[] found = Directory.GetFiles(dirpath, "*");
             Array.Sort(found);
             Array.Reverse(found);
             return found;
