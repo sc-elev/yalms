@@ -7,19 +7,63 @@
     ViewBag.Title = "Index";
 }
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#home">Användare</a></li>
+    <li class="active"><a data-toggle="tab" href="#users">Användare</a></li>
     <li><a data-toggle="tab" href="#menu1">Kurser</a></li>
     <li><a data-toggle="tab" href="#menu2">Klasser</a></li>
 </ul>
 
 <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-        <h3>Användarkonton</h3>
-        <p>Some content.</p>
+    <div id="users" class="tab-pane fade in active">
+        <div class="row">
+            @using (Html.BeginForm("Index"))
+            {
+            <div class="col-md-6">
+                <h3>Registrera</h3>
+                @Html.Label("Användare");
+                @Html.DropDownListFor(m => m.SelectedUser, Model.UnregisteredUsers);
+                <br/>
+                <p/>
+                @Html.Label("Behörighet:")
+                <div class="row">
+                    <div class="col-md-6">
+                       Elev
+                    </div>
+                    <div class="col-md-6 text-left">
+                        @Html.RadioButton("Role", "student")
+                    </div>
+                    <div class="col-md-6">
+                        Lärare
+                    </div>
+                    <div class="col-md-6 text-left">
+                        @Html.RadioButton("Role", "teacher")'
+                    </div>
+                </div>
+                <br/>
+                <p/>
+                @Html.Label("KLasstillhörighet")
+                <br/>
+                @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
+                <br/>
+                <p/>
+                <input type="submit" class="btn btn-primary" value="Registrera"/>
+            </div>
+            }
+            @using (Html.BeginForm("Remove"))
+            {
+                <div class="col-md-6">
+                    <h3> Ta bort användare</h3>
+                    <p/>
+                    @Html.Label("Användare:")
+                    @Html.DropDownListFor(m => m.SelectedVictim, Model.RegisteredUsers);
+                    <p/>
+                    <input type="submit" class="btn btn-danger" value="Ta bort" />
+                </div>
+            }
+        </div>
     </div>
     <div id="menu1" class="tab-pane fade">
         <h3>Kurser</h3>
-        <p>Some content in menu 1.</p>
+        
     </div>
     <div id="menu2" class="tab-pane fade">
         <h3>Klasser</h3>

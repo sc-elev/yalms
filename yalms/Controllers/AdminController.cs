@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using yalms.Models;
 
 namespace yalms.Content.Controllers
 {
@@ -11,7 +12,8 @@ namespace yalms.Content.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            AdminViewModel model = new AdminViewModel();
+            return View(model);
         }
     }
 }
