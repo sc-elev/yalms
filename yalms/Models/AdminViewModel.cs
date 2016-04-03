@@ -23,6 +23,8 @@ namespace yalms.Models
         public int SelectedCourse { set; get; }
         public IList<SelectListItem> Courses { set; get; }
 
+        public Dictionary<string, string> StudentsByIndex { get; set; }
+
         public AdminViewModel()
         {
             UnregisteredUsers = new List<SelectListItem>();
@@ -31,6 +33,7 @@ namespace yalms.Models
             Teachers = new List<SelectListItem>();
             Courses = new List<SelectListItem>();
             Role = "Elev";
+            StudentsByIndex = new Dictionary<string, string>();
         }
     }  
 }
