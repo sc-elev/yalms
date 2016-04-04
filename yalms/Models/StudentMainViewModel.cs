@@ -119,7 +119,6 @@ namespace yalms.Models
             return model;
         }
 
-
         private IEnumerable<Submission> SubmissionsByState(
                        EFContext context,
                        IList<int> assignments, 

@@ -107,8 +107,8 @@
                     <input type="text" id="newClass" value="" />
                     <p />
                     <br />
-                    <div id="studentTree">
-                        <a href="#">sorterat...</a>
+                    <div id="studentsTree">
+                        <a href="#">Välj elever</a>
                         <ul>
                             @foreach (var index in Model.StudentsByIndex.Keys)
                             {
@@ -117,7 +117,7 @@
                                     <ul>
                                         @foreach (var student in Model.StudentsByIndex[index])
                                         {
-                                            <li> @student </li>
+                                            <li id="@student.Value"> @student </li>
                                         }
                                     </ul>
                                 </li>
@@ -126,6 +126,7 @@
                     </div>
                     <br />
                     <p />
+                    <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
                     <input type="submit" class="btn btn-primary" value="Skapa klass" />
                 }
             </div>
