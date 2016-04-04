@@ -72,10 +72,14 @@ namespace yalms.Models
             get { 
                 if (_Courses != null) return _Courses;
                 _Courses = context.GetCourses()
-                    .Select( s => new SelectListItem {
-                        Text = s.Name,
-                        Value = s.CourseID.ToString()
-                    } )
+                    .Join(context.GetSchoolClasses(),
+                          course => course.SchoolClassID,
+                          class_ => class_.SchoolClassID,
+                          (course, class_) => new SelectListItem {
+                              Value = course.CourseID.ToString(),
+                              Text = course.Name + " - " + class_.Name
+                          }
+                    )
                     .ToList();
                 return _Courses;
             }
@@ -124,10 +128,13 @@ namespace yalms.Models
         public int SelectedUser { set; get; }
         public string SelectedUsers { set; get; }
         public int SelectedClass { set; get; }
+        public string SelectedClassname { set; get; }
+        public string SelectedRole { set; get; }
         public string Role { set; get; }
         public int SelectedVictim { set; get; }
         public int SelectedTeacher { set; get; }
         public int SelectedCourse { set; get; }
+        public string NewCourse { set; get; }
 
 
         public AdminViewModel()

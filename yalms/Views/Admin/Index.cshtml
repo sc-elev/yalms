@@ -17,7 +17,7 @@
     <div id="users" class="tab-pane fade in active">
         <div class="row">
             <div class="col-md-6">
-                @using (Html.BeginForm("RegisterUser"))
+                @using (Html.BeginForm("RegisterUser", "Admin"))
                 {
                     <h3>Registrera</h3>
                     @Html.Label("Användare");
@@ -30,13 +30,13 @@
                             Elev
                         </div>
                         <div class="col-md-6 text-left">
-                            @Html.RadioButton("Role", "student")
+                            @Html.RadioButton("SelectedRole", "student")
                         </div>
                         <div class="col-md-6">
                             Lärare
                         </div>
                         <div class="col-md-6 text-left">
-                            @Html.RadioButton("Role", "teacher")'
+                            @Html.RadioButton("SelectedRole", "teacher")'
                         </div>
                     </div>
                     <br />
@@ -50,12 +50,12 @@
                 }
             </div>
             <div class="col-md-6">
-                @using (Html.BeginForm("RemoveUser"))
+                @using (Html.BeginForm("RemoveUser", "Admin"))
                 {
                     <h3> Ta bort användare</h3>
                     <p/>
                     @Html.Label("Användare:")
-                    @Html.DropDownListFor(m => m.SelectedVictim, Model.RegisteredUsers);
+                    @Html.DropDownListFor(m => m.SelectedUser, Model.RegisteredUsers);
                     <p/>
                     <input type="submit" class="btn btn-danger" value="Ta bort" />
                 }          
@@ -66,10 +66,10 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Skapa ny kurs</h3>
-                @using (Html.BeginForm("AddCourse"))
+                @using (Html.BeginForm("AddCourse", "Admin"))
                 { 
                     @Html.Label("Namn på kursen")
-                    <input type="text" id="newCourse" value="" />
+                    <input type="text" id="NewCourse" name="NewCourse" value=""/>
                     <p/>
                     <br/>
                     @Html.Label("Lärare")
@@ -85,7 +85,7 @@
             <div class="col-md-6">
                 <h3> Ta bort kurs</h3>
                 <p />
-                @using (Html.BeginForm("RemoveCourse"))
+                @using (Html.BeginForm("RemoveCourse", "Admin"))
                 {
                     @Html.Label("Kurs:")
                     @Html.DropDownListFor(m => m.SelectedCourse, Model.Courses);
@@ -101,25 +101,30 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Skapa ny klass</h3>
-                @using (Html.BeginForm("AddClass"))
+                @using (Html.BeginForm("AddClass", "Admin"))
                 {
                     @Html.Label("Namn på klassen")
                     <p/>
-                    <input type="text" id="newClass" value="" />
+                    <input type="text" id="SelectedClassname" 
+                           name="SelectedClassname" value="" />
                     <p />
                     <br />
                     <div id="studentsTree">
                         <ul>
                             <li> <a href="#">Välj elever</a>
                                 <ul>
-                                    @foreach (var index in Model.StudentsByIndex.Keys)
+                                    @foreach (var index in 
+                                        Model.StudentsByIndex.Keys)
                                     {
                                         <li>
                                             <a href="#">@index</a>
                                             <ul>
-                                                @foreach (var student in Model.StudentsByIndex[index])
+                                                @foreach (var student in 
+                                                    Model.StudentsByIndex[index])
                                                 {
-                                                    <li id="@student.Value"> @student.Text </li>
+                                                    <li id="@student.Value">
+                                                        @student.Text 
+                                                    </li>
                                                 }
                                             </ul>
                                         </li>
@@ -131,12 +136,12 @@
                     <br />
                     <p />
                     <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
-                    <input type="submit" class="btn btn-primary" value="Skapa klass" onclick="getTreeStudents()" />
+                    <input type="submit" class="btn btn-primary" value="Skapa klass" />
                 }
             </div>
             <div class="col-md-6">'
                 <h3> Ta bort klass</h3>
-                @using (Html.BeginForm("RemoveClass"))
+                @using (Html.BeginForm("RemoveClass", "Admin"))
                 {                    
                     @Html.Label("Klass:")
                     @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
