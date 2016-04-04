@@ -1,7 +1,8 @@
 ﻿@model yalms.Models.AdminViewModel
 
 @Scripts.Render("~/bundles/bootstrap")
-
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/TeacherAdmin.js"></script>
 
 @{
     ViewBag.Title = "Index";
@@ -108,26 +109,29 @@
                     <p />
                     <br />
                     <div id="studentsTree">
-                        <a href="#">Välj elever</a>
                         <ul>
-                            @foreach (var index in Model.StudentsByIndex.Keys)
-                            {
-                                <li>
-                                    <a href="#">@index</a>
-                                    <ul>
-                                        @foreach (var student in Model.StudentsByIndex[index])
-                                        {
-                                            <li id="@student.Value"> @student </li>
-                                        }
-                                    </ul>
-                                </li>
-                            }
+                            <li> <a href="#">Välj elever</a>
+                                <ul>
+                                    @foreach (var index in Model.StudentsByIndex.Keys)
+                                    {
+                                        <li>
+                                            <a href="#">@index</a>
+                                            <ul>
+                                                @foreach (var student in Model.StudentsByIndex[index])
+                                                {
+                                                    <li id="@student.Value"> @student.Text </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <br />
                     <p />
                     <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
-                    <input type="submit" class="btn btn-primary" value="Skapa klass" />
+                    <input type="submit" class="btn btn-primary" value="Skapa klass" onclick="getTreeStudents()" />
                 }
             </div>
             <div class="col-md-6">'
