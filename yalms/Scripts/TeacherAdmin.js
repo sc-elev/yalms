@@ -26,6 +26,11 @@ $(window).on('popstate', function () {
     $('a[href=' + anchor + ']').tab('show');
 });
 
+$(window).on('popstate', function () {
+    var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+    $('a[href=' + anchor + ']').tab('show');
+});
+
 function getTreeStudents() {
     var users = $("#studentsTree").jstree('get_checked').join();
     var class_ = $("#ClassDropDown").val();

@@ -224,45 +224,6 @@ namespace yalms.Content.Controllers
         }
 
 
-        public ActionResult  AddClassStudents(AdminViewModel modelArg)
-        {
-            
-            AdminViewModel model = new AdminViewModel(context);
-            if (modelArg.SelectedUsers == null)
-            {
-                ViewBag.Message = "No user selected?!";
-                return View("Index", model);
-            }
-            var class_ = context.GetSchoolClasses()
-                           .Where(s => s.SchoolClassID == modelArg.SelectedClass)
-                           .SingleOrDefault();
-            if (class_ == null)
-            {
-                ViewBag.Message = "No valid class selected?!";
-                return View("Index", model);
-            }
-            var stringIDs = modelArg.SelectedUsers.Split(',');
-            foreach (var strID in stringIDs)
-            {
-                int id;
-                if (!int.TryParse(strID, out id))
-                    continue;
-                var scs = context.GetSchoolClassStudents()
-                    .Where(s => s.Student_UserID == id)
-                    .SingleOrDefault();
-                if (scs != null) context.SchoolClassStudents.Remove(scs);
-                scs = new SchoolClassStudent {
-                    Student_UserID = id,
-                    SchoolClassID = modelArg.SelectedClass
-                };
-                context.SchoolClassStudents.Add(scs);
-                context.SaveChanges();
-            }
-            model = new AdminViewModel(context);
-            return View("Index", model);
-        }
-
-
         public AdminController(
             IUserProvider user, IDateProvider date, EFContext ctx)
         {
