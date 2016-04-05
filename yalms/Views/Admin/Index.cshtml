@@ -8,7 +8,10 @@
     ViewBag.Title = "Index";
 }
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#users">Användare</a></li>
+    <li class="active">
+        <a data-toggle="tab" href="#newUsers">Nya användare</a>
+    </li>
+    <li><a data-toggle="tab" href="#users">Användare</a></li>
     <li><a data-toggle="tab" href="#courses">Kurser</a></li>
     <li><a data-toggle="tab" href="#classes">Klasser</a></li>
     <li><a data-toggle="tab" href="#class_lists">Klasslistor</a></li>
@@ -16,43 +19,6 @@
 
 <div class="tab-content">
     <div id="newUsers" class="tab-pane fade in active">
-        @using (Html.BeginForm("RegisterUser", "Admin"))
-        {
-            <h3>Registrera</h3>
-            <div class="form-group">
-                @Html.Label("Användare",
-                                new { @class = "control-label"})
-                @Html.DropDownListFor(m => m.SelectedUser,
-                                        Model.UnregisteredUsers,
-                                        new { @class = "form-control" })
-            </div>
-
-            <div class="form-group">
-                @Html.Label("Behörighet",
-                            new { @class = "control-label" })
-                <div class="row">
-                    <div class="col-md-6">
-                        Elev
-                        @Html.RadioButton("SelectedRole", "student")
-                        Lärare
-                        @Html.RadioButton("SelectedRole", "teacher")
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.Label("Klasstillhörighet",
-                            new { @class = "control-label" })
-                @Html.DropDownListFor(m => m.SelectedClass,
-                                        Model.Classes,
-                                        new { @class = "form-control" })
-                <br />
-            </div>
-            <input type="submit" class="btn btn-primary"
-                    value="Registrera" />
-        }
-    </div>
-    <div id="users" class="tab-pane fade">
-
         <div class="row">
             <div class="col-md-6">
                 <h3>Uppdatera användare</h3>
@@ -61,30 +27,25 @@
                 <p />
                 @using (Html.BeginForm("UpdateUSer", "Admin"))
                 {
+                    <h3>Registrera</h3>
                     <div class="form-group">
-                        @Html.Label("Namn", new { @class = "col-md-2 control-label" })
-                        @Html.TextBox("SelectedUserName", null,
-                              new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Epost", new { @class = "col-md-2 control-label" })
-                        @Html.TextBox("SelectedEmail", null,
-                                      new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Telefon",
-                            new { @class = "col-md-2 control-label" })
-                        @Html.TextBox("SelectedPhoneNumber", null,
+                        @Html.Label("Användare", 
+                                     new { @class = "control-label"})
+                        @Html.DropDownListFor(m => m.SelectedUser, 
+                                              Model.UnregisteredUsers, 
                                               new { @class = "form-control" })
                     </div>
+                    
                     <div class="form-group">
                         @Html.Label("Behörighet",
-                             new { @class = "col-md-2 control-label" })
+                                    new { @class = "control-label" })
+                       
+                              
                         <div class="row">
                             <div class="col-md-6">
                                 Elev
                                 @Html.RadioButton("SelectedRole", "student")
-                                Lärare
+                               Lärare
                                 @Html.RadioButton("SelectedRole", "teacher")
                             </div>
                         </div>
@@ -97,7 +58,7 @@
                                               new { @class = "form-control" })
                         <br />
                     </div>
-                    <input type="submit" class="btn btn-primary"
+                    <input type="submit" class="btn btn-primary" 
                            value="Registrera" />
                 }
             </div>
@@ -105,20 +66,57 @@
                 @using (Html.BeginForm("RemoveUser", "Admin"))
                 {
                     <h3> Ta bort användare</h3>
-                    <div class="form-group">
+                    <div class="form-group">              
                         @Html.Label("Användare:",
                                     new { @class = "control-label" })
                         @Html.DropDownListFor(m => m.SelectedUser,
                                               Model.RegisteredUsers,
                                               new { @class = "form-control" })
                     </div>
-                    <input type="submit" class="btn btn-danger"
+                    <input type="submit" class="btn btn-danger" 
                            value="Ta bort" />
-                }
+                }          
             </div>
         </div>
     </div>
-
+    <div id="users" class="tab-pane fade in active">
+        <h3>Uppdatera användare</h3>
+        <p />
+        <a href="#">Välj användare...</a>
+        <p />
+        @using (Html.BeginForm("UpdateUSer", "Admin"))
+        {
+            <div class="form-group">
+                @Html.Label("Namn", new { @class = "col-md-2 control-label" })
+                @Html.TextBox("SelectedUserName", null,
+                              new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Epost", new { @class = "col-md-2 control-label" })
+                @Html.TextBox("SelectedEmail", null,
+                                      new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Telefon", 
+                            new { @class = "col-md-2 control-label" })
+                @Html.TextBox("SelectedPhoneNumber", null,
+                                              new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Behörighet", 
+                             new { @class = "col-md-2 control-label" })
+                <div class="row">
+                    <div class="col-md-6">
+                        Elev
+                        @Html.RadioButton("SelectedRole", "student")
+                        Lärare
+                        @Html.RadioButton("SelectedRole", "teacher")
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Uppdatera" />
+        }
+    </div>
 
     <div id="courses" class="tab-pane fade">
         <div class="row">
@@ -127,27 +125,25 @@
                 @using (Html.BeginForm("AddCourse", "Admin"))
                 {
                     <div class="form-group">
-                        @Html.Label("Namn på kursen", new { @class = "col-md-2 control-label" })
-                        <input type="text" id="NewCourse" name="NewCourse" value=""
-                               class="form-control" />
-                        <p />
-                    </div>
-                    <br/>
-                    
+                        @Html.Label("Namn på kursen", 
+                                    new { @class = "control-label" })
+                        <input type="text" id="NewCourse" name="NewCourse" 
+                               value="" class="form-control" />
+                    </div>             
                     <div class="form-group">
-                    @Html.Label("Lärare", new { @class = "col-md-2 control-label" })
-                    @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers, 
-                                          new { @class = "form-control" });
-                   </div>
-                    <p/>
-                    <div class="form-group">
-                    @Html.Label("Klass", new { @class = "col-md-2 control-label" })
-                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes,
-                                          new { @class = "form-control" });
+                        @Html.Label("Lärare", new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.SelectedTeacher, 
+                                              Model.Teachers, 
+                                              new { @class = "form-control" })
                     </div>
-                    <br/>
-                    <p/>
-                    <input type="submit" class="btn btn-primary" value="Skapa kurs" />
+                    <div class="form-group">
+                        @Html.Label("Klass", new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.SelectedClass, 
+                                              Model.Classes,
+                                              new { @class = "form-control" })
+                    </div>
+                    <input type="submit" class="btn btn-primary" 
+                           value="Skapa kurs" />
                 }
             </div>
             <div class="col-md-6">
@@ -163,10 +159,10 @@
                     </div>
                     <input type="submit" class="btn btn-danger" value="Ta bort" />
                 }
-
+                    
             </div>
-
-        </div>
+       
+        </div>   
     </div>
     <div id="classes" class="tab-pane fade">
         <div class="row">
@@ -174,49 +170,71 @@
                 <h3>Skapa ny klass</h3>
                 @using (Html.BeginForm("AddClass", "Admin"))
                 {
-                    @Html.Label("Namn på klassen")
-                    <p/>
+                    <div class="form-group">
+                     @Html.Label("Namn på klassen", 
+                                  new { @class = "control-label" })
                     <input type="text" id="SelectedClassname" 
-                           name="SelectedClassname" value="" />
-                    <p />
-                    <br />
-   
-                    <br />
-                    <p />
-                    <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
-                    <input type="submit" class="btn btn-primary" value="Skapa klass" />
+                           name="SelectedClassname" value="" 
+                           class="form-control" />
+                    </div>
+                 
+                    <input type="hidden" id="SelectedUsers" 
+                           name="SelectedUsers"  value="" />
+                    <input type="submit" class="btn btn-primary" 
+                           value="Skapa klass" />
                 }
-            </div>
-            <div class="col-md-6">'
                 <h3> Ta bort klass</h3>
                 @using (Html.BeginForm("RemoveClass", "Admin"))
-                {                    
-                    @Html.Label("Klass:")
-                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
-                    <p />
-                    <input type="submit" class="btn btn-danger" value="Ta bort" />
+                {
+                    <div class="form-group">
+                        @Html.Label("Klass:",
+                                 new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.SelectedClass, 
+                                          Model.Classes,
+                                          new { @class = "form-control" })
+                    </div>
+                    <input type="submit" class="btn btn-danger" 
+                           value="Ta bort klass" />       
+                   
                 }
             </div>
         </div>
     </div>
     <div id="class_lists" class="tab-pane fade">
         <h3>Klasslistor</h3>
-
-        @Html.Label("Klass")
-        @using (Html.BeginForm("ShowClassList", "Admin"))
-        {
-            @Html.DropDownListFor(m => m.SelectedClass,
-                                  Model.Classes, new { id = "ClassDropDown" });
-        }
-        <hr />
         <div class="row">
             <div class="col-md-6">
+                <div class="form-group">
+                    @using (Html.BeginForm("ShowClassList", "Admin"))
+                    {
+                        @Html.Label("Klass",
+                            new { @class = "col-md-2 control-label" })
+
+                        @Html.DropDownListFor(m => m.SelectedClass,
+                                    Model.Classes,
+                                    new
+                                    {
+                                        id = "ClassDropDown",
+                                        @class = "form-control"
+                                    });
+                    }
+                </div>
                 <div id="ClassListResults">
                     @{Html.RenderPartial("ClassList", Model);}
                 </div>
+
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5">
+                @using (Html.BeginForm("AddClassStudents", "Admin"))
+                {
+                    <div class="form-group">
+                        <input type="hidden" id="SelectedUsers"
+                               name="SelectedUsers" value="" />
+                        <input type="submit" class="btn btn-primary"
+                               value="Lägg till elever" />
+                    </div>
+                }
                 <div id="studentsTree">
                     <ul>
                         <li>
@@ -242,17 +260,7 @@
                         </li>
                     </ul>
                 </div>
-                @using (Html.BeginForm("AddClassStudents", "Admin"))
-                {
-                    <input type="hidden" id="SelectedUsers" 
-                           name="SelectedUsers" value="" />
-                    <p/>
-                    <input type="submit" class="btn btn-primary" 
-                           value="Lägg till elever" />
-                }
-            </div>
-
+           </div>
         </div>
     </div>
-
 </div>
