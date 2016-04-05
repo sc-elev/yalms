@@ -202,6 +202,27 @@ namespace yalms.Content.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        public ActionResult ShowClassList(AdminViewModel modelArg)
+        {
+            AdminViewModel model = new AdminViewModel(context);
+            if (modelArg.SelectedClassname == null)
+            {
+                ViewBag.Message = "Nothing selected?!";
+                return View("Index", model);
+            }
+            return View("Index", model);
+        }
+
+
+        [HttpGet]
+        public ActionResult GetClassList(int SelectedClass)
+        {
+            var model = new AdminViewModel(context);
+            model.SelectedClass = SelectedClass;
+            return PartialView("ClassList", model);
+        }
+
 
         protected AdminController(IUserProvider user, IDateProvider date, EFContext ctx)
         {
