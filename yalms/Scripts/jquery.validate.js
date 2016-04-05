@@ -1,4 +1,4 @@
-﻿/* NUGET: BEGIN LICENSE TEXT
+/* NUGET: BEGIN LICENSE TEXT
  *
  * Microsoft grants you the right to use these script files for the sole
  * purpose of either: (i) interacting through your browser with the Microsoft
@@ -32,7 +32,7 @@ $.extend($.fn, {
 		// if nothing is selected, return nothing; can't chain anyway
 		if ( !this.length ) {
 			if ( options && options.debug && window.console ) {
-				console.warn( "Nothing selected, can't validate, returning nothing." );
+				console.warn( "Inget valt, kan inte validera, returnerar inget." );
 			}
 			return;
 		}
@@ -293,22 +293,22 @@ $.extend($.validator, {
 	},
 
 	messages: {
-		required: "This field is required.",
-		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
-		digits: "Please enter only digits.",
-		creditcard: "Please enter a valid credit card number.",
-		equalTo: "Please enter the same value again.",
-		maxlength: $.validator.format("Please enter no more than {0} characters."),
-		minlength: $.validator.format("Please enter at least {0} characters."),
-		rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-		range: $.validator.format("Please enter a value between {0} and {1}."),
-		max: $.validator.format("Please enter a value less than or equal to {0}."),
-		min: $.validator.format("Please enter a value greater than or equal to {0}.")
+		required: "Detta fält krävs.",
+		remote: "Vänligen fixa detta fält.",
+		email: "Vänligen ange en giltig mejladress.",
+		url: "Vänligen ange en giltig URL.",
+		date: "Vänligen ange ett giltigt datum.",
+		dateISO: "Vänligen ange ett giltigt datum (ISO).",
+		number: "Vänligen ange ett giltigt nummer.",
+		digits: "Vänligen ange endast siffror.",
+		creditcard: "Vänligen ange ett giltigt kreditkortsnummer.",
+		equalTo: "Vänligen skriv samma värde en gång till.",
+		maxlength: $.validator.format("Vänligen skriv inte fler än {0} tecken."),
+		minlength: $.validator.format("Vänligen skriv minst {0} tecken."),
+		rangelength: $.validator.format("Vänligen ange ett värde mellan {0} och {1} tecken i längd."),
+		range: $.validator.format("Vänligen ange ett värde mellan {0} och {1}."),
+		max: $.validator.format("Vänligen ange ett värde mindre än, eller lika med {0}."),
+		min: $.validator.format("Vänligen ange ett värde större än, eller lika med {0}.")
 	},
 
 	autoCreateRanges: false,
