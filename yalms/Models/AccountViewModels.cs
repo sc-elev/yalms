@@ -66,8 +66,18 @@ namespace yalms.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Mejladress")]
+        [Display(Name = "Epostadress")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Förnamn Efternamn")]
+        [StringLength(100, ErrorMessage = "{0} måste bestå av minst {2} tecken.", MinimumLength = 10)]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Telefon")]
+        [StringLength(100, ErrorMessage = "{0} måste bestå av minst {2} tecken.", MinimumLength = 8)]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Ditt {0} måste bestå av minst {2} tecken.", MinimumLength = 6)]
