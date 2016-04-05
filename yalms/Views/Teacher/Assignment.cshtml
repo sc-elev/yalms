@@ -9,23 +9,11 @@
 
 <div>
     <div class="FirstsCol">
-        @Html.Label("Innlämningsmappar", new { @class = "LabelClass" })
+        @Html.Label("Klassinlämningsmappar", new { @class = "LabelClass" })
         @Html.DropDownListFor(m => m.FormSelectedSchoolClass,
                                          Model.ClassSelectionData, new { @id="classList", @class = "DDLClass" })
-        <br /><br />
-        @Html.DropDownListFor(m => m.FormSelectedView, new List<SelectListItem>
-            {
-                new SelectListItem { Text="Se alla", Value = Enumerators.TeacherAssignmentView.ViewAll.ToString()},
-                new SelectListItem { Text="Godkännda", Value = Enumerators.TeacherAssignmentView.Approved.ToString()},
-                new SelectListItem { Text="Ej inlämnade", Value = Enumerators.TeacherAssignmentView.NotTurnedIn.ToString()},
-                new SelectListItem { Text="Inlämnade", Value = Enumerators.TeacherAssignmentView.TurnedIn.ToString()},   
-            }
-            , new { @id = "viewList", @class = "DDLClass" })
 
 
-    </div>
-
-    <div class="SecondCol">
         <br />
 
         <br />
@@ -66,10 +54,7 @@
             <br />
         </p>
     </div>
-    @*@foreach (var assignment in course.Assignments)
-        {
-            <li id="@assignment.AssignmentID">@assignment.Name</li>
-        }*@
+
     <div class="ThirdCol">
         @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
         <br />
@@ -101,7 +86,7 @@
                 select.empty();
                 select.append($('<option/>', {
                     value: 0,
-                    text: "- Välj klass först "
+                    text: "- Välj klass först -"
                 }));
             } else {
 
@@ -182,36 +167,29 @@
             padding: 3px;
             float: left;
             display: inline-block;
-            width: 220px;
-            border: 1px solid red;
+            width: 760px;
             height: 400px;
         }
 
-        .SecondCol {
-            padding: 3px;
-            float: left;
-            display: inline-block;
-            width: 540px;
-            border: 1px solid green;
-            height: 800px;
-        }
 
         .ThirdCol {
             /*padding: 3px;*/
             float: left;
             display: inline-block;
             width: 350px;
-            border: 1px solid blue;
             height: 400px;
         }
 
         .DDLClass {
             width: 140px;
             font-size: 13px;
+            clear: both;
         }
 
         .LabelClass {
             width: 100%;
             font-size: 13px;
+            float: left;
+
         }
 </style>

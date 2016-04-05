@@ -40,14 +40,14 @@ namespace yalms.Models
             Courses = new CourseRepository(ctx).GetAllCoursesByTeacherID_ClassAndAssignment_Full(teacher_UserID);
 
             CourseSelectionData = new List<SelectListItem>();
-            CourseSelectionData.Add(new SelectListItem { Text = "- Ingen vald -", Value = "-1" });
+            CourseSelectionData.Add(new SelectListItem { Text = "- Välj klass först -", Value = "-1" });
 
             AssignmentSelectionData = new List<SelectListItem>();
-            AssignmentSelectionData.Add(new SelectListItem { Text = "- Ingen vald -", Value = "-1" });
+            AssignmentSelectionData.Add(new SelectListItem { Text = "- Välj klass först -", Value = "-1" });
             FormSelectedAssignment = -1;
 
             StudentSelectionData = new List<SelectListItem>();
-            StudentSelectionData.Add(new SelectListItem { Text = "- Ingen vald -", Value = "-1" });
+            StudentSelectionData.Add(new SelectListItem { Text = "- Välj klass först -", Value = "-1" });
             FormSelectedStudent = -1;
 
             ClassSelectionData = new List<SelectListItem>();
