@@ -10,7 +10,8 @@
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#users">Användare</a></li>
     <li><a data-toggle="tab" href="#courses">Kurser</a></li>
-    <li><a data-toggle="tab" href="#menu2">Klasser</a></li>
+    <li><a data-toggle="tab" href="#classes">Klasser</a></li>
+    <li><a data-toggle="tab" href="#class_lists">Klasslistor</a></li>
 </ul>
 
 <div class="tab-content">
@@ -67,16 +68,26 @@
             <div class="col-md-6">
                 <h3>Skapa ny kurs</h3>
                 @using (Html.BeginForm("AddCourse", "Admin"))
-                { 
-                    @Html.Label("Namn på kursen")
-                    <input type="text" id="NewCourse" name="NewCourse" value=""/>
-                    <p/>
+                {
+                    <div class="form-group">
+                        @Html.Label("Namn på kursen", new { @class = "col-md-2 control-label" })
+                        <input type="text" id="NewCourse" name="NewCourse" value=""
+                               class="form-control" />
+                        <p />
+                    </div>
                     <br/>
-                    @Html.Label("Lärare")
-                    @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers);
+                    
+                    <div class="form-group">
+                    @Html.Label("Lärare", new { @class = "col-md-2 control-label" })
+                    @Html.DropDownListFor(m => m.SelectedTeacher, Model.Teachers, 
+                                          new { @class = "form-control" });
+                   </div>
                     <p/>
-                    @Html.Label("Klass")
-                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes);
+                    <div class="form-group">
+                    @Html.Label("Klass", new { @class = "col-md-2 control-label" })
+                    @Html.DropDownListFor(m => m.SelectedClass, Model.Classes,
+                                          new { @class = "form-control" });
+                    </div>
                     <br/>
                     <p/>
                     <input type="submit" class="btn btn-primary" value="Skapa kurs" />
@@ -97,7 +108,7 @@
        
         
     </div>
-    <div id="menu2" class="tab-pane fade">
+    <div id="classes" class="tab-pane fade">
         <div class="row">
             <div class="col-md-6">
                 <h3>Skapa ny klass</h3>
@@ -109,30 +120,7 @@
                            name="SelectedClassname" value="" />
                     <p />
                     <br />
-                    <div id="studentsTree">
-                        <ul>
-                            <li> <a href="#">Välj elever</a>
-                                <ul>
-                                    @foreach (var index in 
-                                        Model.StudentsByIndex.Keys)
-                                    {
-                                        <li>
-                                            <a href="#">@index</a>
-                                            <ul>
-                                                @foreach (var student in 
-                                                    Model.StudentsByIndex[index])
-                                                {
-                                                    <li id="@student.Value">
-                                                        @student.Text 
-                                                    </li>
-                                                }
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+   
                     <br />
                     <p />
                     <input type="hidden" id="SelectedUsers" name="SelectedUsers"  value="" />
@@ -151,5 +139,61 @@
             </div>
         </div>
     </div>
+    <div id="class_lists" class="tab-pane fade">
+        <h3>Klasslistor</h3>
+
+        @Html.Label("Klass")
+        @using (Html.BeginForm("ShowClassList", "Admin"))
+        {
+            @Html.DropDownListFor(m => m.SelectedClass,
+                                  Model.Classes, new { id = "ClassDropDown" });
+        }
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div id="ClassListResults">
+                    @{Html.RenderPartial("ClassList", Model);}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div id="studentsTree">
+                    <ul>
+                        <li>
+                            <a href="#">Alla elever</a>
+                            <ul>
+                                @foreach (var index in
+                                        Model.StudentsByIndex.Keys)
+                                {
+                                    <li>
+                                        <a href="#">@index</a>
+                                        <ul>
+                                            @foreach (var student in
+                                                    Model.StudentsByIndex[index])
+                                            {
+                                                <li id="@student.Value">
+                                                    @student.Text
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                @using (Html.BeginForm("AddClassStudents", "Admin"))
+                {
+                    <input type="hidden" id="SelectedUsers" 
+                           name="SelectedUsers" value="" />
+                    <p/>
+                    <input type="submit" class="btn btn-primary" 
+                           value="Lägg till elever" />
+                }
+            </div>
+
+        </div>
+    </div>
+
 </div>
 

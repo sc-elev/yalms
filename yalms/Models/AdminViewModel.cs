@@ -17,6 +17,7 @@ namespace yalms.Models
         protected IList<SelectListItem> _RegisteredUsers;
         protected IList<SelectListItem> _Courses;
         protected IList<SelectListItem> _Teachers;
+        protected IList<ApplicationUser> _ClassList;
         protected Dictionary<char, IList<SelectListItem>> _StudentsByIndex;
         
 
@@ -98,6 +99,33 @@ namespace yalms.Models
                     })
                     .ToList();
                 return _Teachers;
+            }
+        }
+
+
+        public IList<ApplicationUser> ClassList
+        {
+            set { _ClassList =  value; }
+            get {
+                if (_ClassList != null) return _ClassList;
+                if (SelectedClass == null || SelectedClass == 0)
+                    return new List<ApplicationUser>();
+                var userIDs = context.GetSchoolClassStudents()
+                    .Where(s => s.SchoolClassID == SelectedClass)
+                    .Select(s => s.Student_UserID)
+                    .ToList();
+                _ClassList = context.GetUsers()
+                    .Where(u => userIDs.Contains(u.Id))
+                    .Select(u => new ApplicationUser {
+                        UserName = 
+                            u.UserName != null && u.Email != u.UserName ? 
+                                u.UserName: "-",
+                        PhoneNumber = 
+                            u.PhoneNumber != null ? u.PhoneNumber : "-",
+                        Email = u.Email
+                    })
+                    .ToList();
+                return _ClassList;
             }
         }
 

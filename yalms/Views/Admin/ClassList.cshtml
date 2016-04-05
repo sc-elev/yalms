@@ -1,0 +1,28 @@
+﻿@model yalms.Models.AdminViewModel
+
+@if (Model.ClassList.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Epost</th>
+                <th>Telefon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.ClassList)
+            {
+                <tr>
+                    <td> @user.UserName </td>
+                    <td> @user.Email </td>
+                    <td> @user.PhoneNumber </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <text>Inga elever </text>
+}  
