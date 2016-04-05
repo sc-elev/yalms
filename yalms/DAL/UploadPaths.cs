@@ -39,8 +39,8 @@ namespace yalms.DAL
                 version = (ix + 1).ToString();
             }
             var path = Path.Combine(
-               "~", "Upload", "Submissions", userID.ToString(), 
-               assignmentID.ToString(), version
+                "~", "Upload", "Submissions",  assignmentID.ToString(),
+                userID.ToString(), version
             );
             path = System.Web.HttpContext.Current.Server.MapPath(path); //FIXME - testability.
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -54,9 +54,9 @@ namespace yalms.DAL
             FindSubmissionPaths(int assignmentID, int userID)
         {
             var dirpath = Path.Combine(
-               "~", "Upload", "Submissions", userID.ToString(), 
-               assignmentID.ToString()
-               );
+               "~", "Upload", "Submissions",assignmentID.ToString(),
+               userID.ToString()
+            );
             dirpath = System.Web.HttpContext.Current.Server.MapPath(dirpath); //FIXME - testability
             if (!Directory.Exists(dirpath)) Directory.CreateDirectory(dirpath);
             string[] subdirs = Directory.GetDirectories(dirpath, "*");
@@ -87,32 +87,59 @@ namespace yalms.DAL
 
         // Return path for storing an assignment, presumably not used.
         static public string 
-            GetAssignmentPath(int assignmentID, string filename)
+            GetAssignmentPath(int assignmentID, int userID, string filename)
         {
             return Path.Combine(
                 "Upload", "Assignments", assignmentID.ToString(), filename);
         }
 
-        
-        // Return dir for storing an assignment, presumably not used.
-        static public string GetAssignmentDir(int assignmentID)
+
+        // Return list of all paths with documents for this assignment and
+        // given user, sorted with newest first. User == -1 lists all user's docs.
+        static public string[] FindAssignmentDocs(int assignmentID, int userId = -1)
         {
-            return Path.Combine(
-                "Upload", "Assignments", assignmentID.ToString());
-        }
-
-
-
-        // Return list of all paths with documents for this assignment,
-        // sorted with newest first.
-        static public string[] FindAssignments(int assignmentID)
-        {
-            string path = GetAssignmentPath(assignmentID, "foo");
-            var dirpath = Path.GetDirectoryName(path);
-            string[] found = Directory.GetFiles(dirpath, "*");
+            string[] found;
+            if (userId != -1)
+            {
+                string path = GetAssignmentPath(assignmentID, userId, "foo");
+                var dirpath = Path.GetDirectoryName(path);
+                found = Directory.GetFiles(dirpath, "*");
+            }
+            else
+            {
+                var users = UsersByAssignment(assignmentID);
+                IList<string> dirpaths = new List<string>();
+                foreach(var user in users)
+                {
+                    var userparts = FindAssignmentDocs(assignmentID, user);
+                    foreach (var part in userparts) dirpaths .Add(part);
+                }
+                found = dirpaths.ToArray();
+            }
             Array.Sort(found);
             Array.Reverse(found);
             return found;
+        }
+
+        // All users which have submitted input for given assignment
+        static public IList<int> UsersByAssignment(int assignmentID)
+        {
+            string path = Path.Combine("Upload", "Submissions", assignmentID.ToString());
+            string[] dirs = Directory.GetDirectories(path);
+            var found = new List<int>();
+            foreach (var dir in dirs)
+            {
+                int id;
+                if (int.TryParse(dir, out id))
+                    found.Add(id);
+            }
+            return found.ToArray();
+        }
+
+        static public string GetAssignmentDir(int assignmentID)
+        {
+            return Path.Combine(
+               "Upload", "Assignments", assignmentID.ToString());
         }
     }
 }
