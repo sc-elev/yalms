@@ -66,30 +66,44 @@ namespace yalms.Models
                 var classCourse = new AssignmentNode();
                 classCourse.Title = course.Name + " - " + course.SchoolClass.Name;
 
-                // Add students.
-                foreach (var student in course.SchoolClass.Students)
+                var assignments = new AssignmentRepository().GetAllAssignmentsByCourseID(course.CourseID);
+                foreach (var assignment in assignments)
                 {
-                    var studentNode = new AssignmentNode();
-                    studentNode.Title = student.Email;
+                    var assignmentNode = new AssignmentNode();
+                    assignmentNode.Title = assignment.Name;
 
                     //Add Categories
                     var approvedNode = new AssignmentNode();
-                        approvedNode.Title= "Godkända";
-
-                        //var studAssign = UploadPaths.
-                        //foreach (var assignment in course.Assignments)
-
-                        studentNode.Children.Add(approvedNode);
+                    approvedNode.Title = "Godkända";
+                    assignmentNode.Children.Add(approvedNode);
 
                     var rejectedNode = new AssignmentNode();
-                        rejectedNode.Title = "Ej godkända";
-                        studentNode.Children.Add(rejectedNode);
+                    rejectedNode.Title = "Ej godkända";
+                    assignmentNode.Children.Add(rejectedNode);
 
-                    // Add student Node
-                    classCourse.Children.Add(studentNode);
+                    // Add students.
+                    foreach (var student in course.SchoolClass.Students)
+                    {
+                        var studentNode = new AssignmentNode();
+                        studentNode.Title = student.UserName;
+
+                        var Alle = 1;
+
+                        // var studAssign = UploadPaths.
+                        //foreach (var assignment in course.Assignments)
+
+                        //studentNode.Children.Add(approvedNode);
+
+                        //var rejectedNode = new AssignmentNode();
+                        //rejectedNode.Title = "Ej godkända";
+                        //studentNode.Children.Add(rejectedNode);
+
+                        // Add student Node
+                        assignmentNode.Children.Add(studentNode);
+                    }
+
+                    classCourse.Children.Add(assignmentNode);
                 }
-
-
                 //category.Assignments = context.GetAssignments()
                 //    .Where(a => a.CourseID == course.CourseID)
                 //    .ToList();

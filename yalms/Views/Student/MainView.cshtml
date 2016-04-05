@@ -23,7 +23,7 @@
                             @foreach (var assignment in course.Assignments)
                             {
                                 <li id="@assignment.AssignmentID">
-                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentPath(assignment.AssignmentID)">
+                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentPath(assignment.AssignmentID,"")"> @*Tvingades lägga till filename för att kuna builda. Alle.*@
                                         @assignment.Name
                                     </a>
                                 </li>
