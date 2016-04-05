@@ -10,7 +10,7 @@ namespace yalms.CommonFunctions
 
         public enum TeacherAssignmentView
         {
-            TurnedIn =0,
+            TurnedIn = 0,
             NotTurnedIn = 1,
             Approved = 2,
             ViewAll = 3

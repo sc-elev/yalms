@@ -178,6 +178,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="CommonFunctions\MultipleButtonAttribute.cs" />
     <Compile Include="CommonFunctions\CustomConversion.cs" />
     <Compile Include="CommonFunctions\Enumerators.cs" />
     <Compile Include="Controllers\AccountController.cs" />

@@ -8,6 +8,7 @@ using yalms.Models;
 // must be present for 
 using Microsoft.AspNet.Identity;
 using yalms.DAL;
+using yalms.CommonFunctions;
 
 namespace yalms.Controllers
 {
@@ -72,6 +73,15 @@ namespace yalms.Controllers
             return Json(studentData, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult LoadAllStudentAssgnments(TeacherAssignmentViewModel viewModel)
+        {
+            var alle = 1;
+            //RedirectToAction()
+
+            return null;
+        }
+
         public ViewResult Document()
         {
             // viewmodel: TeacherDocumentViewModel
@@ -134,12 +144,15 @@ namespace yalms.Controllers
             } else {
                 ViewBag.SelectedSlotInformation ="- Ingen vald -";
             }
+
             return View(model);
         }
 
 
+
         [HttpPost]
-        public ActionResult SlotForm(TeacherScheduleViewModel pageviewmodel)
+        [MultipleButton(Name = "action", Argument ="Save")]
+        public ActionResult Save(TeacherScheduleViewModel pageviewmodel)
         {
             if (Session["selectedSlot"] != null && pageviewmodel.FormSelectedCourse != -1 && pageviewmodel.FormSelectedRoom != -1)
             { 
@@ -162,8 +175,9 @@ namespace yalms.Controllers
             return RedirectToAction("Schedule");
         }
 
-
-        public ActionResult DeleteSelectedSlot()
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "Delete")]
+        public ActionResult Delete()
         {
             if (Session["selectedSlot"] != null)
             {

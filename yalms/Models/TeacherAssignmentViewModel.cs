@@ -27,6 +27,11 @@ namespace yalms.Models
         public List<SelectListItem> StudentSelectionData { get; set; }
         public int FormSelectedStudent { get; set; }
 
+        public int FormSelectedView { get; set; }
+
+        public IList<AssignmentNode> StudentAssignments { set; get; }
+        
+
         public TeacherAssignmentViewModel() {}
 
 
@@ -52,6 +57,47 @@ namespace yalms.Models
                 ClassSelectionData.Add(new SelectListItem { Text = course.SchoolClass.Name, Value = course.SchoolClass.SchoolClassID.ToString() });
             }
             FormSelectedSchoolClass = -1;
+
+            
+
+            StudentAssignments = new List<AssignmentNode>();
+            foreach (var course in Courses)
+            {
+                var classCourse = new AssignmentNode();
+                classCourse.Title = course.Name + " - " + course.SchoolClass.Name;
+
+                // Add students.
+                foreach (var student in course.SchoolClass.Students)
+                {
+                    var studentNode = new AssignmentNode();
+                    studentNode.Title = student.Email;
+
+                    //Add Categories
+                    var approvedNode = new AssignmentNode();
+                        approvedNode.Title= "Godkända";
+
+                        //var studAssign = UploadPaths.
+                        //foreach (var assignment in course.Assignments)
+
+                        studentNode.Children.Add(approvedNode);
+
+                    var rejectedNode = new AssignmentNode();
+                        rejectedNode.Title = "Ej godkända";
+                        studentNode.Children.Add(rejectedNode);
+
+                    // Add student Node
+                    classCourse.Children.Add(studentNode);
+                }
+
+
+                //category.Assignments = context.GetAssignments()
+                //    .Where(a => a.CourseID == course.CourseID)
+                //    .ToList();
+                //if (category.Assignments.Count > 0)
+
+                // Add ClassCourse Node
+                StudentAssignments.Add(classCourse);
+            }
         }
 
 

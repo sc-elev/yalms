@@ -106,14 +106,13 @@
     </div>
 
 
-    <!-- Middle column -->
+     @*Middle column*@ 
     <div class="col-md-4 SecondCol">
 
         <div style="text-align:center; font-size:1.5em">
                 @Html.ActionLink("<< ", "PreviousWeek_Click", "Teacher")
                 @if (DateTime.Now.Date != Model.Today)
                 {
-                    <!-- IMPLEMENT THIS! -->
                     @Html.ActionLink("Idag", "MainViewToday")
                 }
                 else
@@ -123,7 +122,7 @@
                 @Html.ActionLink(" >>", "NextWeek_Click", "Teacher")
             </div>
 
-        <!-- Vecka + klockslag -->
+         @*Vecka + klockslag*@ 
         <div class="DayColumn">
             <div class="OuterBox CalSlot">
                 <br />
@@ -139,7 +138,8 @@
             }
         </div>
 
-        <!-- Skoldagar under veckan -->
+        @*Skoldagar under veckan*@
+        
         @for (var day = 0; day < 5; day++)
         {
             <div class="DayColumn">
@@ -157,7 +157,6 @@
                     <a href="@Model.ThisWeekUrls[row, day]">
                         @if (slot == null)
                         {
-                            // slot is empty
                             <div class="OuterBox EmptySlot">&nbsp;</div>
                         }
                         else
@@ -174,12 +173,17 @@
     </div>
 
 
-    <!-- Right column -->
+   
+
+
+
+    @*Right column*@
     <div class="col-md-4 ThirdCol">
         <div class="SelectedSlotInformation">
             @ViewBag.SelectedSlotInformation
         </div>
-        @using (Html.BeginForm("SlotForm", "Teacher", FormMethod.Post, new { pageviewmodel = Model }))
+
+        @using (Html.BeginForm("NewSaveSlot", "Teacher", FormMethod.Post, new { pageviewmodel = Model }))
         {
             @Html.Label("Välj kurs", new { @class = "LabelClass" })
             @Html.DropDownListFor(m => m.FormSelectedCourse, Model.CourseSelectionData, new { @class = "DDLClass" })
@@ -187,21 +191,15 @@
             @Html.Label("Välj sal", new { @class = "LabelClass" })
             @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData, new { @class = "DDLClass" })
             <br />
-            <input type="submit" value="Spara markerad lektion" class="btn btn-default" style="width:150px" />
+    <input type="submit" value="Spara markerad lektion" name="action:Save" class="btn btn-default" style="width:150px" />
             <br />
-            <input type="button" value="Ta bort markerad lektion" class="btn btn-default" style="width:150px" onclick="@Html.Action("DeleteSelectedSlot")" />
+    <input type="submit" value="Ta bort markerad lektion" name="action:Delete" class="btn btn-danger" style="width:150px" />
+    <br />
         }
     </div>
+
+
+
+
+
 </div>
-@*=======
-      .DDLClass {
-          width: 140px; 
-          font-size: 13px;
-      }
-      
-      .LabelClass {
-          width: 90px; 
-          font-size: 13px;
-      }
-</style>
->>>>>>> Started on Teacher Assigments view and viewmodel.*@

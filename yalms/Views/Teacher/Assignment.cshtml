@@ -1,71 +1,144 @@
-﻿@model yalms.Models.TeacherAssignmentViewModel
+﻿@using yalms.CommonFunctions
+@model yalms.Models.TeacherAssignmentViewModel
 @{
     Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
 }
+
+<script src="~/Scripts/StudentMainView.js"></script>
+
+
 <div>
     <div class="FirstsCol">
-        @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
+        @Html.Label("Innlämningsmappar", new { @class = "LabelClass" })
         @Html.DropDownListFor(m => m.FormSelectedSchoolClass,
                                          Model.ClassSelectionData, new { @id="classList", @class = "DDLClass" })
-        <br />
+        <br /><br />
+        @Html.DropDownListFor(m => m.FormSelectedView, new List<SelectListItem>
+            {
+                new SelectListItem { Text="Se alla", Value = Enumerators.TeacherAssignmentView.ViewAll.ToString()},
+                new SelectListItem { Text="Godkännda", Value = Enumerators.TeacherAssignmentView.Approved.ToString()},
+                new SelectListItem { Text="Ej inlämnade", Value = Enumerators.TeacherAssignmentView.NotTurnedIn.ToString()},
+                new SelectListItem { Text="Inlämnade", Value = Enumerators.TeacherAssignmentView.TurnedIn.ToString()},   
+            }
+            , new { @id = "viewList", @class = "DDLClass" })
+
+
     </div>
 
     <div class="SecondCol">
         <br />
-        @Html.DropDownListFor(m => m.FormSelectedStudent,
-                                                     Model.StudentSelectionData, new { @id = "studentList", @class = "DDLClass" })
-    </div>
 
+        <br />
+        <legend>Uppgifter att göra</legend>
+        <p>
+            @*Populate StudentAssignments*@
+            @Html.ActionLink("Refresh", "LoadAllStudentAssgnments", "Teacher", Model, null)
+            <br />
+            <div id="AssignmentsTree">
+                <ul>
+                    @foreach (var course in Model.StudentAssignments)
+                    {
+                        <li class="jstree-open">
+                            <a href="#"> @course.Title</a>
+                            <ul>
+                            @foreach (var student in course.Children)
+                            {
+                                <li class="jstree-closed">
+                                <a href="#"> @student.Title</a>
+                                <ul>
+                                @foreach (var category in student.Children)
+                                {
+                                    <li class="jstree-open">
+                                    <a href="#"> @category.Title</a>
+                                    <ul>
+                                            
+                                    </ul>
+                                    </li>
+                                }
+                                </ul>
+                                </li>
+                            }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <br />
+        </p>
+    </div>
+    @*@foreach (var assignment in course.Assignments)
+        {
+            <li id="@assignment.AssignmentID">@assignment.Name</li>
+        }*@
     <div class="ThirdCol">
         @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
         <br />
+        @Html.DropDownListFor(m => m.FormSelectedStudent,
+                                                     Model.StudentSelectionData, new { @id = "studentList", @class = "DDLClass" })
+        <br /><br />
         @Html.DropDownListFor(m => m.FormSelectedAssignment,
                                             Model.AssignmentSelectionData, new { @id="assignmentList", @class = "DDLClass" })
     </div>
 </div>
 
 <script type="text/javascript">
-    alert('starts');
+
+  
+
 
     $(function () {
         $('select#classList').change(function () {
             var classid = $(this).val();
-            alert('A: '+classid);
+            if (classid == "-1") {
+                var select = $("#studentList");
+                select.empty();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: "- Välj klass först -"
+                }));
 
-            $.getJSON("../Teacher/LoadStudentsByClass", { id: classid },
-                   function (data) {
-                       //alert('fetched');
-                       var select = $("#studentList");
-                       select.empty();
-                       select.append($('<option/>', {
-                           value: 0,
-                           text: "- Välj student -"
-                       }));
-                       $.each(data, function (index, itemData) {
+                var select = $("#assignmentList");
+                select.empty();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: "- Välj klass först "
+                }));
+            } else {
+
+                $.getJSON("../Teacher/LoadStudentsByClass", { id: classid },
+                       function (data) {
+                           //alert('fetched');
+                           var select = $("#studentList");
+                           select.empty();
                            select.append($('<option/>', {
-                               value: itemData.Value,
-                               text: itemData.Text
+                               value: 0,
+                               text: "- Välj student -"
                            }));
+                           $.each(data, function (index, itemData) {
+                               select.append($('<option/>', {
+                                   value: itemData.Value,
+                                   text: itemData.Text
+                               }));
+                           });
                        });
-                   });
 
-            $.getJSON("../Teacher/LoadAssignmentsByClass", { id: classid },
-                   function (data) {
-                       //alert('fetched');
-                       var select = $("#assignmentList");
-                       select.empty();
-                       select.append($('<option/>', {
-                           value: 0,
-                           text: "- Välj Assigment -"
-                       }));
-                       $.each(data, function (index, itemData) {
+                $.getJSON("../Teacher/LoadAssignmentsByClass", { id: classid },
+                       function (data) {
+                           //alert('fetched');
+                           var select = $("#assignmentList");
+                           select.empty();
                            select.append($('<option/>', {
-                               value: itemData.Value,
-                               text: itemData.Text
+                               value: 0,
+                               text: "- Välj Assigment -"
                            }));
+                           $.each(data, function (index, itemData) {
+                               select.append($('<option/>', {
+                                   value: itemData.Value,
+                                   text: itemData.Text
+                               }));
+                           });
                        });
-                   });
-
+            }
             //alert('finnish');
         });
     });
@@ -109,7 +182,7 @@
             padding: 3px;
             float: left;
             display: inline-block;
-            width: 200px;
+            width: 220px;
             border: 1px solid red;
             height: 400px;
         }
@@ -118,7 +191,7 @@
             padding: 3px;
             float: left;
             display: inline-block;
-            width: 640px;
+            width: 540px;
             border: 1px solid green;
             height: 800px;
         }
@@ -127,7 +200,7 @@
             /*padding: 3px;*/
             float: left;
             display: inline-block;
-            width: 250px;
+            width: 350px;
             border: 1px solid blue;
             height: 400px;
         }
@@ -138,7 +211,7 @@
         }
 
         .LabelClass {
-            width: 90px;
+            width: 100%;
             font-size: 13px;
         }
 </style>
