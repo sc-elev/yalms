@@ -228,7 +228,6 @@
     <Compile Include="Models\StudentMainViewModel.cs" />
     <Compile Include="DAL\Submission.cs" />
     <Compile Include="Models\SubmissionsNode.cs" />
-    <Compile Include="Models\TeacherAdministrationViewModel.cs" />
     <Compile Include="Models\TeacherAssignmentViewModel.cs" />
     <Compile Include="Models\TeacherAssignmentViewModelFactory.cs" />
     <Compile Include="Models\TeacherDocumentViewModel.cs" />
@@ -321,7 +320,6 @@
     <Content Include="Views\Account\SetUserRole.cshtml" />
     <Content Include="Views\Student\MainView.cshtml" />
     <Content Include="Views\Shared\_LayoutTeacher.cshtml" />
-    <Content Include="Views\Teacher\Administration.cshtml" />
     <Content Include="Views\Teacher\Assignment.cshtml" />
     <Content Include="Views\Teacher\Document.cshtml" />
     <Content Include="Views\Teacher\Schedule.cshtml" />

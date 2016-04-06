@@ -13,9 +13,10 @@ using yalms.CommonFunctions;
 
 namespace yalms.Controllers
 {
+      
+    [Authorize(Roles = "teacher")]
     public class TeacherController : Controller
     {
-
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
         protected EFContext context;

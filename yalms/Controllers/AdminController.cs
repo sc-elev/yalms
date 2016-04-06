@@ -11,6 +11,8 @@ using yalms.DAL;
 
 namespace yalms.Content.Controllers
 {
+
+    [Authorize(Roles = "teacher")]
     public class AdminController : Controller
     {
         protected IDateProvider dateProvider;
