@@ -188,6 +188,7 @@
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\Assignment.cs" />
+    <Compile Include="Services\BaseRepository.cs" />
     <Compile Include="Services\AssignmentRepository.cs" />
     <Compile Include="Services\ISubmissionRepository.cs" />
     <Compile Include="Services\CourseRepository.cs" />

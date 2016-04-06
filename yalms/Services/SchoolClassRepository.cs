@@ -11,26 +11,16 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class SchoolClassRepository: ISchoolClassRepository
+    public class SchoolClassRepository:BaseRepository, ISchoolClassRepository
     {
-        private EFContext context;
+        public SchoolClassRepository() : base() {}
 
-        public SchoolClassRepository()
-        {
-            context = new EFContext();
-        }
-
-        public SchoolClassRepository(EFContext context)
-        {
-            this.context = context;
-        }
+        public SchoolClassRepository(EFContext ctx) : base(ctx) {}
 
         public IEnumerable<SchoolClass> GetAllSchoolClasses()
         {
             return context.SchoolClasses;
         }
-
-
         
         #region Get SchoolClass by its SchoolClassID
         public SchoolClass GetSchoolClassBySchoolClassID(int? schoolClassID)
@@ -51,8 +41,6 @@ namespace yalms.Services
             return schoolClass;
         }
         #endregion
-
-        
 
         #region Get SchoolClass by its SchoolClass ID
         public SchoolClass GetSchoolClassByID(int? schoolClassID)
@@ -94,8 +82,6 @@ namespace yalms.Services
         }
         #endregion
 
-
-
         #region Update existing SchoolClass object and register what user modified it and when.
         public void UpdateSchoolClass (SchoolClass newSchoolClass)
         {
@@ -112,39 +98,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-
-
-
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
-
 
     }
 }

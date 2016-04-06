@@ -11,19 +11,11 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class RoomRepository: IRoomRepository
+    public class RoomRepository: BaseRepository, IRoomRepository
     {
-        private EFContext context;
+        public RoomRepository() : base() {}
 
-        public RoomRepository()
-        {
-            context = new EFContext();
-        }
-
-        public RoomRepository(EFContext context)
-        {
-            this.context = context;
-        }
+        public RoomRepository(EFContext ctx) : base(ctx) {}
 
 
         #region Get all Rooms even those tagged as removed and not yet created.
@@ -97,36 +89,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
-
 
     }
 }

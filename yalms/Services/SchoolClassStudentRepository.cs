@@ -11,20 +11,12 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class SchoolClassStudentRepository: ISchoolClassStudentRepository
+    public class SchoolClassStudentRepository: BaseRepository, ISchoolClassStudentRepository
     {
-        private EFContext context;
 
-        public SchoolClassStudentRepository()
-        {
-            context = new EFContext();
-        }
+        public SchoolClassStudentRepository() : base() {}
 
-        public SchoolClassStudentRepository(EFContext context)
-        {
-            this.context = context;
-        }
-
+        public SchoolClassStudentRepository(EFContext ctx) : base(ctx) { }
 
         #region Get all SchoolClassStudents.
         public IEnumerable<SchoolClassStudent> GetAllSchoolClassStudents()
@@ -103,8 +95,6 @@ namespace yalms.Services
         }
         #endregion
 
-
-
         #region Update existing SchoolClassStudent object and register what user modified it and when.
         public void UpdateSchoolClassStudent (SchoolClassStudent newSchoolClassStudent)
         {
@@ -116,36 +106,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-     
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
 
     }
 }

@@ -10,22 +10,17 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using yalms.DAL;
 
+
 namespace yalms.Services
 {
 
-    public class CourseRepository: ICourseRepository
+    public class CourseRepository: BaseRepository, ICourseRepository
     {
-        private EFContext context;
 
-        public CourseRepository()
-        {
-            context = new EFContext();
-        }
+        public CourseRepository() : base() {}
 
-        public CourseRepository(EFContext context)
-        {
-            this.context = context;
-        }
+        public CourseRepository(EFContext ctx) : base(ctx) {}
+
 
         public List<Course> GetAllCoursesBySchoolClassID(int? schoolClassID)
         {
@@ -34,12 +29,12 @@ namespace yalms.Services
                 .ToList();
         }
 
-
  
         public IEnumerable<Course> GetAllCourses()
         {
             return context.GetCourses();
         }
+
 
         public IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date)
         {
@@ -142,39 +137,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-
-
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
-       
-
 
     }
 }

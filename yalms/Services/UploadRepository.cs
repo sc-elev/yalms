@@ -11,20 +11,12 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class UploadRepository: IUploadRepository
+    public class UploadRepository: BaseRepository, IUploadRepository
     {
-        private EFContext context;
 
-        public UploadRepository()
-        {
-            context = new EFContext();
-        }
+        public UploadRepository() : base() {}
 
-        public UploadRepository(EFContext context)
-        {
-            this.context = context;
-        }
-
+        public UploadRepository(EFContext ctx) : base(ctx) { }
 
 
         #region Get all Uploads even those tagged as removed and not yet created.
@@ -162,37 +154,7 @@ namespace yalms.Services
             return upload;
         }
         #endregion
-
-
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
-
+  
     }
 }
 

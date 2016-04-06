@@ -14,19 +14,12 @@ namespace yalms.Services
 {
 
  
-    public class SlotRepository: ISlotRepository
+    public class SlotRepository:BaseRepository, ISlotRepository
     {
-        private EFContext context;
+        
+        public SlotRepository() : base() {}
 
-        public SlotRepository()
-        {
-            context = new EFContext();
-        }
-
-        public SlotRepository(EFContext context)
-        {
-            this.context = context;
-        }
+        public SlotRepository(EFContext ctx) : base(ctx) { }
 
         #region Get all Slots.
         public IEnumerable<Slot> GetAllSlots()
@@ -157,38 +150,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-
-        #region System functions.
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
-
-
-
 
     }
 }

@@ -12,24 +12,11 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class AssignmentRepository: IAssignmentRepository
+    public class AssignmentRepository: BaseRepository,  IAssignmentRepository
     {
-        private EFContext context;
+        public AssignmentRepository() : base() {}
 
-        public AssignmentRepository()
-        {
-            context = new EFContext();
-        }
-
-        public AssignmentRepository(EFContext context)
-        {
-            this.context = context;
-        }
-
-        //public AssignmentRepository(EFContext ctx)
-        //{
-        //    context = ctx;
-        //}
+        public AssignmentRepository(EFContext ctx) : base(ctx) {}
 
         public List<int> GetAllAssignmentsIDsByCourseID(int courseID)
         {
@@ -116,8 +103,6 @@ namespace yalms.Services
         }
         #endregion
 
-
-
         #region Update existing Assignment object.
         public void UpdateAssignment (Assignment newAssignment)
         {
@@ -132,38 +117,6 @@ namespace yalms.Services
             Dispose();
         }
         #endregion
-
-
-
-
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-
-
-
 
     }
 }

@@ -7,20 +7,13 @@ using yalms.DAL;
 
 namespace yalms.Services
 {
-    public class SubmissionRepository : ISubmissionRepository, IDisposable
+    public class SubmissionRepository :BaseRepository, ISubmissionRepository
     {
-        private EFContext context;
+               
+        public SubmissionRepository() : base() {}
 
-        public SubmissionRepository()
-        {
-            context = new EFContext();
-        }
-
-        public SubmissionRepository(EFContext context)
-        {
-            this.context = context;
-        }
-
+        public SubmissionRepository(EFContext ctx) : base(ctx) { }
+ 
         public IEnumerable<Submission> GetAllSubmissionsByStateAndUser(
                        EFContext context,
                        IList<int> assignments,
@@ -41,30 +34,6 @@ namespace yalms.Services
                       UserID = user.UserID(),
                       assignment = assignment
                   };
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    context.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }
