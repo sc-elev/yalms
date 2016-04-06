@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using yalms.Models;
 using System.Web.Mvc; 
 
-namespace yalms.DAL 
+namespace yalms.Services 
 { 
 
     public interface IAssignmentRepository : IDisposable 

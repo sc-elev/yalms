@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.Configuration;
 using yalms.Models; 
 
-namespace yalms.DAL
+namespace yalms.Services
 {
 
     public class RoomRepository: IRoomRepository

@@ -9,7 +9,7 @@ using yalms.Models;
 using System;
 using yalms.CommonFunctions; 
 
-namespace yalms.DAL
+namespace yalms.Services
 {
 
  

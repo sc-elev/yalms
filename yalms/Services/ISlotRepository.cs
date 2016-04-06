@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Collections.Generic; 
 using yalms.Models; 
 
-namespace yalms.DAL 
+namespace yalms.Services 
 { 
 
     public interface ISlotRepository : IDisposable 

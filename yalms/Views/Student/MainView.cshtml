@@ -24,7 +24,7 @@
                             @foreach (var assignment in course.Assignments)
                             {
                                 <li id="@assignment.AssignmentID">
-                                    <a href="@yalms.DAL.UploadPaths.GetAssignmentDir(assignment.AssignmentID)">
+                                    <a href="@yalms.Services.UploadPaths.GetAssignmentDir(assignment.AssignmentID)">
                                         @assignment.Name
                                     </a>
                                 </li>

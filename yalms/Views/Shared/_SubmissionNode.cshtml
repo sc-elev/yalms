@@ -20,12 +20,12 @@
             {
                 <li>
                     <a href="#">@node.assignment.Name</a> 
-                    @if (yalms.DAL.UploadPaths.FindSubmissionPaths(
+                    @if (yalms.Services.UploadPaths.FindSubmissionPaths(
                         node.AssignmentID, node.UserID).Length > 0)
                     {
                         <ul>
                             @foreach (var path in
-                                yalms.DAL.UploadPaths
+                                yalms.Services.UploadPaths
                                 .FindSubmissionURIs(
                                     node.AssignmentID, node.UserID)
                             ){

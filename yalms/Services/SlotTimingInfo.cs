@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 
-namespace yalms.DAL
+namespace yalms.Services
 {
 
     public class TimingInfo

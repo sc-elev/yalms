@@ -9,7 +9,7 @@ using yalms.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 
-namespace yalms.DAL
+namespace yalms.Services
 {
 
     public class CourseRepository: ICourseRepository

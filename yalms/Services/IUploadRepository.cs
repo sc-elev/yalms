@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 using yalms.Models; 
 
-namespace yalms.DAL 
+namespace yalms.Services 
 { 
 
     public interface IUploadRepository : IDisposable 

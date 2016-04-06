@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using yalms.Models;
 using Microsoft.AspNet.Identity.EntityFramework; 
 
-namespace yalms.DAL 
+namespace yalms.Services 
 { 
 
     public interface ICourseRepository : IDisposable 

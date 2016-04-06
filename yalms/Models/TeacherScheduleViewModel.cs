@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using yalms.DAL;
+using yalms.Services;
 
 namespace yalms.Models
 {

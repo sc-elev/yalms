@@ -9,7 +9,7 @@ namespace yalms.Migrations
     using Microsoft.AspNet.Identity.Owin;
     using yalms.Models;
     using System.Collections.Generic;
-    using yalms.DAL;
+    using yalms.Services;
 
     internal sealed class Configuration : DbMigrationsConfiguration<yalms.Models.EFContext>
     {

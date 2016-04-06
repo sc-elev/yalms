@@ -8,7 +8,7 @@ using System.Configuration;
 using yalms.Models;
 using System.Web.Mvc;
 
-namespace yalms.DAL
+namespace yalms.Services
 {
 
     public class AssignmentRepository: IAssignmentRepository

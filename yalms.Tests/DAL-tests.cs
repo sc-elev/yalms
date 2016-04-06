@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using yalms.Tests.Controllers;
-using yalms.DAL;
+using yalms.Services;
 using System.Collections.Generic;
 using yalms.Models;
 

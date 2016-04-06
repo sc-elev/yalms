@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using yalms.Models;
 
-namespace yalms.DAL
+namespace yalms.Services
 {
     public interface ISubmissionRepository : IDisposable 
     {
