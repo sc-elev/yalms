@@ -7,7 +7,8 @@ using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
 using System;
-using yalms.CommonFunctions; 
+using yalms.CommonFunctions;
+using yalms.DAL;
 
 namespace yalms.Services
 {

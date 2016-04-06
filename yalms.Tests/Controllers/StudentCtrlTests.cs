@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using yalms;
+using yalms.DAL;
 using Microsoft.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;

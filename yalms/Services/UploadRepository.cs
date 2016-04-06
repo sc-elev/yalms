@@ -5,7 +5,8 @@ using System.Web;
 using System.Data;
 using System.Data.Entity;
 using System.Configuration;
-using yalms.Models; 
+using yalms.Models;
+using yalms.DAL;
 
 namespace yalms.Services
 {

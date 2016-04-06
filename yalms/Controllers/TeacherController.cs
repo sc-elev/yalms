@@ -8,6 +8,7 @@ using yalms.Models;
 // must be present for 
 using Microsoft.AspNet.Identity;
 using yalms.Services;
+using yalms.DAL;
 using yalms.CommonFunctions;
 
 namespace yalms.Controllers

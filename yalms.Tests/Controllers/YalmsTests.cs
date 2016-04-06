@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
+using yalms.DAL;
 
 namespace yalms.Tests.Controllers
 {

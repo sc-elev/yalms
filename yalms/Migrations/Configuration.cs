@@ -10,8 +10,9 @@ namespace yalms.Migrations
     using yalms.Models;
     using System.Collections.Generic;
     using yalms.Services;
+    using yalms.DAL;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<yalms.Models.EFContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<yalms.DAL.EFContext>
     {
 
         private ApplicationUser student1;
@@ -234,7 +235,7 @@ namespace yalms.Migrations
         }
 
 
-        protected override void Seed(yalms.Models.EFContext ctx)
+        protected override void Seed(yalms.DAL.EFContext ctx)
         {
             seedRoles(ctx);
             seedUsers(ctx);

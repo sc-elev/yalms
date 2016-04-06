@@ -8,6 +8,7 @@ using System.Configuration;
 using yalms.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using yalms.DAL;
 
 namespace yalms.Services
 {

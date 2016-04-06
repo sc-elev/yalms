@@ -4,6 +4,7 @@ using yalms.Tests.Controllers;
 using yalms.Services;
 using System.Collections.Generic;
 using yalms.Models;
+using yalms.DAL;
 
 namespace yalms.Tests
 {

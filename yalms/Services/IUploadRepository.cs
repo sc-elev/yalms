@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using yalms.DAL;
 
 using yalms.Models; 
 

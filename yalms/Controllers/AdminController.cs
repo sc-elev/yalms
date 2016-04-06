@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using yalms.Models;
+using yalms.DAL;
 
 namespace yalms.Content.Controllers
 {

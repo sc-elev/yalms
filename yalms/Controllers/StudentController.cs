@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using yalms.Services;
 using yalms.Models;
+using yalms.DAL;
 
 namespace yalms.Controllers
 {

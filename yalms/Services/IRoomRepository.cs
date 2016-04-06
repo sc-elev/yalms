@@ -2,7 +2,9 @@ using System;
 using System.Data; 
 using System.Data.Entity; 
 using System.Collections.Generic; 
-using yalms.Models; 
+using yalms.Models;
+using yalms.DAL;
+
 
 namespace yalms.Services 
 { 

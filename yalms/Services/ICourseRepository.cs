@@ -3,7 +3,8 @@ using System.Data;
 using System.Data.Entity; 
 using System.Collections.Generic; 
 using yalms.Models;
-using Microsoft.AspNet.Identity.EntityFramework; 
+using Microsoft.AspNet.Identity.EntityFramework;
+using yalms.DAL;
 
 namespace yalms.Services 
 { 

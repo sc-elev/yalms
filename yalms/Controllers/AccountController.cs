@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using yalms.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using yalms.DAL;
 
 namespace yalms.Controllers
 {

@@ -8,8 +8,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using yalms.Models;
 
-namespace yalms.Models
+
+namespace yalms.DAL
 {
   
     [Table("User")]

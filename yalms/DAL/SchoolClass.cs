@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace yalms.Models
+namespace yalms.DAL
 {
 
     [Table("SchoolClass")]

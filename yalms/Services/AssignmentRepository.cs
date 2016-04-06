@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
 using System.Web.Mvc;
+using yalms.DAL;
 
 namespace yalms.Services
 {

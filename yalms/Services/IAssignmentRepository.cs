@@ -3,7 +3,8 @@ using System.Data;
 using System.Data.Entity; 
 using System.Collections.Generic;
 using yalms.Models;
-using System.Web.Mvc; 
+using System.Web.Mvc;
+using yalms.DAL;
 
 namespace yalms.Services 
 { 

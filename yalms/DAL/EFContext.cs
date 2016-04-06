@@ -6,8 +6,9 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using yalms.Models;
 
-namespace yalms.Models
+namespace yalms.DAL
 {
     public interface YalmContext 
     {
