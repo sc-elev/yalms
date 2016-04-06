@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//<<<<<<< Updated upstream
 using System.Web.Mvc;
-//=======
-//>>>>>>> Stashed changes
 using yalms.DAL;
 
 namespace yalms.Models
 {
     public class TeacherScheduleViewModel
     {
-//<<<<<<< Updated upstream
         public List<Course> Courses { get; set; }
         public List<SelectListItem> CourseSelectionData { get; set; }
         public int SelectedCourse { get; set; }
