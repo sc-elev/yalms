@@ -159,21 +159,3 @@ namespace yalms.Models
 
     }
 }
-//=======
-//        List<Slot> Slots { get; set; }
-//        List<Course> Courses { get; set; }
-//        int DefaultSelectedCourse { get; set; }
-
-//        public TeacherScheduleViewModel() {}
-
-//        public TeacherScheduleViewModel(int courseID, DateTime date, int teacher_UserID)
-//        {
-//            // populate full courses data.
-//            Courses = new CourseRepository().GetAllCoursesByTeacherID_Full(teacher_UserID).ToList();
-
-//            // populate slots
-//            Slots = new SlotRepository().GetTeachersWeeklySheduleByCourseIDAndDate_Full(courseID, date);
-//        }
-//    }
-//}
-//>>>>>>> Stashed changes

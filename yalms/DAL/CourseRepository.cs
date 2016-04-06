@@ -14,17 +14,32 @@ namespace yalms.DAL
 
     public class CourseRepository: ICourseRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
 
-        #region Get all Courses.
+        public CourseRepository()
+        {
+            context = new EFContext();
+        }
+
+        public CourseRepository(EFContext context)
+        {
+            this.context = context;
+        }
+
+        public List<Course> GetAllCoursesBySchoolClassID(int? schoolClassID)
+        {
+            return context.GetCourses()
+                .Where(c => c.SchoolClassID == schoolClassID)
+                .ToList();
+        }
+
+
+ 
         public IEnumerable<Course> GetAllCourses()
         {
             return context.GetCourses();
         }
-        #endregion
 
-        #region Get all Courses.
         public IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date)
         {
 
@@ -43,7 +58,7 @@ namespace yalms.DAL
             return courses;
         }
 
-        #endregion
+
 
         public IEnumerable<Course> GetAllCoursesByTeacherID_ClassAndAssignment_Full(int teacher_UserID)
         {
@@ -157,15 +172,7 @@ namespace yalms.DAL
 
         #endregion
 
-        public CourseRepository()
-        {
-            context = new EFContext();
-        }
-
-        public CourseRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
+       
 
 
     }

@@ -12,8 +12,17 @@ namespace yalms.DAL
 
     public class SchoolClassStudentRepository: ISchoolClassStudentRepository
     {
-        // Get context for specific connectionstring.
-        private EFContext context = new EFContext();
+        private EFContext context;
+
+        public SchoolClassStudentRepository()
+        {
+            context = new EFContext();
+        }
+
+        public SchoolClassStudentRepository(EFContext context)
+        {
+            this.context = context;
+        }
 
 
         #region Get all SchoolClassStudents.

@@ -12,8 +12,17 @@ namespace yalms.DAL
 
     public class SchoolClassRepository: ISchoolClassRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
+
+        public SchoolClassRepository()
+        {
+            context = new EFContext();
+        }
+
+        public SchoolClassRepository(EFContext context)
+        {
+            this.context = context;
+        }
 
         public IEnumerable<SchoolClass> GetAllSchoolClasses()
         {
@@ -134,15 +143,7 @@ namespace yalms.DAL
 
         #endregion
 
-        public SchoolClassRepository()
-        {
-            context = new EFContext();
-        }
 
-        public SchoolClassRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
 
     }
 }

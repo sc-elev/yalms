@@ -19,6 +19,12 @@ namespace yalms.Controllers
         protected IUserProvider userProvider;
         protected EFContext context;
 
+        // Declare all Used repositories here
+        private ISchoolClassStudentRepository schoolClassStudentRepository;
+        private ICourseRepository courseRepository;
+        private IAssignmentRepository assignmentRepository;
+        private ISlotRepository slotRepository;
+
         // GET: Teacher
         public ViewResult Administration()
         {
@@ -35,9 +41,9 @@ namespace yalms.Controllers
                 teacher_UserID = this.userProvider.UserID();
             }
             catch { }
-            //var userID = user.Id;
 
-            TeacherAssignmentViewModel model = new TeacherAssignmentViewModel(teacher_UserID, context);
+            var modelFactory = new TeacherAssignmentViewModelFactory(this, context, this.userProvider);
+            var model = modelFactory.Create();
 
             return View(model);
         }
@@ -45,9 +51,9 @@ namespace yalms.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult LoadStudentsByClass(string id)
         {
-            // Get Students
-            var studentList = new SchoolClassStudentRepository().GetAllSchoolClassStudentsBySchoolClassID_Full(Convert.ToInt32(id));
+            this.schoolClassStudentRepository = new SchoolClassStudentRepository(context);
 
+            var studentList = schoolClassStudentRepository.GetAllSchoolClassStudentsBySchoolClassID_Full(Convert.ToInt32(id));
 
             var studentData = studentList.Select(m => new SelectListItem()
             {
@@ -59,12 +65,14 @@ namespace yalms.Controllers
 
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult LoadAssignmentsByClass(string id)
-        {//
-            var courseID = new CourseRepository().GetCourseByClassID(Convert.ToInt32(id)).CourseID;
+        {
+            this.courseRepository = new CourseRepository(context);
+            this.assignmentRepository = new AssignmentRepository(context);
+
+            var courseID = courseRepository.GetCourseByClassID(Convert.ToInt32(id)).CourseID;
 
             // Get Assignments
-            var assignmentList = new AssignmentRepository().GetAllAssignmentsByCourseID(courseID);
-
+            var assignmentList = assignmentRepository.GetAllAssignmentsByCourseID(courseID);
             var studentData = assignmentList.Select(m => new SelectListItem()
             {
                 Text = m.Name,
@@ -92,15 +100,17 @@ namespace yalms.Controllers
         {
             // viewmodel: TeacherScheduleViewModel
             // DateTime selectedDate = Session["selectedDate"] ? ;
+            var selectedDate = dateProvider.Today();
 
-            if (Session != null && Session["selectedDate"] == null)
+            if (Session["selectedDate"] == null)
             {
                 Session["selectedDate"] = dateProvider.Today();
             }
-
-            var selectedDate = dateProvider.Today();
-            if (Session != null)
+            else
+            {
                 selectedDate = (DateTime)Session["selectedDate"];
+            }
+
 
             var teacher_UserID = -1;
             try
@@ -108,11 +118,11 @@ namespace yalms.Controllers
                 teacher_UserID = this.userProvider.UserID();
             }
             catch { }
-            //var userID = user.Id;
 
-            TeacherScheduleViewModel model = 
-                new TeacherScheduleViewModel(
-                    selectedDate, teacher_UserID, context);
+            var modelFactory = new TeacherScheduleViewModelFactory(this, context, this.userProvider);
+            var model = modelFactory.Create(selectedDate);
+
+
             UrlHelper urlHelper;
             if (this.Request != null)
                 urlHelper = new UrlHelper(this.Request.RequestContext);
@@ -155,7 +165,9 @@ namespace yalms.Controllers
         public ActionResult Save(TeacherScheduleViewModel pageviewmodel)
         {
             if (Session["selectedSlot"] != null && pageviewmodel.FormSelectedCourse != -1 && pageviewmodel.FormSelectedRoom != -1)
-            { 
+            {
+                this.slotRepository = new SlotRepository(context);
+
                 var slot = (Slot)Session["selectedSlot"];
                 // update from form
                 slot.CourseID = pageviewmodel.FormSelectedCourse;
@@ -163,11 +175,11 @@ namespace yalms.Controllers
 
                 if (slot.SlotID == -1)
                 {
-                    new SlotRepository().InsertSlot(slot);
+                    slotRepository.InsertSlot(slot);
                 }
                 else
                 {
-                    new SlotRepository().UpdateSlot(slot);
+                    slotRepository.UpdateSlot(slot);
                 }
                 //var b = model.FormSelectedCourse;
                 Session["selectedSlot"] = null;
@@ -181,10 +193,12 @@ namespace yalms.Controllers
         {
             if (Session["selectedSlot"] != null)
             {
+                this.slotRepository = new SlotRepository(context);
+
                 var slot = (Slot)Session["selectedSlot"];
                 if (slot.SlotID != -1)
                 {
-                    new SlotRepository().DeleteSlot(slot.SlotID);
+                    slotRepository.DeleteSlot(slot.SlotID);
                 }
             }
             return RedirectToAction("Schedule");
@@ -234,21 +248,7 @@ namespace yalms.Controllers
             dateProvider = d;
             userProvider = u;
             context = c;
-//=======
-//           // DateTime selectedDate = Session["selectedDate"] ? ;
 
-//            if (Session["selectedDate"] == null)
-//            {
-//                Session["selectedDate"] = DateTime.Now;
-//            }
-
-//            var selectedDate = DateTime.Now;
-//            var selectedCourseID = 1;
-
-//            TeacherScheduleViewModel model = new TeacherScheduleViewModel(selectedCourseID, (DateTime)Session["selectedDate"]);
-
-//            return View(model);
-//>>>>>>> Stashed changes
         }
     }
 }

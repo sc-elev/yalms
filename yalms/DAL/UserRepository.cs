@@ -12,20 +12,29 @@ namespace yalms.DAL
 
     public class UserRepository: IUserRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
+
+        public UserRepository()
+        {
+            context = new EFContext();
+        }
+
+        public UserRepository(EFContext context)
+        {
+            this.context = context;
+        }
 
         public List<ApplicationUser> GetAllSchoolClassStudentsBySchoolClassID(int? schoolClassID)
         {
             
-            var alle= ( from apus in context.GetUsers()
+            var result= ( from apus in context.GetUsers()
                            join cost in context.GetSchoolClassStudents() on apus.Id equals cost.Student_UserID
                            join cour in context.GetCourses() on cost.SchoolClassID  equals cour.SchoolClassID
                            where cour.SchoolClassID == schoolClassID
                            select apus
                 ).Distinct().ToList();
 
-            return alle;
+            return result;
 
         }
 
@@ -110,8 +119,6 @@ namespace yalms.DAL
 
 
 
-
-        #region System functions.
         public void Save()
         {
             context.SaveChanges();
@@ -136,17 +143,8 @@ namespace yalms.DAL
             Dispose(true);
         }
 
-        #endregion
 
-        public UserRepository()
-        {
-            context = new EFContext();
-        }
 
-        public UserRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
 
     }
 }

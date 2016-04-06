@@ -15,8 +15,17 @@ namespace yalms.DAL
  
     public class SlotRepository: ISlotRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
+
+        public SlotRepository()
+        {
+            context = new EFContext();
+        }
+
+        public SlotRepository(EFContext context)
+        {
+            this.context = context;
+        }
 
         #region Get all Slots.
         public IEnumerable<Slot> GetAllSlots()
@@ -177,15 +186,7 @@ namespace yalms.DAL
         #endregion
 
 
-        public SlotRepository()
-        {
-            context = new EFContext();
-        }
 
-        public SlotRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
 
 
     }

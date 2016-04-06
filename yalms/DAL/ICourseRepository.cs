@@ -10,7 +10,7 @@ namespace yalms.DAL
 
     public interface ICourseRepository : IDisposable 
     {
-
+        List<Course> GetAllCoursesBySchoolClassID(int? schoolClassID);
         IEnumerable<Course> GetAllCourses();
         IEnumerable<Course> GetAllCoursesByTeacherIDAndWeek_Full(int teacher_UserID, DateTime date);
         IEnumerable<Course> GetAllCoursesByTeacherID_ClassAndAssignment_Full(int teacher_UserID);

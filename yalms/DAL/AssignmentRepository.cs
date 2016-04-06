@@ -6,14 +6,54 @@ using System.Data;
 using System.Data.Entity;
 using System.Configuration;
 using yalms.Models;
+using System.Web.Mvc;
 
 namespace yalms.DAL
 {
 
     public class AssignmentRepository: IAssignmentRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
+
+        public AssignmentRepository()
+        {
+            context = new EFContext();
+        }
+
+        public AssignmentRepository(EFContext context)
+        {
+            this.context = context;
+        }
+
+        //public AssignmentRepository(EFContext ctx)
+        //{
+        //    context = ctx;
+        //}
+
+        public List<int> GetAllAssignmentsIDsByCourseID(int courseID)
+        {
+            return context.GetAssignments()
+                .Where(a => a.CourseID == courseID)
+                .Select(a => a.AssignmentID)
+                .ToList();
+        }
+
+        public IEnumerable<SelectListItem> BuildAssignmentSelections(IList<Course> courses)//EFContext context,
+        {
+            List<int> courseIDs = courses.Select(c => c.CourseID).ToList();
+            return
+                from assignment in context.GetAssignments()
+                where courseIDs.Contains(assignment.CourseID)
+                join course in context.GetCourses()
+                    on assignment.CourseID equals course.CourseID
+                select new SelectListItem
+                {
+                    Value = assignment.AssignmentID.ToString(),
+                    Text = course.Name + "-" +
+                        assignment.Name
+                };
+        }
+
 
 
 
@@ -96,7 +136,6 @@ namespace yalms.DAL
 
 
 
-        #region System functions.
         public void Save()
         {
             context.SaveChanges();
@@ -121,19 +160,10 @@ namespace yalms.DAL
             Dispose(true);
         }
 
-        #endregion
 
-        public AssignmentRepository()
-        {
-            context = new EFContext();
-        }
 
-        public AssignmentRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
 
-      
+
     }
 }
 

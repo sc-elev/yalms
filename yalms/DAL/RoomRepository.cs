@@ -12,8 +12,17 @@ namespace yalms.DAL
 
     public class RoomRepository: IRoomRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
+
+        public RoomRepository()
+        {
+            context = new EFContext();
+        }
+
+        public RoomRepository(EFContext context)
+        {
+            this.context = context;
+        }
 
 
         #region Get all Rooms even those tagged as removed and not yet created.
@@ -116,15 +125,7 @@ namespace yalms.DAL
 
         #endregion
 
-        public RoomRepository()
-        {
-            context = new EFContext();
-        }
 
-        public RoomRepository(EFContext ctx)
-        {
-            context = ctx;
-        }
 
     }
 }

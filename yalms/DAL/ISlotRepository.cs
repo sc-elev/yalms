@@ -12,6 +12,7 @@ namespace yalms.DAL
 
         IEnumerable<Slot> GetAllSlots();
         List<Slot> GetTeachersWeeklySheduleByCourseIDAndDate_Full(int courseID, DateTime date);
+        IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when);
         //IEnumerable<Slot> GetStudentsDailySheduleByStudentUserID(int studentUserID, DateTime when);
         //IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when);
         // FIXME; MOve to ´model(s)

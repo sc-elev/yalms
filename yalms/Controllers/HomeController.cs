@@ -28,14 +28,17 @@ namespace yalms.Controllers
             // Alle added code to redirect depending un succesfull
             if (userProvider.Role() == "teacher")
             {
-                var model = new TeacherScheduleViewModel(dateProvider.Today(), 
-                                                         userProvider.UserID(),
-                                                         context);
+                //var model = new TeacherScheduleViewModel(dateProvider.Today(), 
+                //                                         userProvider.UserID(),
+                //                                         context);
                 return RedirectToAction("Schedule","Teacher");
                // return View("../Teacher/Schedule", model);
             }
             if (userProvider.Role() == "student")
             {
+                //var alle = new StudentMainViewModel();
+                
+
                 var model = new StudentMainViewModel(
                                   context, userProvider, dateProvider);
                 TempData["StudentViewModel"] = model;

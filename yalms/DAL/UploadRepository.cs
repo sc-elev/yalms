@@ -12,20 +12,18 @@ namespace yalms.DAL
 
     public class UploadRepository: IUploadRepository
     {
-        // Get context for specific connectionstring.
         private EFContext context;
-
 
         public UploadRepository()
         {
-            EFContext context = new EFContext();
+            context = new EFContext();
         }
 
-
-        public UploadRepository(EFContext ctx)
+        public UploadRepository(EFContext context)
         {
-            context = ctx;
+            this.context = context;
         }
+
 
 
         #region Get all Uploads even those tagged as removed and not yet created.

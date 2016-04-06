@@ -188,6 +188,7 @@
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\AssignmentRepository.cs" />
+    <Compile Include="DAL\ISubmissionRepository.cs" />
     <Compile Include="DAL\CourseRepository.cs" />
     <Compile Include="DAL\EFContext.cs" />
     <Compile Include="DAL\IAssignmentRepository.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="DAL\SchoolClassStudentRepository.cs" />
     <Compile Include="DAL\SlotRepository.cs" />
     <Compile Include="DAL\SlotTimingInfo.cs" />
+    <Compile Include="DAL\SubmissionRepository.cs" />
     <Compile Include="DAL\UploadPaths.cs" />
     <Compile Include="DAL\UploadRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
@@ -213,6 +215,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Assignment.cs" />
+    <Compile Include="Models\AssignmentNode.cs" />
+    <Compile Include="Models\StudentMainViewModelFactory.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\DateProvider.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -223,9 +227,12 @@
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\StudentMainViewModel.cs" />
     <Compile Include="Models\Submission.cs" />
+    <Compile Include="Models\SubmissionsNode.cs" />
     <Compile Include="Models\TeacherAdministrationViewModel.cs" />
     <Compile Include="Models\TeacherAssignmentViewModel.cs" />
+    <Compile Include="Models\TeacherAssignmentViewModelFactory.cs" />
     <Compile Include="Models\TeacherDocumentViewModel.cs" />
+    <Compile Include="Models\TeacherScheduleViewModelFactory.cs" />
     <Compile Include="Models\TeacherScheduleViewModel.cs" />
     <Compile Include="Models\Upload.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
