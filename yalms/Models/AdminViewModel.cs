@@ -135,7 +135,7 @@ namespace yalms.Models
             get {
                 if (_StudentsByIndex != null) return _StudentsByIndex;
                 var students =  context.GetUsers()
-                    //.Where(s => studentIDs.Contains(s.Id)) FIXME: testing w all users
+                    .Where(s => studentIDs.Contains(s.Id)) 
                     .ToList();
                 _StudentsByIndex = new Dictionary<char, IList<SelectListItem>>();
                 foreach (var s in students)

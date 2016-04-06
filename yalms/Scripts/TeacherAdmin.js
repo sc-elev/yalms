@@ -3,7 +3,10 @@
 
 $(document).ready(function () {
     $("#studentsTree").jstree({
-        "plugins": ["themes", "html_data", "checkbox"]
+        "plugins": ["themes", "html_data", "checkbox"],
+        "checkbox" : {
+            "three_state" : false,
+        },
     })
     if (location.hash) {
         $('a[href=' + location.hash + ']').tab('show');
@@ -24,11 +27,9 @@ $(window).on('popstate', function () {
 });
 
 function getTreeStudents() {
-    var ids = new Array();
-    var checked = $("#studentsTree").jstree('get_checked')
-    
-    alert(checked.join());
-
-    $("#SelectedUsers").val = checked.join();
-    return true;
+    var users = $("#studentsTree").jstree('get_checked').join();
+    var class_ = $("#ClassDropDown").val();
+    var url = '/Admin/AddClassStudents?SelectedUsers=' + users + '&SelectedClass=' + class_
+    location.href = url
+    return false
 }
