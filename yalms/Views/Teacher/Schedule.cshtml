@@ -92,7 +92,7 @@
 
 <div class="row">
 
-    <!-- Left column -->
+    @*Left column ---------------*@
     <div class="col-md-4 FirstCol">
         @if (Model.Courses != null && Model.Courses.Count > 0)
         {
@@ -105,8 +105,8 @@
         }
     </div>
 
-
-     @*Middle column*@ 
+    
+    @*Middle column ---------------*@
     <div class="col-md-4 SecondCol">
 
         <div style="text-align:center; font-size:1.5em">
@@ -173,11 +173,7 @@
     </div>
 
 
-   
-
-
-
-    @*Right column*@
+    @*Right column ---------------*@
     <div class="col-md-4 ThirdCol">
         <div class="SelectedSlotInformation">
             @ViewBag.SelectedSlotInformation
@@ -191,15 +187,10 @@
             @Html.Label("Välj sal", new { @class = "LabelClass" })
             @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData, new { @class = "DDLClass" })
             <br />
-                <input type="submit" value="Spara markerad lektion" name="action:Save" class="btn btn-default" style="width:150px" />
+                <input type="submit" value="Spara markerad lektion" name="action:Save" class="btn btn-default" style="width:218px; margin-top:15px" />
             <br />
-                <input type="submit" value="Ta bort markerad lektion" name="action:Delete" class="btn btn-danger" style="width:150px" />
+                <input type="submit" value="Ta bort markerad lektion" name="action:Delete" class="btn btn-danger" style="width:218px; margin-top:15px" />
             <br />
         }
     </div>
-
-
-
-
-
 </div>

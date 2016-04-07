@@ -6,17 +6,71 @@
 
 <script src="~/Scripts/StudentMainView.js"></script>
 
+<style>
+    .FirstCol {
+        padding-top: 15px;
+        padding-left: 3px;
+        padding-bottom: 3px;
+        padding-right: 3px;
+        float: left;
+        display: inline-block;
+        width: 220px;
+        border: 1px solid red;
+        height: 400px;
+    }
+
+    .SecondCol {
+        padding-top: 15px;
+        padding-left: 3px;
+        padding-bottom: 3px;
+        padding-right: 3px;
+        float: left;
+        display: inline-block;
+        width: 540px;
+        border: 1px solid green;
+        height: 800px;
+    }
+
+    .ThirdCol {
+        padding-top: 15px;
+        padding-left: 3px;
+        padding-bottom: 3px;
+        padding-right: 3px;
+        float: left;
+        display: inline-block;
+        width: 350px;
+        border: 1px solid blue;
+        height: 400px;
+    }
+
+    .DDLClass {
+        width: 140px;
+        font-size: 13px;
+    }
+
+    .LabelClass {
+        width: 100%;
+        font-size: 13px;
+    }
+</style>
 
 <div>
-    <div class="FirstsCol">
-        @Html.Label("Klassinlämningsmappar", new { @class = "LabelClass" })
+    <div class="FirstCol">
+        @Html.Label("Inlämningsmappar", new { @class = "LabelClass" })
         @Html.DropDownListFor(m => m.FormSelectedSchoolClass,
                                          Model.ClassSelectionData, new { @id="classList", @class = "DDLClass" })
+        <br /><br />
+        @Html.DropDownListFor(m => m.FormSelectedView, new List<SelectListItem>
+            {
+                new SelectListItem { Text="Visa alla", Value = Enumerators.TeacherAssignmentView.ViewAll.ToString()},
+                new SelectListItem { Text="Godkända", Value = Enumerators.TeacherAssignmentView.Approved.ToString()},
+                new SelectListItem { Text="Ej inlämnade", Value = Enumerators.TeacherAssignmentView.NotTurnedIn.ToString()},
+                new SelectListItem { Text="Inlämnade", Value = Enumerators.TeacherAssignmentView.TurnedIn.ToString()},   
+            }
+            , new { @id = "viewList", @class = "DDLClass" })
+    </div>
 
-
-        <br />
-
-        <br />
+    <div class="SecondCol">
         <legend>Uppgifter att göra</legend>
         <p>
             @*Populate StudentAssignments*@
@@ -59,76 +113,77 @@
         @Html.Label("Ladda upp dokument för feedback", new { @class = "LabelClass" })
         <br />
         @Html.DropDownListFor(m => m.FormSelectedStudent,
-                                                     Model.StudentSelectionData, new { @id = "studentList", @class = "DDLClass" })
+            Model.StudentSelectionData, new { @id = "studentList", @class = "DDLClass" })
         <br /><br />
         @Html.DropDownListFor(m => m.FormSelectedAssignment,
-                                            Model.AssignmentSelectionData, new { @id="assignmentList", @class = "DDLClass" })
+            Model.AssignmentSelectionData, new { @id="assignmentList", @class = "DDLClass" })
     </div>
 </div>
 
 <script type="text/javascript">
+$(function () {
+    $('select#classList').change(function () {
+        var classid = $(this).val();
+        if (classid == "-1") {
+            var select = $("#studentList");
+            select.empty();
+            select.append($('<option/>', {
+                value: 0,
+                text: "- Välj klass först -"
+            }));
 
-  
+            var select = $("#assignmentList");
+            select.empty();
+            select.append($('<option/>', {
+                value: 0,
+                text: "- Välj klass först -"
+            }));
+        } else {
 
+        $.getJSON("../Teacher/LoadStudentsByClass", { id: classid },
+                function (data) {
+                    //alert('Fetched');
+                    var select = $("#studentList");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "- Välj student -"
+                    }));
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
 
-    $(function () {
-        $('select#classList').change(function () {
-            var classid = $(this).val();
-            if (classid == "-1") {
-                var select = $("#studentList");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "- Välj klass först -"
-                }));
-
-                var select = $("#assignmentList");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "- Välj klass först -"
-                }));
-            } else {
-
-                $.getJSON("../Teacher/LoadStudentsByClass", { id: classid },
-                       function (data) {
-                           //alert('fetched');
-                           var select = $("#studentList");
-                           select.empty();
-                           select.append($('<option/>', {
-                               value: 0,
-                               text: "- Välj student -"
-                           }));
-                           $.each(data, function (index, itemData) {
-                               select.append($('<option/>', {
-                                   value: itemData.Value,
-                                   text: itemData.Text
-                               }));
-                           });
-                       });
-
-                $.getJSON("../Teacher/LoadAssignmentsByClass", { id: classid },
-                       function (data) {
-                           //alert('fetched');
-                           var select = $("#assignmentList");
-                           select.empty();
-                           select.append($('<option/>', {
-                               value: 0,
-                               text: "- Välj Assigment -"
-                           }));
-                           $.each(data, function (index, itemData) {
-                               select.append($('<option/>', {
-                                   value: itemData.Value,
-                                   text: itemData.Text
-                               }));
-                           });
-                       });
-            }
-            //alert('finnish');
-        });
+        $.getJSON("../Teacher/LoadAssignmentsByClass", { id: classid },
+                function (data) {
+                    //alert('Fetched');
+                    var select = $("#assignmentList");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "- Välj uppgift -"
+                    }));
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        }
+        //alert('Finished');
     });
+});
+</script>
 
-        </script>
+
+
+
+
+@*Never mind the Bollocks*@
         @*var ddl = $('#FormSelectedSchoolClass');
 
 
@@ -161,35 +216,3 @@
      });
     </script>*@
 
-
-    <style>
-        .FirstsCol {
-            padding: 3px;
-            float: left;
-            display: inline-block;
-            width: 760px;
-            height: 400px;
-        }
-
-
-        .ThirdCol {
-            /*padding: 3px;*/
-            float: left;
-            display: inline-block;
-            width: 350px;
-            height: 400px;
-        }
-
-        .DDLClass {
-            width: 140px;
-            font-size: 13px;
-            clear: both;
-        }
-
-        .LabelClass {
-            width: 100%;
-            font-size: 13px;
-            float: left;
-
-        }
-</style>
