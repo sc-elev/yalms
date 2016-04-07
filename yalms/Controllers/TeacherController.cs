@@ -152,7 +152,7 @@ namespace yalms.Controllers
 
                 ViewBag.SelectedSlotInformation = slot.When.ToShortDateString() 
                     + " (" + model.SlotTimings[slot.SlotNR].start.ToLongTimeString().Substring(0, 5)
-                    + " - " + model.SlotTimings[slot.SlotNR].end.ToLongTimeString().Substring(0, 5) + ")";
+                    + " - " + model.SlotTimings[slot.SlotNR].end.ToLongTimeString().Substring(0, 4) + ")";
             } else {
                 ViewBag.SelectedSlotInformation ="- Ingen vald -";
             }

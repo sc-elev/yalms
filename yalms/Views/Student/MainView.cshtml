@@ -13,7 +13,7 @@
         <br />
         <legend>Uppgifter att göra</legend>
 
-        <p class="info">Välj en uppgift ur listan, klicka sedan på Hämta eller Lämna in.</p>
+        <p class="info">Markera en uppgift i listan, klicka därefter på Hämta eller Lämna in.</p>
         <div id="AssignmentsTree">
             <ul>
                 @foreach (var course in Model.Assignments)
@@ -46,13 +46,13 @@
         {
             <div>
                 
-                @*Download task*@
+                @*Download assignment*@
                 <div class="clearfix" style="margin-top:10px; background-color:ButtonFace">
-                    <input id="assignmentDownloadBtn" type="button" value="&#x25BC; Hämta uppgift"
+                    <input id="assignmentDownloadBtn" type="button" value="&#x25BC;&nbsp; Hämta uppgift"
                            class="btn btn-default pull-right" style="width:160px; margin:15px" disabled="disabled" />
                 </div>
 
-                @*Upload task*@
+                @*Upload assignment*@
                 <div class="fileUpload btn btn-group-sm" style="width:100%; margin-top:10px; background-color:ButtonFace">
                     <div style="padding-top:5px; padding-bottom:5px">
                         <input id="assignmentFile" name="assignmentFile"
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="clearfix" style="background-color:ButtonFace">
-                    <input id="assignmentUploadBtn" type="submit" value="&#x25B2; Lämna in uppgift"
+                    <input id="assignmentUploadBtn" type="submit" value="&#x25B2;&nbsp; Lämna in uppgift"
                            class="btn btn-default pull-right" style="width:160px; margin-right:15px; margin-bottom:15px" disabled="disabled" />
                     <input type="hidden" name="assignmentId" id="assignmentId"
                            value="-1" />
@@ -75,13 +75,13 @@
     <div class="col-md-4">
         <br />
         <legend>Schema @Model.SchoolClass</legend>
-        <div>
+        <div style="margin-top:-4px">
             <div style="display:inline-block; float:left; font-size:1.2em">
                 v @Model.WeekNr, @Model.Today.Year &bull;
                 @Model.WeekDay @Model.Date
             </div>
 
-            <div style="display:inline-block; float:right; font-size:1.5em">
+            <div style="display:inline-block; float:right; font-size:1.5em; margin-top:-4px; margin-bottom:8px">
                 @Html.ActionLink("<< ", "MainViewPrevDay", "Student")
                 @if (DateTime.Now.Date != Model.Today)
                 {

@@ -8,31 +8,26 @@
 }
 
 <style>
-    .FirstCol {
-        float: left;
-        display: inline-block;
-        width: 200px;
-        border: 1px solid red;
-        height: 400px;
+    .Centered {
+        width: 880px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
-    .SecondCol {
-        float: left;
+    .TimeSlotsCol {
         display: inline-block;
-        width: 640px;
-        border: 1px solid green;
-        height: 800px;
+        width: 600px;
+        height: 510px;
     }
-    .ThirdCol {
-        float: left;
+    .EditSlotsCol {
         display: inline-block;
-        width: 250px;
-        border: 1px solid blue;
-        height: 400px;
+        width: 275px;
+        margin-top: 25px;
     }
     .DayColumn {
         display: inline-block;
         width: 90px;
-        border: 0px solid black;
+        border: 0 solid black;
         height: 400px;
     }
     .OuterBox {
@@ -71,14 +66,15 @@
     }
     .SelectedSlotInformation {
         color: #121212;
-        background-color: #FFF;
-        border-bottom: 1px solid #DDD;
+        background-color: ButtonFace;
         width: 100%;
-        display: inline-block;
-        font-size: 13px;
-        height: 25px;
-        text-align: center;
-        padding-bottom: 10px;
+        padding: 15px;
+    }
+    .RoomClassSelection {
+        color: #121212;
+        background-color: ButtonFace;
+        width: 100%;
+        padding: 15px;
     }
     .DDLClass {
         width: 140px;
@@ -90,39 +86,26 @@
     }
 </style>
 
-<div class="row">
+<div class="row Centered">
+    <br />
+    <legend style="margin-left:15px">Schemaläggning</legend>
+    @*Time slots column ---------------*@
+    <div class="col-md-4 TimeSlotsCol">
 
-    @*Left column ---------------*@
-    <div class="col-md-4 FirstCol">
-        @if (Model.Courses != null && Model.Courses.Count > 0)
-        {
-            Html.Label("Välj kurs");
-            Html.DropDownListFor(m => m.SelectedCourse, Model.CourseSelectionData);
-        }
-        else
-        {
-            Html.Label("Du har inga kurser.");
-        }
-    </div>
+        <div style="text-align:center; font-size:1.5em; margin-top:-15px; margin-bottom:10px">
+            @Html.ActionLink("<< ", "PreviousWeek_Click", "Teacher")
+            @if (DateTime.Now.Date != Model.Today)
+            {
+                @Html.ActionLink("Idag", "MainViewToday", "Teacher")
+            }
+            else
+            {
+                <text>Idag</text>
+            }
+            @Html.ActionLink(" >>", "NextWeek_Click", "Teacher")
+        </div>
 
-    
-    @*Middle column ---------------*@
-    <div class="col-md-4 SecondCol">
-
-        <div style="text-align:center; font-size:1.5em">
-                @Html.ActionLink("<< ", "PreviousWeek_Click", "Teacher")
-                @if (DateTime.Now.Date != Model.Today)
-                {
-                    @Html.ActionLink("Idag", "MainViewToday")
-                }
-                else
-                {
-                    <text>Idag</text>
-                }
-                @Html.ActionLink(" >>", "NextWeek_Click", "Teacher")
-            </div>
-
-         @*Vecka + klockslag*@ 
+        @*Week + time*@
         <div class="DayColumn">
             <div class="OuterBox CalSlot">
                 <br />
@@ -138,8 +121,7 @@
             }
         </div>
 
-        @*Skoldagar under veckan*@
-        
+        @*Schooldays during week*@
         @for (var day = 0; day < 5; day++)
         {
             <div class="DayColumn">
@@ -173,24 +155,29 @@
     </div>
 
 
-    @*Right column ---------------*@
-    <div class="col-md-4 ThirdCol">
+    @*Edit slots column ---------------*@
+    <div class="col-md-4 EditSlotsCol">
         <div class="SelectedSlotInformation">
+            <strong>Vald tid</strong><br />
             @ViewBag.SelectedSlotInformation
         </div>
 
         @using (Html.BeginForm("NewSaveSlot", "Teacher", FormMethod.Post, new { pageviewmodel = Model }))
         {
-            @Html.Label("Välj kurs", new { @class = "LabelClass" })
-            @Html.DropDownListFor(m => m.FormSelectedCourse, Model.CourseSelectionData, new { @class = "DDLClass" })
-            <br />
-            @Html.Label("Välj sal", new { @class = "LabelClass" })
-            @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData, new { @class = "DDLClass" })
-            <br />
-                <input type="submit" value="Spara markerad lektion" name="action:Save" class="btn btn-default" style="width:218px; margin-top:15px" />
-            <br />
-                <input type="submit" value="Ta bort markerad lektion" name="action:Delete" class="btn btn-danger" style="width:218px; margin-top:15px" />
-            <br />
+            <div class="RoomClassSelection">
+                @Html.Label("Välj kurs", new { @class = "LabelClass" })
+                @Html.DropDownListFor(m => m.FormSelectedCourse, Model.CourseSelectionData, new { @class = "DDLClass" })
+                <br />
+                <br />
+                @Html.Label("Välj sal", new { @class = "LabelClass" })
+                @Html.DropDownListFor(m => m.FormSelectedRoom, Model.RoomSelectionData, new { @class = "DDLClass" })
+                <br />
+                <br />
+                <input type="submit" value="&#x2611;&nbsp; Spara markerad lektion" name="action:Save" class="btn btn-default" style="width:215px; margin-top:15px" />
+                <br />
+                <input type="submit" value="&#x267A;&nbsp; Ta bort markerad lektion" name="action:Delete" class="btn btn-danger" style="width:215px; margin-top:15px" />
+                <br />
+            </div>
         }
     </div>
 </div>

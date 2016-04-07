@@ -70,7 +70,7 @@ namespace yalms.Models
                         .Select(s => s.Name)
                         .SingleOrDefault();
                     CourseSelectionData.Add(new SelectListItem { 
-                        Text = "("+ course.CourseID +")"+course.Name + " "+ className, 
+                        Text = course.Name + " - " + className, 
                         Value = course.CourseID.ToString() 
                     });
                 }
