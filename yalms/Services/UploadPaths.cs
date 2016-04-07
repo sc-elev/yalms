@@ -9,6 +9,18 @@ namespace yalms.Services
 {
     public class UploadPaths
     {
+        // Map ~-prefixed path to server path if available, else to
+        // curerent dir (unit testing).
+        private static string MapPath(string path)
+        {
+            if (System.Web.HttpContext.Current != null)
+            {
+                return System.Web.HttpContext.Current.Server.MapPath(path);
+            }
+            return path.Replace("~", Directory.GetCurrentDirectory());
+        }
+
+
         // Danger zone: Re-initialize the Upload directory structure
         public static void seedUploads()
         {
@@ -17,8 +29,7 @@ namespace yalms.Services
                 "~/Upload/Shared"};
             foreach (var path in paths)
             {
-                var dirpath =
-                    System.Web.HttpContext.Current.Server.MapPath(path);
+                var dirpath = MapPath(path);
                 if (Directory.Exists(dirpath)) Directory.Delete(dirpath, true);
                 Directory.CreateDirectory(dirpath);
             }
@@ -42,7 +53,7 @@ namespace yalms.Services
                 "~", "Upload", "Submissions",  assignmentID.ToString(),
                 userID.ToString(), version
             );
-            path = System.Web.HttpContext.Current.Server.MapPath(path); //FIXME - testability.
+            path = MapPath(path);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             return Path.Combine(path, filename);
         }
@@ -57,7 +68,7 @@ namespace yalms.Services
                "~", "Upload", "Submissions",assignmentID.ToString(),
                userID.ToString()
             );
-            dirpath = System.Web.HttpContext.Current.Server.MapPath(dirpath); //FIXME - testability
+            dirpath = MapPath(dirpath); 
             if (!Directory.Exists(dirpath)) Directory.CreateDirectory(dirpath);
             string[] subdirs = Directory.GetDirectories(dirpath, "*");
             List<string> paths = new List<string>();
@@ -76,7 +87,7 @@ namespace yalms.Services
             FindSubmissionURIs(int assignmentID, int userID)
         {
             var paths = FindSubmissionPaths(assignmentID, userID);
-            var prefix = System.Web.HttpContext.Current.Server.MapPath("~"); //FIXME - testability
+            var prefix = MapPath("~"); 
             for (int i = 0; i < paths.Length; i += 1)
             {
                 paths[i] = paths[i].Replace(prefix, "/");
