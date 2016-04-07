@@ -11,6 +11,7 @@ namespace yalms.Migrations
     using System.Collections.Generic;
     using yalms.Services;
     using yalms.DAL;
+    using System.IO;
 
     internal sealed class Configuration : DbMigrationsConfiguration<yalms.DAL.EFContext>
     {
@@ -237,6 +238,7 @@ namespace yalms.Migrations
 
         }
 
+
         public void seedSubmissions(EFContext ctx)
         {
             var submissions = new List<Submission> {
@@ -262,6 +264,9 @@ namespace yalms.Migrations
 
         protected override void Seed(yalms.DAL.EFContext ctx)
         {
+            // if (System.Diagnostics.Debugger.IsAttached == false)
+            //    System.Diagnostics.Debugger.Launch();
+            // -- Enables otherwise problematic debugging of this method.
             seedRoles(ctx);
             seedUsers(ctx);
             seedCourses(ctx);

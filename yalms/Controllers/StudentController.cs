@@ -69,6 +69,7 @@ namespace yalms.Controllers
         }
 
 
+        // Submit  a user file to an assignment i. e., make a submission.
         [HttpPost]
         public ActionResult PostAssignment(HttpPostedFileBase assignmentFile, 
                                            int assignmentID)
@@ -85,6 +86,17 @@ namespace yalms.Controllers
             assignmentFile.SaveAs(path);
             ViewBag.UploadMessage = msg;
             return View("MainView", model);
+        }
+
+
+        public ActionResult GetAssignment(int assignmentNr)
+        {
+            string uri = UploadPaths.FindAssignmentPath(assignmentNr);
+            if (uri != null) return Redirect(uri);
+
+            ViewBag.UploadMessage = "Cannot find that file";
+            StudentMainViewModel model = modelFactory.Create(null);
+            return View("MainView, model");
         }
 
 

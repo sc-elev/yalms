@@ -16,6 +16,7 @@ $(document).ready(function () {
         if (node.node.children.length == 0) {
             $("#assignmentLabel").html(node.node.text);
             $("#assignmentId").val(node.node.id);
+            $("#assignmentNr").val(node.node.id);
             $('#assignmentDownloadBtn').prop('disabled', false);
             $("#uploadMsg").empty();
             enableUploads();

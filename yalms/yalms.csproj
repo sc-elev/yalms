@@ -329,6 +329,34 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ClassList.cshtml" />
     <Content Include="Views\Admin\UpdateUserPartial.cshtml" />
+    <Content Include="Testdata\Assignments\1\Folkvandringstiden.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\2\Praktisk-Kemi.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\3\Tpsrunda.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\4\Intervjuer.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\5\Forntida-liv.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\6\Wikipedia.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Testdata\Assignments\7\diffekvationer.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Upload\Assignments\1\Folkvandringstiden.docx" />
+    <Content Include="Upload\Assignments\2\Praktisk-Kemi.docx" />
+    <Content Include="Upload\Assignments\3\Tpsrunda.docx" />
+    <Content Include="Upload\Assignments\4\Intervjuer.docx" />
+    <Content Include="Upload\Assignments\5\Forntida-liv.docx" />
+    <Content Include="Upload\Assignments\6\Wikipedia.docx" />
+    <Content Include="Upload\Assignments\7\diffekvationer.docx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

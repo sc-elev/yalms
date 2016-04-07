@@ -24,7 +24,7 @@
                             @foreach (var assignment in course.Assignments)
                             {
                                 <li id="@assignment.AssignmentID">
-                                    <a href="@yalms.Services.UploadPaths.GetAssignmentDir(assignment.AssignmentID)">
+                                    <a href="@yalms.Services.UploadPaths.FindAssignmentPath(assignment.AssignmentID)">
                                         @assignment.Name
                                     </a>
                                 </li>
@@ -41,17 +41,21 @@
 
         <div id="uploadMsg" class="clearfix" style="text-align:center; font-weight:bold; color:red">@ViewBag.UploadMessage</div>
 
-        @using (Html.BeginForm("PostAssignment", "Student", FormMethod.Post,
-                new { enctype = "multipart/form-data" }))
-        {
-            <div>
                 
-                @*Download assignment*@
+            @*Download assignment*@
+            @using (Html.BeginForm("GetAssignment", "Student", FormMethod.Get))
+            {
                 <div class="clearfix" style="margin-top:10px; background-color:ButtonFace">
-                    <input id="assignmentDownloadBtn" type="button" value="&#x25BC;&nbsp; Hämta uppgift"
+                    <input type="hidden" name="assignmentNr" id="assignmentNr"
+                           value="-1" />
+                    <input id="assignmentDownloadBtn" type="submit" value="&#x25BC;&nbsp; Hämta uppgift"
                            class="btn btn-default pull-right" style="width:160px; margin:15px" disabled="disabled" />
                 </div>
-
+            }
+           
+            @using (Html.BeginForm("PostAssignment", "Student", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+            {
                 @*Upload assignment*@
                 <div class="fileUpload btn btn-group-sm" style="width:100%; margin-top:10px; background-color:ButtonFace">
                     <div style="padding-top:5px; padding-bottom:5px">
@@ -65,9 +69,10 @@
                     <input type="hidden" name="assignmentId" id="assignmentId"
                            value="-1" />
                 </div>
+            }
 
-            </div>
-        }
+            
+       
     </div>
 
 

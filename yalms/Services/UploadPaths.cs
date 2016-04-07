@@ -13,11 +13,7 @@ namespace yalms.Services
         // curerent dir (unit testing).
         private static string MapPath(string path)
         {
-            if (System.Web.HttpContext.Current != null)
-            {
-                return System.Web.HttpContext.Current.Server.MapPath(path);
-            }
-            return path.Replace("~", Directory.GetCurrentDirectory());
+            return path.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
         }
 
 
@@ -98,10 +94,13 @@ namespace yalms.Services
 
         // Return path for storing an assignment, presumably not used.
         static public string 
-            GetAssignmentPath(int assignmentID, int userID, string filename)
+            GetAssignmentPath(int assignmentID, string filename)
         {
-            return Path.Combine(
-                "Upload", "Assignments", assignmentID.ToString(), filename);
+            var path =  Path.Combine(
+                "~", "Upload", "Assignments", assignmentID.ToString(), 
+                Path.GetFileName(filename)
+            );
+            return MapPath(path);
         }
 
 
@@ -112,7 +111,7 @@ namespace yalms.Services
             string[] found;
             if (userId != -1)
             {
-                string path = GetAssignmentPath(assignmentID, userId, "foo");
+                string path = GetAssignmentPath(assignmentID,  "foo");
                 var dirpath = Path.GetDirectoryName(path);
                 found = Directory.GetFiles(dirpath, "*");
             }
@@ -135,7 +134,9 @@ namespace yalms.Services
         // All users which have submitted input for given assignment
         static public IList<int> UsersByAssignment(int assignmentID)
         {
-            string path = Path.Combine("Upload", "Submissions", assignmentID.ToString());
+            string path = 
+                Path.Combine("~", "Upload", "Submissions", assignmentID.ToString());
+            path = MapPath(path);
             string[] dirs = Directory.GetDirectories(path);
             var found = new List<int>();
             foreach (var dir in dirs)
@@ -147,10 +148,14 @@ namespace yalms.Services
             return found.ToArray();
         }
 
-        static public string GetAssignmentDir(int assignmentID)
+        static public string FindAssignmentPath(int assignmentID)
         {
-            return Path.Combine(
-               "Upload", "Assignments", assignmentID.ToString());
+            var dirpath =  Path.Combine(
+              "~",  "Upload", "Assignments", assignmentID.ToString());
+            dirpath = MapPath(dirpath);
+            var files = Directory.GetFiles(dirpath, "*");
+            var prefix = MapPath("~");
+            return files.Length > 0 ? files[0].Replace(prefix, "") : null;
         }
     }
 }

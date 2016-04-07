@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using yalms.Models;
 using yalms.DAL;
 using yalms.Services;
+using System.IO;
 
 namespace yalms.Content.Controllers
 {
@@ -28,6 +29,31 @@ namespace yalms.Content.Controllers
         {
             AdminViewModel model = new AdminViewModel(context);
             return View(model);
+        }
+
+
+        // Danger zone: 
+        public ActionResult SeedFiles()
+        {
+            int assignmentID;
+
+            UploadPaths.seedUploads();
+            string path = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, "Testdata", "Assignments");
+            foreach (var fulldirname in Directory.GetDirectories(path))
+            {
+                var dirname = Path.GetFileName(fulldirname);
+                if (!int.TryParse(dirname, out assignmentID))
+                    continue;
+                var dirpath = Path.Combine(path, dirname);
+                var src = Directory.GetFiles(dirpath, "*")[0];
+                var dest = UploadPaths.GetAssignmentPath(assignmentID, src);
+                var destdir = Path.GetDirectoryName(dest);
+                if (!Directory.Exists(destdir)) Directory.CreateDirectory(destdir);
+                System.IO.File.Copy(src, dest, true);
+            }
+            AdminViewModel model = new AdminViewModel(context);
+            return View("Index", model);
         }
 
 
