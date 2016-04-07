@@ -1,0 +1,18 @@
+To-do:
+
+- PowerPoint-presentation
+- Sidan Teacher/Schedule
+  - Fixa länken för "Idag"
+  - Markering av innevarande dag:
+    om DagensDatum finns i visad vecka
+    -> byt bakgrundsfärg för den dagen
+  - Om man klickar på en empty slot visas
+    Vald tid
+    4/4/2016 (10:00 - 10:5)
+    utan avslutande nolla
+  - Om man klickar på en empty slot på e.m. visas
+    4/6/2016 (3:00: - 4:50)
+    antagligen amerikansk PM-tid?
+- Om man reggar nytt login hamnar man på en tom sida
+- Sidan Teacher/Assignments inte klar, görs heller ej klar
+
