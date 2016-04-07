@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using yalms.Models;
 using yalms.DAL;
+using yalms.Services;
 
 namespace yalms.Content.Controllers
 {
@@ -217,7 +218,35 @@ namespace yalms.Content.Controllers
             return View("Index", model);
         }
 
+        [HttpPost]
+        public ActionResult UpdateUser(AdminViewModel modelArg)
+        {
+            AdminViewModel model = new AdminViewModel(context);
+            if (modelArg.SelectedUserID == 0)
+            {
+                ViewBag.Message = "Nothing selected?!";
+                return View("Index", model);
+            }
+            var options = 
+                new IdentityFactoryOptions<ApplicationUserManager>();
+            options.DataProtectionProvider = null;
+            options.Provider = null;
+            var userManager = 
+                ApplicationUserManager.CreateFromDb(options, context);
+            var user = userManager.FindById(modelArg.SelectedUserID);
+            if (user == null)
+            {
+                ViewBag.Message = "No such user found?!";
+                return View("Index", model);
+            }
+            user.UserName = modelArg.SelectedUserName;
+            user.PhoneNumber = modelArg.SelectedPhoneNumber;
+            userManager.Update(user);
+            return View("Index", model);
+        }
 
+
+        // Ajax support for getting students in class
         [HttpGet]
         public ActionResult GetClassList(int SelectedClass)
         {
@@ -226,6 +255,22 @@ namespace yalms.Content.Controllers
             return PartialView("ClassList", model);
         }
 
+        // Ajax support for getting user dat class
+        [HttpGet]
+        public ActionResult GetUserPartial(int userID)
+        {
+            var model = new AdminViewModel(context);
+            var repo = new UserRepository(context);
+            var user =  repo.GetUserByID(userID);
+            if (user == null)  return PartialView("ClassList", model);
+            model.SelectedUserName = user.UserName;
+            model.SelectedPhoneNumber = user.PhoneNumber;
+            model.SelectedEmail = user.Email;
+            model.SelectedRole =  "student"; // FIXME
+            model.SelectedUserID = userID;
+
+            return PartialView("UpdateUserPartial", model);
+        }
 
         public AdminController(
             IUserProvider user, IDateProvider date, EFContext ctx)

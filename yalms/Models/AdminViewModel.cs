@@ -20,6 +20,7 @@ namespace yalms.Models
         protected IList<SelectListItem> _Teachers;
         protected IList<ApplicationUser> _ClassList;
         protected Dictionary<char, IList<SelectListItem>> _StudentsByIndex;
+        protected Dictionary<char, IList<SelectListItem>> _UsersByIndex;
         
 
         public IList<SelectListItem> UnregisteredUsers {
@@ -131,6 +132,31 @@ namespace yalms.Models
         }
 
 
+        public Dictionary<char, IList<SelectListItem>> UsersByIndex
+        {
+            set { _UsersByIndex = value; }
+            get
+            {
+                if (_UsersByIndex != null) return _UsersByIndex;
+                var users = context.GetUsers().ToList();
+                _UsersByIndex = 
+                    new Dictionary<char, IList<SelectListItem>>();
+                foreach (var user in users)
+                {
+                    var name = user.UserName;
+                    var key = name[0];
+                    if (!_UsersByIndex.Keys.Contains(key))
+                        _UsersByIndex[key] = new List<SelectListItem>();
+                    _UsersByIndex[key].Add(new SelectListItem {
+                        Text = user.UserName != null ? 
+                                    user.UserName : user.Email,
+                        Value = user.Id.ToString()
+                    });
+                }
+                return _UsersByIndex;
+            }
+        }
+
         public Dictionary<char, IList<SelectListItem>> StudentsByIndex { 
             set { _StudentsByIndex =  value; }
             get {
@@ -155,6 +181,7 @@ namespace yalms.Models
         }
 
         public int SelectedUser { set; get; }
+        public int SelectedUserID { set; get; }
         public string SelectedUsers { set; get; }
         public int SelectedClass { set; get; }
         public string SelectedClassname { set; get; }
@@ -163,6 +190,9 @@ namespace yalms.Models
         public int SelectedVictim { set; get; }
         public int SelectedTeacher { set; get; }
         public int SelectedCourse { set; get; }
+        public string SelectedUserName { set; get; }
+        public string SelectedEmail { set; get; }
+        public string SelectedPhoneNumber { set; get; }
         public string NewCourse { set; get; }
 
 

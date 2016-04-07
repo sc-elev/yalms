@@ -328,6 +328,7 @@
     <Content Include="Views\Shared\_SubmissionNode.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ClassList.cshtml" />
+    <Content Include="Views\Admin\UpdateUserPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

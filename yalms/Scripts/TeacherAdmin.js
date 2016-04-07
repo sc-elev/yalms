@@ -8,6 +8,17 @@ $(document).ready(function () {
             "three_state" : false,
         },
     })
+
+    $("#usersTree").jstree({
+        "plugins": ["themes", "html_data"],
+    })
+    .on('select_node.jstree', function (e, node) {
+        if (node.node.children.length == 0) {
+            var uid = node.node.id;
+            $("#updateUserPartial").load('/Admin/GetUserPartial?userID=' + uid)
+        }
+    })
+
     if (location.hash) {
         $('a[href=' + location.hash + ']').tab('show');
     }
