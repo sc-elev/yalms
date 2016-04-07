@@ -66,7 +66,7 @@ namespace yalms.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Epostadress")]
+        [Display(Name = "Mejladress")]
         public string Email { get; set; }
 
         [Required]
