@@ -1,4 +1,4 @@
- 
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,7 +31,7 @@ namespace yalms.Services
             return (from scs in context.SchoolClassStudents
                     where scs.SchoolClassID == schoolClassID
                     select scs
-                );     
+                );
         }
         #endregion
 
@@ -55,10 +55,13 @@ namespace yalms.Services
         #endregion
 
         #region Get SchoolClassStudent by its SchoolClassStudent ID
-        public SchoolClassStudent GetSchoolClassStudentByID(int? schoolClassStudentID)
+        public SchoolClassStudent
+
+
+            GetSchoolClassStudentByID(int? schoolClassStudentID)
         {
             // Get single SchoolClassStudent by its unique ID
-            var schoolClassStudent = context.SchoolClassStudents.SingleOrDefault(o => o.SchoolClassStudentID == schoolClassStudentID);
+            var schoolClassStudent = context.SchoolClassStudents.SingleOrDefault(o => o.Student_UserID == schoolClassStudentID);
 
             return schoolClassStudent;
         }

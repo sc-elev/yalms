@@ -64,6 +64,11 @@ namespace yalms.Migrations
                 "student3", "student4", "student5",
                 "user6", "user7"
             };
+
+            string[] pupils = new string[] {
+                "adam", "bertil", "cesar", "david", "erik", "gustav",
+                "helge", "ivar", "johan", "kalle"
+            };
             var options = new IdentityFactoryOptions<ApplicationUserManager>();
             options.DataProtectionProvider = null;
             options.Provider = null;
@@ -80,6 +85,14 @@ namespace yalms.Migrations
                     userManager.AddToRole(user.Id, "teacher");
                 else if (username.StartsWith("student"))
                     userManager.AddToRole(user.Id, "student");
+            }
+            foreach (var username in pupils){
+                var email = username + "@edu.com";
+                if (userManager.FindByName(email) != null)
+                    continue;
+                var user = new ApplicationUser { UserName = email, Email = email };
+                userManager.Create<ApplicationUser, int>(user, "1Hemlighet!");
+                userManager.AddToRole(user.Id, "student");
             }
             student1 = userManager.FindByEmail("student3@edu.com");
             student2 = userManager.FindByEmail("student4@edu.com");
@@ -123,13 +136,25 @@ namespace yalms.Migrations
             var classes = new List<SchoolClass> {
                     new SchoolClass {Name = "7b", SchoolClassID = 1},
                     new SchoolClass {Name = "7c", SchoolClassID = 2},
+                    new SchoolClass {Name = "8c", SchoolClassID = 3},
+                    new SchoolClass {Name = "8f", SchoolClassID = 4},
                  };
             foreach (var class_ in classes) ctx.SchoolClasses.AddOrUpdate(class_);
             var classMembers = new List<SchoolClassStudent> {
                     new SchoolClassStudent { SchoolClassID = 1, Student_UserID = student1.Id},
                     new SchoolClassStudent { SchoolClassID = 1, Student_UserID = student2.Id},
                     new SchoolClassStudent { SchoolClassID = 2, Student_UserID = student3.Id},
-                };
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 8},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 9},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 10},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 11},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 12},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 13},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 14},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 15},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 16},
+                    new SchoolClassStudent { SchoolClassID = 3, Student_UserID = 17},
+             };
             foreach (var member in classMembers) ctx.SchoolClassStudents.AddOrUpdate(member);
         }
 
