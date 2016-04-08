@@ -45,14 +45,12 @@ namespace yalms.Services
 
 
 
-        #region Get all Assignments
         public IEnumerable<Assignment> GetAllAssignments()
         {
-            return context.Assignments;
+            return context.GetAssignments();
         }
-        #endregion
 
-        #region Get all Assignments by courseID
+
         public List<Assignment> GetAllAssignmentsByCourseID(int courseID)
         {
             return (from assi in context.GetAssignments()
@@ -61,19 +59,16 @@ namespace yalms.Services
                         ).ToList();
         }
 
-        #endregion
 
 
-        #region Get Assignment by its Assignment ID
         public Assignment GetAssignmentByAssignmentID(int? assignmentID)
         {
             // Get single Assignment by its unique ID
-            var assignment = context.Assignments.SingleOrDefault(o => o.AssignmentID == assignmentID);
+            var assignment = context.GetAssignments().SingleOrDefault(o => o.AssignmentID == assignmentID);
 
 
             return assignment;
         }
-        #endregion
 
         #region Get newest Assignment.
         public Assignment GetNewestAssignment()

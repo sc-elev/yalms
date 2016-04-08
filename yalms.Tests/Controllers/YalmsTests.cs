@@ -214,7 +214,8 @@ namespace yalms.Tests.Controllers
                 new SchoolClass {Name = "7b", SchoolClassID = 1},
                 new SchoolClass {Name = "7c", SchoolClassID = 2},
              };
-            var classMembers = new List<SchoolClassStudent> {
+           // var classMembers = new List<SchoolClassStudent> {
+            var schoolClassStudents = new List<SchoolClassStudent> {
                 new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 3},
                 new SchoolClassStudent { SchoolClassID = 1, Student_UserID = 4},
                 new SchoolClassStudent { SchoolClassID = 2, Student_UserID = 5},
@@ -282,12 +283,15 @@ namespace yalms.Tests.Controllers
             context.Setup(x => x.GetCourses()).Returns(courses);
             context.Setup(x => x.GetSlots()).Returns(slots);
             context.Setup(x => x.GetUsers()).Returns(users);
-            context.Setup(x => x.GetSchoolClassStudents()).Returns(classMembers);
+            context.Setup(x => x.GetSchoolClassStudents()).Returns(schoolClassStudents);
             context.Setup(x => x.GetSchoolClasses()).Returns(classes);
             context.Setup(x => x.GetRooms()).Returns(rooms);
             context.Setup(x => x.GetAssignments()).Returns(assignments);
             context.Setup(x => x.GetUploads()).Returns(uploads);
             context.Setup(x => x.GetSubmissions()).Returns(submissions);
+
+            //context.Setup(x => x.SchoolClassStudents).Returns(schoolClassStudents);
+
             return context;
         }
     }
