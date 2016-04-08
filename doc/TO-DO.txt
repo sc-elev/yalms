@@ -15,4 +15,7 @@ To-do:
     antagligen amerikansk PM-tid?
 - Om man reggar nytt login hamnar man på en tom sida
 - Sidan Teacher/Assignments inte klar, görs heller ej klar
-
+- Sidan Teacher/Administration saknar menyn
+  - Ska flikarna flyttas nedåt en aning?
+  
+  
