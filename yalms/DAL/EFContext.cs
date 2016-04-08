@@ -22,6 +22,7 @@ namespace yalms.DAL
         IList<SchoolClass> GetSchoolClasses();
 
         IList<SchoolClassStudent> GetSchoolClassStudents();
+        //IList<SchoolClassStudent> SchoolClassStudents();
 
         IList<Slot> GetSlots();
 
@@ -93,6 +94,11 @@ namespace yalms.DAL
         {
             return SchoolClassStudents.ToList();
         }
+
+        //public virtual IList<SchoolClassStudent> SchoolClassStudents()
+        //{
+        //    return SchoolClassStudents.ToList();
+        //}
 
         public virtual IList<Slot> GetSlots()
         {

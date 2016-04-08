@@ -10,6 +10,10 @@ namespace yalms.Models
 {
     public class TeacherScheduleViewModel
     {
+        // fulkod
+        public EFContext storedCtx { get; set; }
+        public int storedTeacherID { get; set; }
+
         public List<Course> Courses { get; set; }
         public List<SelectListItem> CourseSelectionData { get; set; }
         public int SelectedCourse { get; set; }
@@ -21,6 +25,7 @@ namespace yalms.Models
         public List<TimingInfo> SlotTimings { get; set; }
 
         public Slot SelectedSlot { get; set; }
+        public DateTime SelectedDate { get; set; }
 
         public DateTime FirstDayOfWeek { get; set; }
         public int Week { get; set; }
@@ -39,9 +44,13 @@ namespace yalms.Models
 
         public TeacherScheduleViewModel(DateTime date, int teacher_UserID, EFContext ctx)
         {
+            storedCtx = ctx;
+            storedTeacherID = teacher_UserID;
+
             SlotTimings = new List<TimingInfo>(SlotTimingInfo.Timings);
 
             FirstDayOfWeek = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(date);
+            SelectedDate = FirstDayOfWeek;
             Week = CommonFunctions.CustomConversion.GetWeekFromDate(date);
 
             // populate rooms
@@ -70,7 +79,7 @@ namespace yalms.Models
                         .Select(s => s.Name)
                         .SingleOrDefault();
                     CourseSelectionData.Add(new SelectListItem { 
-                        Text = "("+ course.CourseID +")"+course.Name + " "+ className, 
+                        Text = course.Name + " "+ className, 
                         Value = course.CourseID.ToString() 
                     });
                 }
@@ -84,34 +93,48 @@ namespace yalms.Models
             CourseSelectionData.Insert(0, new SelectListItem { Text = " - Ingen vald - ", Value = "-1" });
             SelectedCourse = Courses.FirstOrDefault().CourseID;
 
-            ThisWeekSlots = new Slot[SlotTimingInfo.Timings.Count, 5];
+            //ThisWeekSlots = new Slot[SlotTimingInfo.Timings.Count, 5];
             ThisWeekUrls = new string[SlotTimingInfo.Timings.Count, 5];
+            ThisWeekSlots = LoadCalandar(FirstDayOfWeek);
 
-            for (var i = 0; i < 5; i++)
-            {
-                var dailyDate = FirstDayOfWeek.AddDays(i);
-                var dailySlots = ctx.GetSlots()
-                        .Where(o => o.When.Date == dailyDate.Date)
-                        .Where(o => CourseIDs.Contains((int)o.CourseID));
-                for (var row = 0; row < SlotTimings.Count; row++)
-                {
-                    var slot = dailySlots.FirstOrDefault(o => o.SlotNR == row);
-                    if (slot != null)
-                    {
-                        slot.Room = ctx.GetRooms()
-                                        .Where(r => r.RoomID == slot.RoomID)
-                                        .SingleOrDefault();
-                        slot.Course = ctx.GetCourses()
-                                        .Where(r => r.CourseID == slot.CourseID)
-                                        .SingleOrDefault();
-                    }
-                    ThisWeekSlots[row, i] = slot;
-                }
-            }
+            //for (var i = 0; i < 5; i++)
+            //{
+            //    var dailyDate = FirstDayOfWeek.AddDays(i);
+            //    var dailySlots = ctx.GetSlots()
+            //            .Where(o => o.When.Date == dailyDate.Date)
+            //            .Where(o => CourseIDs.Contains((int)o.CourseID));
+            //    for (var row = 0; row < SlotTimings.Count; row++)
+            //    {
+            //        var slot = dailySlots.FirstOrDefault(o => o.SlotNR == row);
+            //        if (slot != null)
+            //        {
+            //            slot.Room = ctx.GetRooms()
+            //                            .Where(r => r.RoomID == slot.RoomID)
+            //                            .SingleOrDefault();
+            //            slot.Course = ctx.GetCourses()
+            //                            .Where(r => r.CourseID == slot.CourseID)
+            //                            .SingleOrDefault();
+            //        }
+            //        ThisWeekSlots[row, i] = slot;
+            //    }
+            //}
+
+            // --------
+            //UrlHelper urlHelper;
+            //if (this.Request != null)
+            //{
+            //    urlHelper = new UrlHelper(this.Request.RequestContext);
+            //}
+            //else
+            //{
+            //    urlHelper = new UrlHelper();
+            //}
+
+           // BuildSlotUrls(new UrlHelper());
         }
 
 
-        private Slot CopySlot(Slot slot)
+        public Slot CopySlot(Slot slot)
         {
             return new Slot {
                 SlotID = slot.SlotID,
@@ -123,11 +146,48 @@ namespace yalms.Models
         }
 
 
-        public void BuildSlotUrls(UrlHelper urlHelper)
+        public Slot[,] LoadCalandar(DateTime startingDate)
+        {  //EFContext ctx, List<int> courseIDs,int slotCount)
+            var thisWeekSlots = new Slot[SlotTimingInfo.Timings.Count, 5];
+
+            var courses = storedCtx.GetCourses()
+                .Where(c => c.Teacher_UserID == storedTeacherID)
+                .ToList();
+            var courseIDs = courses.Select(c => c.CourseID).ToList();
+
+            for (var i = 0; i < 5; i++)
+            {
+                var dailyDate = FirstDayOfWeek.AddDays(i);
+
+                var dailySlots = storedCtx.GetSlots()
+                        .Where(o => o.When.Date == dailyDate.Date)
+                        .Where(o => courseIDs.Contains((int)o.CourseID));
+
+                for (var row = 0; row < SlotTimings.Count; row++)
+                {
+                    var slot = dailySlots.FirstOrDefault(o => o.SlotNR == row);
+                    if (slot != null)
+                    {
+                        slot.Room = storedCtx.GetRooms()
+                                        .Where(r => r.RoomID == slot.RoomID)
+                                        .SingleOrDefault();
+                        slot.Course = storedCtx.GetCourses()
+                                        .Where(r => r.CourseID == slot.CourseID)
+                                        .SingleOrDefault();
+                    }
+                    thisWeekSlots[row, i] = slot;
+                }
+            }
+
+            return thisWeekSlots;
+        }
+
+
+        private void BuildSlotUrls(UrlHelper urlHelper)
         {
             for (var day = 0; day < 5; day += 1)
             {
-                var weekDay = FirstDayOfWeek.AddDays(day);
+                var weekDay = this.FirstDayOfWeek.AddDays(day);
                 for (var row = 0; row < SlotTimingInfo.Timings.Count; row += 1)
                 {
                     if (ThisWeekSlots[row, day] != null)

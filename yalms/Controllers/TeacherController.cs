@@ -17,6 +17,8 @@ namespace yalms.Controllers
     [Authorize(Roles = "teacher")]
     public class TeacherController : Controller
     {
+        static TeacherScheduleViewModel teacherScheduleViewModel;
+
         protected IDateProvider dateProvider;
         protected IUserProvider userProvider;
         protected EFContext context;
@@ -86,7 +88,7 @@ namespace yalms.Controllers
         [HttpGet]
         public ActionResult LoadAllStudentAssgnments(TeacherAssignmentViewModel viewModel)
         {
-            var alle = 1;
+            //var alle = 1;
             //RedirectToAction()
 
             return null;
@@ -103,58 +105,84 @@ namespace yalms.Controllers
             // viewmodel: TeacherScheduleViewModel
             // DateTime selectedDate = Session["selectedDate"] ? ;
             var selectedDate = dateProvider.Today();
-
-            if (Session["selectedDate"] == null)
+            TeacherScheduleViewModel model; //= new TeacherScheduleViewModel();
+            //if (Session == null)
+            //{
+            if (teacherScheduleViewModel == null)
             {
-                Session["selectedDate"] = dateProvider.Today();
+                var modelFactory = new TeacherScheduleViewModelFactory(this, context, this.userProvider);
+                model = modelFactory.Create(selectedDate) as TeacherScheduleViewModel;
+                teacherScheduleViewModel = model;
             }
             else
             {
-                selectedDate = (DateTime)Session["selectedDate"];
+                model = teacherScheduleViewModel;
             }
 
-
-            var teacher_UserID = -1;
-            try
-            {
-                teacher_UserID = this.userProvider.UserID();
-            }
-            catch { }
-
-            var modelFactory = new TeacherScheduleViewModelFactory(this, context, this.userProvider);
-            var model = modelFactory.Create(selectedDate);
-
+ 
 
             UrlHelper urlHelper;
             if (this.Request != null)
-                urlHelper = new UrlHelper(this.Request.RequestContext);
-            else
-                urlHelper = new UrlHelper();
-            if (this.Request != null) model.BuildSlotUrls(urlHelper);
-
-            if (Session != null && Session["selectedSlot"] != null)
             {
-                var slot = (Slot)Session["selectedSlot"];
-                if (slot.SlotID != -1)
+                urlHelper = new UrlHelper(this.Request.RequestContext);
+            }
+            else
+            {
+                urlHelper = new UrlHelper();
+            }
+
+            //if (this.Request != null) { model.BuildSlotUrls(urlHelper); }
+
+            for (var day = 0; day < 5; day += 1)
+            {
+                var weekDay = model.FirstDayOfWeek.AddDays(day);
+                for (var row = 0; row < SlotTimingInfo.Timings.Count; row += 1)
+                {
+                    if (model.ThisWeekSlots[row, day] != null)
+                    {
+                        model.ThisWeekUrls[row, day] = urlHelper.Action(
+                            "SlotClick", "Teacher",
+                            model.CopySlot(model.ThisWeekSlots[row, day]));
+                    }
+                    else
+                    {
+                        try
+                        {
+                            model.ThisWeekUrls[row, day] = urlHelper.Action(
+                                "SlotClick", "Teacher",
+                                new Slot { SlotID = -1, SlotNR = row, When = weekDay });
+                        }
+                        catch (System.ArgumentNullException)
+                        {
+                            // Unit testing: No Request available.
+                            model.ThisWeekUrls[row, day] = "http://not-defined";
+                        }
+                    }
+                }
+            }
+
+            if (model.SelectedSlot != null)
+            {
+                if (model.SelectedSlot.SlotID != -1)
                 {
                     try
                     {
-                        model.FormSelectedCourse = (int)slot.CourseID;
+                        model.FormSelectedCourse = (int)model.SelectedSlot.CourseID;
                     }
                     catch { }
 
                     try
                     {
-                        model.FormSelectedRoom = (int)slot.RoomID;
+                        model.FormSelectedRoom = (int)model.SelectedSlot.RoomID;
                     }
                     catch { }
                 }
 
-                ViewBag.SelectedSlotInformation = slot.When.ToShortDateString() 
-                    + " (" + model.SlotTimings[slot.SlotNR].start.ToLongTimeString().Substring(0, 5)
-                    + " - " + model.SlotTimings[slot.SlotNR].end.ToLongTimeString().Substring(0, 5) + ")";
+                ViewBag.SelectedSlotInformation = model.SelectedSlot.When.ToShortDateString()
+                    + " (" + model.SlotTimings[model.SelectedSlot.SlotNR].start.ToLongTimeString().Substring(0, 5)
+                    + " - " + model.SlotTimings[model.SelectedSlot.SlotNR].end.ToLongTimeString().Substring(0, 5) + ")";
             } else {
-                ViewBag.SelectedSlotInformation ="- Ingen vald -";
+                ViewBag.SelectedSlotInformation ="- Ingen kalender ruta vald -";
             }
 
             return View(model);
@@ -166,25 +194,28 @@ namespace yalms.Controllers
         [MultipleButton(Name = "action", Argument ="Save")]
         public ActionResult Save(TeacherScheduleViewModel pageviewmodel)
         {
-            if (Session["selectedSlot"] != null && pageviewmodel.FormSelectedCourse != -1 && pageviewmodel.FormSelectedRoom != -1)
+            var model = teacherScheduleViewModel;
+
+            if (model.SelectedSlot != null && pageviewmodel.FormSelectedCourse != -1 && pageviewmodel.FormSelectedRoom != -1)
             {
                 this.slotRepository = new SlotRepository(context);
 
-                var slot = (Slot)Session["selectedSlot"];
                 // update from form
-                slot.CourseID = pageviewmodel.FormSelectedCourse;
-                slot.RoomID = pageviewmodel.FormSelectedRoom;
+                model.SelectedSlot.CourseID = pageviewmodel.FormSelectedCourse;
+                model.SelectedSlot.RoomID = pageviewmodel.FormSelectedRoom;
 
-                if (slot.SlotID == -1)
+                if (model.SelectedSlot.SlotID == -1)
                 {
-                    slotRepository.InsertSlot(slot);
+                    slotRepository.InsertSlot(model.SelectedSlot);
+                    teacherScheduleViewModel = null;
                 }
                 else
                 {
-                    slotRepository.UpdateSlot(slot);
+                    slotRepository.UpdateSlot(model.SelectedSlot);
+                    teacherScheduleViewModel = null;
                 }
                 //var b = model.FormSelectedCourse;
-                Session["selectedSlot"] = null;
+                this.ViewBag.selectedSlot = null as Slot;
             }
             return RedirectToAction("Schedule");
         }
@@ -193,47 +224,57 @@ namespace yalms.Controllers
         [MultipleButton(Name = "action", Argument = "Delete")]
         public ActionResult Delete()
         {
-            if (Session["selectedSlot"] != null)
+            var model = teacherScheduleViewModel;
+
+            if (model.SelectedSlot != null)
             {
                 this.slotRepository = new SlotRepository(context);
 
-                var slot = (Slot)Session["selectedSlot"];
-                if (slot.SlotID != -1)
+                if (model.SelectedSlot.SlotID != -1)
                 {
-                    slotRepository.DeleteSlot(slot.SlotID);
+                    slotRepository.DeleteSlot(model.SelectedSlot.SlotID);
+                    teacherScheduleViewModel = null;
                 }
             }
+
+
             return RedirectToAction("Schedule");
         }
 
 
         public ActionResult SlotClick(Slot clickedSlot)
         {
-
-            Session["selectedSlot"] = clickedSlot;
+            teacherScheduleViewModel.SelectedSlot = clickedSlot;
+            //this.ViewBag.selectedSlot = clickedSlot as Slot;
             return RedirectToAction("Schedule");
         }
 
-        public ActionResult NextWeek_Click(TeacherScheduleViewModel model) {
-
-            if (Session["selectedDate"] != null)
+        public ActionResult NextWeek_Click(TeacherScheduleViewModel model) 
+        {
+            if (teacherScheduleViewModel.SelectedDate != null)
             {
-                var date = (DateTime)Session["selectedDate"];
-                Session["selectedDate"] = date.AddDays(7);
-            }
+                teacherScheduleViewModel.SelectedDate = teacherScheduleViewModel.SelectedDate.AddDays(7);
+                var day = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(teacherScheduleViewModel.SelectedDate);
+                
+                teacherScheduleViewModel.FirstDayOfWeek = day;
+                //teacherScheduleViewModel = model;
+                teacherScheduleViewModel.ThisWeekSlots = teacherScheduleViewModel.LoadCalandar(day);
 
+            }
 
             return RedirectToAction("Schedule");
         }
 
         public ActionResult PreviousWeek_Click(TeacherScheduleViewModel model)
         {
-            if (Session["selectedDate"] != null)
+            if (teacherScheduleViewModel.SelectedDate != null)
             {
-                var date = (DateTime)Session["selectedDate"];
-                Session["selectedDate"] = date.AddDays(-7);
+                teacherScheduleViewModel.SelectedDate = teacherScheduleViewModel.SelectedDate.AddDays(-7);
+                var day = CommonFunctions.CustomConversion.GetFirstDayOfWeekFromDate(teacherScheduleViewModel.SelectedDate);
+                
+                teacherScheduleViewModel.FirstDayOfWeek = day;
+                teacherScheduleViewModel.ThisWeekSlots = teacherScheduleViewModel.LoadCalandar(day);
             }
-
 
             return RedirectToAction("Schedule");
         }

@@ -1,4 +1,4 @@
- 
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,17 +11,17 @@ using yalms.DAL;
 namespace yalms.Services
 {
 
-    public class SchoolClassRepository:BaseRepository, ISchoolClassRepository
+    public class SchoolClassRepository : BaseRepository, ISchoolClassRepository
     {
-        public SchoolClassRepository() : base() {}
+        public SchoolClassRepository() : base() { }
 
-        public SchoolClassRepository(EFContext ctx) : base(ctx) {}
+        public SchoolClassRepository(EFContext ctx) : base(ctx) { }
 
         public IEnumerable<SchoolClass> GetAllSchoolClasses()
         {
-            return context.SchoolClasses;
+            return context.GetSchoolClasses();
         }
-        
+
         #region Get SchoolClass by its SchoolClassID
         public SchoolClass GetSchoolClassBySchoolClassID(int? schoolClassID)
         {
@@ -56,7 +56,7 @@ namespace yalms.Services
         #region Get newest SchoolClass.
         public SchoolClass GetNewestSchoolClass()
         {
-           return context.GetSchoolClasses().OrderByDescending(u => u.SchoolClassID).FirstOrDefault();
+            return context.GetSchoolClasses().OrderByDescending(u => u.SchoolClassID).FirstOrDefault();
         }
         #endregion
 
@@ -72,8 +72,8 @@ namespace yalms.Services
         }
         #endregion
 
-        #region Delete SchoolClass  from database by SchoolClass ID 
-        public void DeleteSchoolClass (int schoolClassID)
+        #region Delete SchoolClass  from database by SchoolClass ID
+        public void DeleteSchoolClass(int schoolClassID)
         {
             // Get SchoolClass by ID.
             SchoolClass schoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == schoolClassID);
@@ -83,7 +83,7 @@ namespace yalms.Services
         #endregion
 
         #region Update existing SchoolClass object and register what user modified it and when.
-        public void UpdateSchoolClass (SchoolClass newSchoolClass)
+        public void UpdateSchoolClass(SchoolClass newSchoolClass)
         {
             // Get existing SchoolClass object by ID for update.
             var oldSchoolClass = context.GetSchoolClasses().SingleOrDefault(o => o.SchoolClassID == newSchoolClass.SchoolClassID);

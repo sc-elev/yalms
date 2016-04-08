@@ -58,7 +58,8 @@ namespace yalms.Services
         public SchoolClassStudent GetSchoolClassStudentByID(int? schoolClassStudentID)
         {
             // Get single SchoolClassStudent by its unique ID
-            var schoolClassStudent = context.SchoolClassStudents.SingleOrDefault(o => o.SchoolClassStudentID == schoolClassStudentID);
+
+            var schoolClassStudent = context.GetSchoolClassStudents().SingleOrDefault(o => o.Student_UserID == schoolClassStudentID);
 
             return schoolClassStudent;
         }

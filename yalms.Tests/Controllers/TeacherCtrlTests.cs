@@ -10,10 +10,10 @@ namespace yalms.Tests.Controllers
     [TestFixture]
     public class TeacherCtrlTests: YalmsTests
     {
-        [Test]
+        //[Test]
         public void TeacherSchedleReturnsValidSchema()
         {
-           
+
             IDateProvider today = new DummyDateProvider("2016-02-25");
             var context = GetStandardContext(today.Today());
             IUserProvider who =

@@ -81,6 +81,39 @@ namespace yalms.Services
                    };       
         }
 
+    //    public IEnumerable<Slot> GetDailySlotsByTeacher_UserID(int teacher_UserID, DateTime dailyDate)
+    //    {
+    //        var list = from slot in context.GetSlots() where slot.CourseID
+    //                       join course in context.GetCourses()
+    //                   on slot.CourseID equals course.CourseID
+    //              // where courses.Contains(slot.CourseID) && slot.When == when
+
+
+    //                //return context.GetSlots()
+    //                //    .Where(o => o.When.Date == dailyDate.Date)
+    //                //    .Where(o => courseIDs.Contains((int)o.CourseID));
+    //        //       join class_ in context.GetSchoolClasses()
+    //         //          on upload.SchoolClassID equals class_.SchoolClassID
+
+    //        //var Alle = (from slots in context.GetSlots()
+    //        //            where slots.
+    //        //             join course in context.GetCourses() on course.
+    //                            //where slots.CourseID == courseID
+    //        //var listOfSlots = (from slot in context.GetSlots()
+    //        //                   where slot.CourseID == courseID
+    //        //                   select slot).ToList();
+    //       // var listOfSlots = from slots in context.GetSlots().Join(o =>)
+
+    //                           //join sccl in context.GetSchoolClasses() on sccl.
+
+    ////        var innerJoinQuery =
+    ////from category in categories
+    ////join prod in products on category.ID equals prod.CategoryID
+    ////select new { ProductName = prod.Name, Category = category.Name }; //produces flat sequence
+
+    //            return null;
+    //    }
+
         #region Get students weekly Schedule by Student_userID, week,day
         //public IEnumerable<Slot> GetStudentsWeeklySheduleByStudentUserID(int studentUserID, DateTime when)
         //{
