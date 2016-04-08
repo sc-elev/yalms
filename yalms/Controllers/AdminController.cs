@@ -244,6 +244,7 @@ namespace yalms.Content.Controllers
             return View("Index", model);
         }
 
+
         [HttpPost]
         public ActionResult UpdateUser(AdminViewModel modelArg)
         {
@@ -281,6 +282,7 @@ namespace yalms.Content.Controllers
             return PartialView("ClassList", model);
         }
 
+
         // Ajax support for getting user dat class
         [HttpGet]
         public ActionResult GetUserPartial(int userID)
@@ -296,6 +298,17 @@ namespace yalms.Content.Controllers
             model.SelectedUserID = userID;
 
             return PartialView("UpdateUserPartial", model);
+        }
+
+        
+        public JsonResult AutoCompleteUser(string term)
+        {
+            var result = context.GetUsers()
+                            .Where(u => u.Email.ToLower().Contains(term) ||
+                                 (u.UserName != null && u.UserName.ToLower().Contains(term)))
+                            .Select(u => new { Value = u.Email, Key = u.Id })
+                            .Distinct();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -336,6 +349,7 @@ namespace yalms.Content.Controllers
             model = new AdminViewModel(context);
             return View("Index", model);
         }
+
 
         public AdminController(
             IUserProvider user, IDateProvider date, EFContext ctx)

@@ -1,7 +1,33 @@
-﻿//
-
+﻿
+//
 
 $(document).ready(function () {
+
+
+    $("#UserSearch").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                type: "POST",
+                url: '/Admin/AutocompleteUser',
+                dataType: 'json',
+                data: { "term": request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Value, value: item.Key };
+                    }))
+                }
+            });
+        },
+        messages: {
+            noResults: "", results: ""
+        },
+        select: function (event, ui) {
+            //fill selected customer details on form
+            event.preventDefault();
+            $("#updateUserPartial").load('/Admin/GetUserPartial?userID=' + ui.item.value)
+        }
+    })
+
     $("#studentsTree").jstree({
         "plugins": ["themes", "html_data", "checkbox"],
         "checkbox" : {

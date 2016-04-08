@@ -194,7 +194,7 @@ namespace yalms.Models
         public string SelectedEmail { set; get; }
         public string SelectedPhoneNumber { set; get; }
         public string NewCourse { set; get; }
-
+        public string UserSearch { set; get; }
 
         public AdminViewModel()
         {

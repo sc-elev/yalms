@@ -10,6 +10,7 @@ namespace yalms
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/json2.js",
                         "~/Scripts/jstree.js"));
 
