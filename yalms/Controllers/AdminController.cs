@@ -273,6 +273,45 @@ namespace yalms.Content.Controllers
         }
 
 
+        public ActionResult AddClassStudents(AdminViewModel modelArg)
+        {
+            AdminViewModel model = new AdminViewModel(context);
+            if (modelArg.SelectedUsers == null)
+            {
+                ViewBag.Message = "No user selected?!";
+                return View("Index", model);
+            }
+            var class_ = context.GetSchoolClasses()
+                           .Where(s => s.SchoolClassID == modelArg.SelectedClass)
+                           .SingleOrDefault();
+            if (class_ == null)
+            {
+                ViewBag.Message = "No valid class selected?!";
+                return View("Index", model);
+            }
+            var stringIDs = modelArg.SelectedUsers.Split(',');
+            foreach (var strID in stringIDs)
+            {
+                int id;
+                if (!int.TryParse(strID, out id))
+                    continue;
+                var scs = context.GetSchoolClassStudents()
+                    .Where(s => s.Student_UserID == id)
+                    .SingleOrDefault();
+                if (scs != null) context.SchoolClassStudents.Remove(scs);
+                scs = new SchoolClassStudent
+                {
+                    Student_UserID = id,
+                    SchoolClassID = modelArg.SelectedClass
+                };
+                context.SchoolClassStudents.Add(scs);
+                context.SaveChanges();
+            }
+            model = new AdminViewModel(context);
+            return View("Index", model);
+        }
+
+
         // Ajax support for getting students in class
         [HttpGet]
         public ActionResult GetClassList(int SelectedClass)
@@ -300,7 +339,15 @@ namespace yalms.Content.Controllers
             return PartialView("UpdateUserPartial", model);
         }
 
+
+        public JsonResult GetJsonUserById(int userID)
+        {
+            var repo = new UserRepository(context);
+            var user =  repo.GetUserByID(userID);
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
         
+
         public JsonResult AutoCompleteUser(string term)
         {
             var result = context.GetUsers()
@@ -309,45 +356,6 @@ namespace yalms.Content.Controllers
                             .Select(u => new { Value = u.Email, Key = u.Id })
                             .Distinct();
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public ActionResult  AddClassStudents(AdminViewModel modelArg)
-        {
-
-            AdminViewModel model = new AdminViewModel(context);
-            if (modelArg.SelectedUsers == null)
-            {
-                ViewBag.Message = "No user selected?!";
-                return View("Index", model);
-            }
-            var class_ = context.GetSchoolClasses()
-                           .Where(s => s.SchoolClassID == modelArg.SelectedClass)
-                           .SingleOrDefault();
-            if (class_ == null)
-            {
-                ViewBag.Message = "No valid class selected?!";
-                return View("Index", model);
-            }
-            var stringIDs = modelArg.SelectedUsers.Split(',');
-            foreach (var strID in stringIDs)
-            {
-                int id;
-                if (!int.TryParse(strID, out id))
-                    continue;
-                var scs = context.GetSchoolClassStudents()
-                    .Where(s => s.Student_UserID == id)
-                    .SingleOrDefault();
-                if (scs != null) context.SchoolClassStudents.Remove(scs);
-                scs = new SchoolClassStudent {
-                    Student_UserID = id,
-                    SchoolClassID = modelArg.SelectedClass
-                };
-                context.SchoolClassStudents.Add(scs);
-                context.SaveChanges();
-            }
-            model = new AdminViewModel(context);
-            return View("Index", model);
         }
 
 

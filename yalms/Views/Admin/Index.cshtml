@@ -19,46 +19,18 @@
 
 <div class="tab-content">
     <div id="newUsers" class="tab-pane fade in active">
-        <div class="row">
-            <div class="col-md-6">
-                <h3> Uppdatera användare</h3>
-                </p>
-                Sök: @Html.TextBox("UserSearch")
-                <p />
-                <hr/>
-                @using (Html.BeginForm("UpdateUSer", "Admin"))
-                {
-                    <div id="updateUserPartial">
-                        @{Html.RenderPartial("UpdateUserPartial", Model);}
-                    </div>    
-                    <input type="submit" class="btn btn-primary"
-                           value="Uppdatera" />
-                }
-            </div>
-            <div class="col-md-5">
-                @using (Html.BeginForm("RemoveUser", "Admin"))
-                {
-                    <h3> Ta bort användare</h3>
-                    <div class="form-group">
-                        @Html.Label("Användare:",
-                                    new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.SelectedUser,
-                                              Model.RegisteredUsers,
-                                              new { @class = "form-control" })
-                    </div>
-                    <input type="submit" class="btn btn-danger"
-                           value="Ta bort" />
-                }
-            </div>
-        </div>
-    </div>
-    <div id="users" class="tab-pane fade">
-        <h3>Uppdatera användare</h3>
-        <p />
-        <a href="#">Välj användare...</a>
-        <p />
+
+        <h3>Nya användare</h3>
+
         @using (Html.BeginForm("UpdateUser", "Admin"))
         {
+            <div class="form-group">
+                @Html.Label("Välj användare:",
+                            new { @class = "col-md-2 control-label" })
+                @Html.DropDownListFor( m => m.UserToDisplay,
+                                       Model.UnregisteredUsers,
+                                       new { @class = "form-control",})
+            </div>
             <div class="form-group">
                 @Html.Label("Namn", new { @class = "col-md-2 control-label" })
                 @Html.TextBox("SelectedUserName", null,
@@ -87,8 +59,42 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary" value="Uppdatera" />
+            <input type="submit" class="btn btn-primary" value="¤egistrera" />
         }
+    </div>
+    <div id="users" class="tab-pane fade">
+        <div class="row">
+            <div class="col-md-6">
+                <h3> Uppdatera användare</h3>
+                </p>
+                Sök: @Html.TextBox("UserSearch")
+                <p />
+                <hr />
+                @using (Html.BeginForm("UpdateUSer", "Admin"))
+                {
+                    <div id="updateUserPartial">
+                        @{Html.RenderPartial("UpdateUserPartial", Model);}
+                    </div>
+                    <input type="submit" class="btn btn-primary"
+                           value="Uppdatera" />
+                }
+            </div>
+            <div class="col-md-5">
+                @using (Html.BeginForm("RemoveUser", "Admin"))
+                {
+                    <h3> Ta bort användare</h3>
+                    <div class="form-group">
+                        @Html.Label("Användare:",
+                                    new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.SelectedUser,
+                                              Model.RegisteredUsers,
+                                              new { @class = "form-control" })
+                    </div>
+                    <input type="submit" class="btn btn-danger"
+                           value="Ta bort" />
+                }
+            </div>
+        </div>     
     </div>
 
     <div id="courses" class="tab-pane fade">
