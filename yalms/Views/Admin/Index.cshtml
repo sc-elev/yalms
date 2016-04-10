@@ -21,124 +21,156 @@
     <div id="newUsers" class="tab-pane fade in active">
 
         <h3>Nya användare</h3>
-
+     
         @using (Html.BeginForm("UpdateUser", "Admin"))
         {
-            <div class="form-group">
-                @Html.Label("Välj användare:",
-                            new { @class = "col-md-2 control-label" })
-                @Html.DropDownListFor( m => m.UserToDisplay,
+            <div class="form-group row">
+                <label for="UserToDisplay" class="col-xs-3 control-label">
+                    Välj användare
+                </label>
+                <div class="col-xs-9">
+                    @Html.DropDownListFor( m => m.UserToDisplay,
                                        Model.UnregisteredUsers,
                                        new { @class = "form-control",})
-            </div>
-            <div class="form-group">
-                @Html.Label("Namn", new { @class = "col-md-2 control-label" })
-                @Html.TextBox("SelectedUserName", null,
-                              new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.Label("Epost", new { @class = "col-md-2 control-label" })
-                @Html.TextBox("SelectedEmail", null,
-                                      new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.Label("Telefon",
-                            new { @class = "col-md-2 control-label" })
-                @Html.TextBox("SelectedPhoneNumber", null,
-                                              new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.Label("Behörighet",
-                             new { @class = "col-md-2 control-label" })
-                <div class="row">
-                    <div class="col-md-6">
-                        Elev
-                        @Html.RadioButton("SelectedRole", "student")
-                        Lärare
-                        @Html.RadioButton("SelectedRole", "teacher")
+                </div>
+            </div>    
+            <div class="well">
+                <div class="form-group row">
+
+                    <label for="SelectedUserName" class="col-xs-3 control-label">
+                        Namn
+                    </label>
+                    <div class="col-xs-9">
+                        @Html.TextBox("SelectedUserName", null,
+                                  new { @class = "form-control" })
                     </div>
                 </div>
-            </div>
-            <input type="submit" class="btn btn-primary" value="¤egistrera" />
-        }
-    </div>
-    <div id="users" class="tab-pane fade">
-        <div class="row">
-            <div class="col-md-6">
-                <h3> Uppdatera användare</h3>
-                </p>
-                Sök: @Html.TextBox("UserSearch")
-                <p />
-                <hr />
-                @using (Html.BeginForm("UpdateUSer", "Admin"))
-                {
-                    <div id="updateUserPartial">
-                        @{Html.RenderPartial("UpdateUserPartial", Model);}
+                <div class="form-group row">
+                    <label for="SelectedEmail" class="col-xs-3 control-label">
+                        Epost
+                    </label>
+                    <div class="col-xs-9">
+                        @Html.TextBox("SelectedEmail", null,
+                                          new { @class = "form-control" })
                     </div>
-                    <input type="submit" class="btn btn-primary"
-                           value="Uppdatera" />
-                }
-            </div>
-            <div class="col-md-5">
-                @using (Html.BeginForm("RemoveUser", "Admin"))
-                {
-                    <h3> Ta bort användare</h3>
-                    <div class="form-group">
-                        @Html.Label("Användare:",
-                                    new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.SelectedUser,
-                                              Model.RegisteredUsers,
-                                              new { @class = "form-control" })
+                </div>
+                <div class="form-group row">
+                    <label for="SelectedPhoneNumber" class="col-xs-3 control-label">
+                        Telefon
+                    </label>
+                    <div class="col-xs-9">
+                        @Html.TextBox("SelectedPhoneNumber", null,
+                                      new { @class = "form-control" })
                     </div>
-                    <input type="submit" class="btn btn-danger"
-                           value="Ta bort" />
-                }
-            </div>
-        </div>     
-    </div>
+                </div>
 
-    <div id="courses" class="tab-pane fade">
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Skapa ny kurs</h3>
-                @using (Html.BeginForm("AddCourse", "Admin"))
-                {
-                    <div class="form-group">
-                        @Html.Label("Namn på kursen",
-                                    new { @class = "control-label" })
-                        <input type="text" id="NewCourse" name="NewCourse"
-                               value="" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Lärare", new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.SelectedTeacher,
-                                              Model.Teachers,
-                                              new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Klass", new { @class = "control-label" })
+                <div class="form-group row">
+                    <label for="SelectedClass" class="col-xs-3 control-label">
+                        Klass
+                    </label>
+                    <div class="col-xs-9">
                         @Html.DropDownListFor(m => m.SelectedClass,
                                               Model.Classes,
                                               new { @class = "form-control" })
                     </div>
-                    <input type="submit" class="btn btn-primary"
-                           value="Skapa kurs" />
-                }
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xs-5 control-label">Behörighet</label>
+                    <div class="col-xs-7 pull-left">
+                        <label class="radio">
+                            @Html.RadioButton("SelectedRole", "student")
+                            Elev
+                        </label>
+                        <label class="radio" >
+                            @Html.RadioButton("SelectedRole", "teacher")
+                            Lärare
+                    </label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrera" />
+            </div>
+        }
+    </div>
+    <div id="users" class="tab-pane fade">     
+        <h3> Uppdatera användare</h3>
+        <div class="row">
+            <div class="col-xs-1">
+                <label for="UserSearch"class="control-label">Sök:</label>
+            </div>
+            <div class="col-xs-11">
+                 @Html.TextBox("UserSearch", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <p/>
+        <div class="well">
+            @using (Html.BeginForm("UpdateUSer", "Admin"))
+            {
+                <div id="updateUserPartial">
+                    @{Html.RenderPartial("UpdateUserPartial", Model);}
+                </div>
+                <input type="submit" class="btn btn-primary" 
+                        value="Uppdatera" />
+                @Html.Hidden("UserToDelete")
+                <input type="submit" class="btn btn-danger pull-right"
+                        value="Ta bort" />
+            }
+        </div>
+    </div>
+    <div id="courses" class="tab-pane fade">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Skapa ny kurs</h3>
+                <div class="well">
+                    @using (Html.BeginForm("AddCourse", "Admin"))
+                    {
+                        <div class="form-group">
+                            @Html.Label("Namn på kursen",
+                                    new { @class = "control-label col-xs-6" })
+                            <div class="col-xs-6>">
+                                <input type="text" id="NewCourse" name="NewCourse"
+                                       value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Lärare", new { @class = "control-label col-xs-6" })
+                            <div class="col-xs-6>">
+                                @Html.DropDownListFor(m => m.SelectedTeacher,
+                                              Model.Teachers,
+                                              new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Klass", new { @class = "control-label col-xs-6" })
+                            <div class="col-xs-6>">
+                                @Html.DropDownListFor(m => m.SelectedClass,
+                                              Model.Classes,
+                                              new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary"
+                               value="Skapa kurs" />
+                    }
+                </div>
             </div>
             <div class="col-md-6">
                 <h3> Ta bort kurs</h3>
                 <p />
-                @using (Html.BeginForm("RemoveCourse", "Admin"))
-                {
-                    <div class="form-group">
-                        @Html.Label("Kurs:", new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.SelectedCourse,
+                <div class="well">
+                    @using (Html.BeginForm("RemoveCourse", "Admin"))
+                    {
+                        <div class="form-group">
+                            @Html.Label("Kurs:", new { @class = "control-label col-xs-6" })
+                            <div class="col-xs-6>">
+
+                                @Html.DropDownListFor(m => m.SelectedCourse,
                                               Model.Courses,
                                               new { @class = "form-control" })
-                    </div>
-                    <input type="submit" class="btn btn-danger" value="Ta bort" />
-                }
-
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-danger" value="Ta bort" />
+                    }
+                </div>
             </div>
 
         </div>
@@ -147,35 +179,39 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Skapa ny klass</h3>
-                @using (Html.BeginForm("AddClass", "Admin"))
-                {
-                    <div class="form-group">
-                     @Html.Label("Namn på klassen",
+                <div class="well">
+                    @using (Html.BeginForm("AddClass", "Admin"))
+                    {
+                        <div class="form-group">
+                            @Html.Label("Namn på klassen",
                                   new { @class = "control-label" })
-                    <input type="text" id="SelectedClassname"
-                           name="SelectedClassname" value=""
-                           class="form-control" />
-                    </div>
+                            <input type="text" id="SelectedClassname"
+                                   name="SelectedClassname" value=""
+                                   class="form-control" />
+                        </div>
 
-                    <input type="hidden" id="SelectedUsers"
-                           name="SelectedUsers"  value="" />
-                    <input type="submit" class="btn btn-primary"
-                           value="Skapa klass" />
-                }
+                        <input type="hidden" id="SelectedUsers"
+                               name="SelectedUsers" value="" />
+                        <input type="submit" class="btn btn-primary"
+                               value="Skapa klass" />
+                    }
+                </div>
                 <h3> Ta bort klass</h3>
-                @using (Html.BeginForm("RemoveClass", "Admin"))
-                {
-                    <div class="form-group">
-                        @Html.Label("Klass:",
+                <div class="well">
+                    @using (Html.BeginForm("RemoveClass", "Admin"))
+                    {
+                        <div class="form-group">
+                            @Html.Label("Klass:",
                                  new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.SelectedClass,
+                            @Html.DropDownListFor(m => m.SelectedClass,
                                           Model.Classes,
                                           new { @class = "form-control" })
-                    </div>
-                    <input type="submit" class="btn btn-danger"
-                           value="Ta bort klass" />
+                        </div>
+                        <input type="submit" class="btn btn-danger"
+                               value="Ta bort klass" />
 
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>

@@ -1,32 +1,46 @@
 ﻿@model yalms.Models.AdminViewModel
 
 
+<form>
 
-<div class="form-group">
-    @Html.Label("Namn", new { @class = "col-md-2 control-label" })
-    @Html.TextBox("SelectedUserName", null, new { @class = "form-control" })
-</div>
-<div class="form-group">
-    @Html.Label("Epost", new { @class = "col-md-2 control-label" })
-    @Html.TextBox("SelectedEmail", null,  new { @class = "form-control" })
-</div>
-<div class="form-group">
-    @Html.Label("Telefon", new { @class = "col-md-2 control-label" })
-    @Html.TextBox("SelectedPhoneNumber", null,
-                                              new { @class = "form-control" })
-</div>
-
-<div class="form-group">
-    @Html.Label("Behörighet", new { @class = "col-md-2 control-label" })
-    <div class="row">
-        <div class="col-md-6">
-            Elev
-            @Html.RadioButton("SelectedRole", "student")
-            Lärare
-            @Html.RadioButton("SelectedRole", "teacher")
+    <div class="form-group row">
+        <label for="SelectedUserName" class="col-xs-3 control-label">Namn</label>
+        <div class="col-xs-9">
+            @Html.TextBox("SelectedUserName", null, new { @class = "form-control" })
         </div>
     </div>
-</div>
+    <div class="form-group row">
+         <label for="SelectedEmail" class="col-xs-3 control-label">Epost</label>
+         <div class="col-xs-9">
+             @Html.TextBox("SelectedEmail", null, new { @class = "form-control" })
+         </div>
+    </div>
+    <div class="form-group row">
+        <label for="SelectedPhoneNumber" class="col-xs-3 control-label">Telefon</label>
+        <div class="col-xs-9">
+            @Html.TextBox("SelectedPhoneNumber", null,
+                    new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-xs-5 control-label">Behörighet</label> 
+        <div class="col-xs-7 radio">
+            <div class="radio">
+                <label>
+                    @Html.RadioButton("SelectedRole", "student")
+                    Elev
+                </label>
+             </div>
+            <div class="radio">
+                <label>
+                    @Html.RadioButton("SelectedRole", "teacher")
+                    Lärare
+                </label>
+            </div>           
+        </div>
+    </div>
+</form>
+
 <input type="hidden" name="SelectedUserID" id="SelectedUserID" 
        value="@Model.SelectedUserID" />
 
